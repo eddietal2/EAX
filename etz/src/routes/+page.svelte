@@ -2,6 +2,7 @@
 	let amount = $state('');
 	let fromCurrency = $state('USD');
 	let toCurrency = $state('TZS');
+	let amountInput: HTMLInputElement;
 	
 	// Sample exchange rates (will be replaced with real API data)
 	const rates: Record<string, Record<string, number>> = {
@@ -48,10 +49,12 @@
 					<option value="GBP">🇬🇧 GBP</option>
 				</select>
 				<input
+					bind:this={amountInput}
 					type="number"
 					bind:value={amount}
-					placeholder="0.00"
-					class="flex-1 text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 text-right placeholder-gray-300"
+					placeholder="Tap to enter"
+					inputmode="decimal"
+					class="flex-1 text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 text-right placeholder-gray-400 {!amount ? 'animate-pulse md:animate-none' : ''}"
 				/>
 			</div>
 		</div>
