@@ -9,6 +9,8 @@ Need to know how much USD 98,000 TSH is? Use this app to convert currencies in r
 ## Features
 
 - **Real-time exchange rates** – Get up-to-date currency conversions instantly
-- **Tanzanian & Kenyan Shilling support** – Built specifically for TZS and KES conversions
+- **Multiple Currency support** 
+-- USD, EUR, GBP, KES, UGX, RWF, AED, CNY, INR, ETB, ZAR, ZMW, SAR, CHF, CAD, AUD, MWK, MZN, BIF, CDF, NGN, EGP
+
 - **Conversion history** – Keep track of your past conversions for easy reference
 - **Simple interface** – No clutter, just the rates you need
