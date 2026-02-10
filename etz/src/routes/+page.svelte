@@ -40,8 +40,8 @@
 		<!-- From Currency -->
 		<div class="p-4 md:p-6">
 			<label for="from-currency" class="block text-sm text-gray-500 mb-2">From</label>
-			<div class="flex items-center gap-3">
-				<select id="from-currency" bind:value={fromCurrency} class="bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
+			<div class="flex items-center gap-3 overflow-hidden">
+				<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
 					<option value="USD">🇺🇸 USD</option>
 					<option value="TZS">🇹🇿 TZS</option>
 					<option value="KES">🇰🇪 KES</option>
@@ -50,11 +50,12 @@
 				</select>
 				<input
 					bind:this={amountInput}
-					type="number"
+					type="text"
 					bind:value={amount}
 					placeholder="Tap to enter"
 					inputmode="decimal"
-					class="flex-1 text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 text-right placeholder-gray-400 {!amount ? 'animate-pulse md:animate-none' : ''}"
+					pattern="[0-9]*\.?[0-9]*"
+					class="flex-1 min-w-0 w-full text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-400 {!amount ? 'animate-pulse md:animate-none' : ''}"
 				/>
 			</div>
 		</div>
@@ -76,15 +77,15 @@
 		<!-- To Currency -->
 		<div class="p-4 md:p-6 bg-gray-50">
 			<label for="to-currency" class="block text-sm text-gray-500 mb-2">To</label>
-			<div class="flex items-center gap-3">
-				<select id="to-currency" bind:value={toCurrency} class="bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
+			<div class="flex items-center gap-3 overflow-hidden">
+				<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
 					<option value="TZS">🇹🇿 TZS</option>
 					<option value="KES">🇰🇪 KES</option>
 					<option value="USD">🇺🇸 USD</option>
 					<option value="EUR">🇪🇺 EUR</option>
 					<option value="GBP">🇬🇧 GBP</option>
 				</select>
-				<p class="flex-1 text-2xl font-semibold text-emerald-600 text-right">
+				<p class="flex-1 min-w-0 text-2xl font-semibold text-emerald-600 text-right truncate">
 					{convertedAmount() || '0.00'}
 				</p>
 			</div>
