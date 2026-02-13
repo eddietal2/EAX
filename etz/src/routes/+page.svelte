@@ -71,6 +71,14 @@
 		GBP: { USD: 1.26, TZS: 3350, KES: 191, EUR: 1.16 }
 	};
 
+	const currencySymbol: Record<string, string> = {
+		USD: '$',
+		TZS: 'TSh',
+		KES: 'KSh',
+		EUR: '€',
+		GBP: '£'
+	};
+
 	const convertedAmount = $derived(() => {
 		const num = parseFloat(amount);
 		if (isNaN(num) || num <= 0) return '';
@@ -101,8 +109,8 @@
 		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 			<!-- From Currency -->
 			<div class="p-4 md:p-6">
-				<label for="from-currency" class="block text-sm text-gray-500 mb-2">From</label>
-				<div class="flex items-center gap-3 overflow-hidden">
+				<label for="from-currency" class="block text-sm text-gray-500 mb-3">From</label>
+				<div class="flex items-center gap-3">
 					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
 						<option value="USD">🇺🇸 USD</option>
 						<option value="TZS">🇹🇿 TZS</option>
@@ -110,18 +118,21 @@
 						<option value="EUR">🇪🇺 EUR</option>
 						<option value="GBP">🇬🇧 GBP</option>
 					</select>
-					<input
-						use:currencyInput
-						type="text"
-						placeholder="Tap to enter"
-						inputmode="decimal"
-						class="flex-1 min-w-0 w-full text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-400 {!amount ? 'animate-pulse md:animate-none' : ''}"
-					/>
+					<div class="flex-1 min-w-0 flex items-center justify-end gap-1">
+						<span class="shrink-0 text-lg font-medium text-gray-500">{currencySymbol[fromCurrency]}</span>
+						<input
+							use:currencyInput
+							type="text"
+							placeholder="0"
+							inputmode="decimal"
+							class="min-w-0 w-full text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 {!amount ? 'animate-pulse md:animate-none' : ''}"
+						/>
+					</div>
 				</div>
 			</div>
 			
 			<!-- Swap Button -->
-			<div class="relative">
+			<div class="relative py-2">
 				<div class="border-t border-gray-100"></div>
 				<button
 					onclick={swapCurrencies}
@@ -137,8 +148,8 @@
 			
 			<!-- To Currency -->
 			<div class="p-4 md:p-6 bg-gray-50">
-				<label for="to-currency" class="block text-sm text-gray-500 mb-2">To</label>
-				<div class="flex items-center gap-3 overflow-hidden">
+				<label for="to-currency" class="block text-sm text-gray-500 mb-3">To</label>
+				<div class="flex items-center gap-3">
 					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
 						<option value="TZS">🇹🇿 TZS</option>
 						<option value="KES">🇰🇪 KES</option>
@@ -146,9 +157,12 @@
 						<option value="EUR">🇪🇺 EUR</option>
 						<option value="GBP">🇬🇧 GBP</option>
 					</select>
-					<p class="flex-1 min-w-0 text-2xl font-semibold text-emerald-600 text-right truncate">
-						{convertedAmount() || '0.00'}
-					</p>
+					<div class="flex-1 min-w-0 flex items-center justify-end gap-1 overflow-hidden">
+						<span class="shrink-0 text-lg font-medium text-emerald-500">{currencySymbol[toCurrency]}</span>
+						<p class="text-2xl font-semibold text-emerald-600 tabular-nums truncate">
+							{convertedAmount() || '0.00'}
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
