@@ -44,6 +44,7 @@
 
 	let openCode = '';
 	let selectedBill: typeof usdBills[0] | null = null;
+	let carouselHovered = false;
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 </script>
@@ -84,13 +85,15 @@
 						</div>
 					</button>
 					{#if openCode === rate.code}
-						<div class="px-4 pb-4 text-sm text-gray-600">
+						<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50">
 							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
 							{#if rate.code === 'USD'}
 								<div class="mt-4">
 									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">US Dollar Bills</p>
-									<div class="usd-carousel">
-										<div class="usd-carousel-track">
+									<div class="usd-carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each usdBills as bill}
 												<button
 													type="button"
@@ -205,6 +208,10 @@
 		100% {
 			transform: translateX(-50%);
 		}
+	}
+
+	.usd-carousel-track.paused {
+		animation-play-state: paused;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
