@@ -105,7 +105,7 @@
 	</div>
 	
 	<!-- Converter Card + Rate Info wrapper -->
-	<div class="md:w-[30%] md:min-w-[320px] md:mx-auto">
+	<div class="md:w-[40%] md:min-w-[320px] md:mx-auto">
 		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 			<!-- From Currency -->
 			<div class="p-4 md:p-6">
@@ -132,13 +132,13 @@
 			</div>
 			
 			<!-- Swap Button -->
-			<div class="relative py-2">
-				<div class="border-t border-gray-100"></div>
+			<div class="flex items-center justify-center relative py-2">
+				<div class="absolute inset-x-0 top-1/2 border-t border-gray-100"></div>
 				<button
 					onclick={swapCurrencies}
 					aria-label="Swap currencies"
-					class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
-					style="transform: translate(-50%, -50%) rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
+					class="relative w-10 h-10 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
+					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
