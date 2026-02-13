@@ -24,6 +24,16 @@
 		{ code: 'EGP', name: 'Egyptian Pound', flag: '🇪🇬', value: 88.3 }
 	];
 
+	const usdBills = [
+		{ value: 1, label: '$1' },
+		{ value: 2, label: '$2' },
+		{ value: 5, label: '$5' },
+		{ value: 10, label: '$10' },
+		{ value: 20, label: '$20' },
+		{ value: 50, label: '$50' },
+		{ value: 100, label: '$100' }
+	];
+
 	let openCode = '';
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
@@ -67,6 +77,27 @@
 					{#if openCode === rate.code}
 						<div class="px-4 pb-4 text-sm text-gray-600">
 							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
+							{#if rate.code === 'USD'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">US Dollar Bills</p>
+									<div class="usd-carousel">
+										<div class="usd-carousel-track">
+											{#each usdBills as bill}
+												<div class="usd-bill-card">
+													<div class="usd-bill-face">{bill.label}</div>
+													<p class="usd-bill-label">{bill.label}</p>
+												</div>
+											{/each}
+											{#each usdBills as bill}
+												<div class="usd-bill-card" aria-hidden="true">
+													<div class="usd-bill-face">{bill.label}</div>
+													<p class="usd-bill-label">{bill.label}</p>
+												</div>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{/if}
 						</div>
 					{/if}
 				</div>
@@ -74,3 +105,56 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.usd-carousel {
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.usd-carousel-track {
+		display: flex;
+		gap: 1rem;
+		width: max-content;
+		animation: usd-scroll 18s linear infinite;
+	}
+
+	.usd-bill-card {
+		min-width: 140px;
+		text-align: center;
+	}
+
+	.usd-bill-face {
+		height: 70px;
+		border-radius: 0.75rem;
+		background: linear-gradient(135deg, #e7f7ec, #ccebd7);
+		border: 1px solid #b6ddc7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 700;
+		color: #0f5132;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+	}
+
+	.usd-bill-label {
+		margin-top: 0.4rem;
+		font-size: 0.75rem;
+		color: #6b7280;
+	}
+
+	@keyframes usd-scroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.usd-carousel-track {
+			animation: none;
+		}
+	}
+</style>
