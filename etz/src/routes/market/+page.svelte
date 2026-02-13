@@ -24,6 +24,8 @@
 		{ code: 'EGP', name: 'Egyptian Pound', flag: '🇪🇬', value: 88.3 }
 	];
 
+	let openCode = '';
+
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 </script>
 
@@ -37,15 +39,36 @@
 		
 		<div class="divide-y divide-gray-100">
 			{#each rates as rate}
-				<div class="p-4 flex items-center justify-between">
-					<div class="flex items-center gap-3">
-						<span class="text-2xl">{rate.flag}</span>
-						<div>
-							<p class="font-medium text-gray-900">{rate.code} / TZS</p>
-							<p class="text-sm text-gray-500">{rate.name}</p>
+				<div class="border-b border-gray-100 last:border-b-0">
+					<button
+						type="button"
+						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+						aria-expanded={openCode === rate.code}
+						on:click={() => (openCode = openCode === rate.code ? '' : rate.code)}
+					>
+						<div class="flex items-center gap-3">
+							<span class="text-2xl">{rate.flag}</span>
+							<div>
+								<p class="font-medium text-gray-900">{rate.code} / TZS</p>
+								<p class="text-sm text-gray-500">{rate.name}</p>
+							</div>
 						</div>
-					</div>
-					<p class="text-lg font-semibold text-gray-900">{formatRate(rate.value)}</p>
+						<div class="flex items-center gap-2">
+							<p class="text-lg font-semibold text-gray-900">{formatRate(rate.value)}</p>
+							<svg
+								class={`w-4 h-4 text-gray-400 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" />
+							</svg>
+						</div>
+					</button>
+					{#if openCode === rate.code}
+						<div class="px-4 pb-4 text-sm text-gray-600">
+							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
+						</div>
+					{/if}
 				</div>
 			{/each}
 		</div>
