@@ -1,4 +1,12 @@
 <script lang="ts">
+	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
+	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
+	import USD_Bill_05 from '$lib/assets/bill-notes/USD/05_Bill.jpg';
+	import USD_Bill_10 from '$lib/assets/bill-notes/USD/10_Bill.jpg';
+	import USD_Bill_20 from '$lib/assets/bill-notes/USD/20_Bill.jpg';
+	import USD_Bill_50 from '$lib/assets/bill-notes/USD/50_Bill.jpg';
+	import USD_Bill_100 from '$lib/assets/bill-notes/USD/100_Bill.jpg';
+
 	const rates = [
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
 		{ code: 'EUR', name: 'Euro', flag: '🇪🇺', value: 2890 },
@@ -25,13 +33,13 @@
 	];
 
 	const usdBills = [
-		{ value: 1, label: '$1' },
-		{ value: 2, label: '$2' },
-		{ value: 5, label: '$5' },
-		{ value: 10, label: '$10' },
-		{ value: 20, label: '$20' },
-		{ value: 50, label: '$50' },
-		{ value: 100, label: '$100' }
+		{ value: 1, label: '$1', image: USD_Bill_01 },
+		{ value: 2, label: '$2', image: USD_Bill_02 },
+		{ value: 5, label: '$5', image: USD_Bill_05 },
+		{ value: 10, label: '$10', image: USD_Bill_10 },
+		{ value: 20, label: '$20', image: USD_Bill_20 },
+		{ value: 50, label: '$50', image: USD_Bill_50 },
+		{ value: 100, label: '$100', image: USD_Bill_100 }
 	];
 
 	let openCode = '';
@@ -84,13 +92,13 @@
 										<div class="usd-carousel-track">
 											{#each usdBills as bill}
 												<div class="usd-bill-card">
-													<div class="usd-bill-face">{bill.label}</div>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
 													<p class="usd-bill-label">{bill.label}</p>
 												</div>
 											{/each}
 											{#each usdBills as bill}
 												<div class="usd-bill-card" aria-hidden="true">
-													<div class="usd-bill-face">{bill.label}</div>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
 													<p class="usd-bill-label">{bill.label}</p>
 												</div>
 											{/each}
@@ -124,17 +132,13 @@
 		text-align: center;
 	}
 
-	.usd-bill-face {
+	.usd-bill-image {
+		width: 140px;
 		height: 70px;
+		object-fit: cover;
 		border-radius: 0.75rem;
-		background: linear-gradient(135deg, #e7f7ec, #ccebd7);
-		border: 1px solid #b6ddc7;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-weight: 700;
-		color: #0f5132;
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		display: block;
 	}
 
 	.usd-bill-label {
