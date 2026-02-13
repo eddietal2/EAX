@@ -43,6 +43,7 @@
 	];
 
 	let openCode = '';
+	let selectedBill: typeof usdBills[0] | null = null;
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 </script>
@@ -91,16 +92,28 @@
 									<div class="usd-carousel">
 										<div class="usd-carousel-track">
 											{#each usdBills as bill}
-												<div class="usd-bill-card">
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
 													<p class="usd-bill-label">{bill.label}</p>
-												</div>
+												</button>
 											{/each}
 											{#each usdBills as bill}
-												<div class="usd-bill-card" aria-hidden="true">
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
 													<p class="usd-bill-label">{bill.label}</p>
-												</div>
+												</button>
 											{/each}
 										</div>
 									</div>
@@ -113,6 +126,31 @@
 		</div>
 	</div>
 </div>
+
+<!-- Bill Detail Modal -->
+{#if selectedBill}
+	<div class="bill-modal-backdrop" on:click={() => (selectedBill = null)}>
+		<div class="bill-modal-content" on:click|stopPropagation>
+			<button
+				type="button"
+				class="bill-modal-close"
+				on:click={() => (selectedBill = null)}
+				aria-label="Close bill details"
+			>
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+				</svg>
+			</button>
+			<div class="bill-modal-body">
+				<img src={selectedBill.image} alt={selectedBill.label} class="bill-modal-image" />
+				<div class="bill-modal-info">
+					<h2 class="bill-modal-title">{selectedBill.label}</h2>
+					<p class="bill-modal-value">{selectedBill.label} Bill</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <style>
 	.usd-carousel {
@@ -130,6 +168,19 @@
 	.usd-bill-card {
 		min-width: 140px;
 		text-align: center;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: transform 0.2s;
+	}
+
+	.usd-bill-card:hover {
+		transform: scale(1.05);
+	}
+
+	.usd-bill-card:active {
+		transform: scale(0.95);
 	}
 
 	.usd-bill-image {
@@ -159,6 +210,106 @@
 	@media (prefers-reduced-motion: reduce) {
 		.usd-carousel-track {
 			animation: none;
+		}
+	}
+
+	/* Bill Modal Styles */
+	.bill-modal-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 50;
+		padding: 1rem;
+		animation: fadeIn 0.2s ease-out;
+	}
+
+	.bill-modal-content {
+		position: relative;
+		background: white;
+		border-radius: 1rem;
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+		max-width: 90vw;
+		max-height: 90vh;
+		overflow: auto;
+		animation: slideUp 0.3s ease-out;
+	}
+
+	@media (min-width: 768px) {
+		.bill-modal-content {
+			max-width: 600px;
+		}
+	}
+
+	.bill-modal-close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: rgba(255, 255, 255, 0.9);
+		border: none;
+		border-radius: 0.5rem;
+		padding: 0.5rem;
+		cursor: pointer;
+		color: #6b7280;
+		transition: all 0.2s;
+		z-index: 10;
+	}
+
+	.bill-modal-close:hover {
+		background: white;
+		color: #1f2937;
+	}
+
+	.bill-modal-body {
+		padding: 2rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.bill-modal-image {
+		width: 100%;
+		max-width: 400px;
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+
+	.bill-modal-info {
+		flex: 1;
+	}
+
+	.bill-modal-title {
+		font-size: 1.875rem;
+		font-weight: 700;
+		color: #1f2937;
+		margin-bottom: 0.5rem;
+	}
+
+	.bill-modal-value {
+		font-size: 1rem;
+		color: #6b7280;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes slideUp {
+		from {
+			transform: translateY(2rem);
+			opacity: 0;
+		}
+		to {
+			transform: translateY(0);
+			opacity: 1;
 		}
 	}
 </style>
