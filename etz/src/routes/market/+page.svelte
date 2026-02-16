@@ -91,6 +91,8 @@
 								<div class="mt-4">
 									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">US Dollar Bills</p>
 									<div class="usd-carousel"
+										role="region"
+										aria-label="USD bills carousel"
 										on:mouseenter={() => (carouselHovered = true)}
 										on:mouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
@@ -132,8 +134,20 @@
 
 <!-- Bill Detail Modal -->
 {#if selectedBill}
-	<div class="bill-modal-backdrop" on:click={() => (selectedBill = null)}>
-		<div class="bill-modal-content" on:click|stopPropagation>
+	<div
+		class="bill-modal-backdrop"
+		role="presentation"
+		on:click={() => (selectedBill = null)}
+		on:keydown={(e) => e.key === 'Escape' && (selectedBill = null)}
+	>
+		<div
+			class="bill-modal-content"
+			role="dialog"
+			aria-modal="true"
+			tabindex="0"
+			on:click|stopPropagation
+			on:keydown|stopPropagation
+		>
 			<button
 				type="button"
 				class="bill-modal-close"
