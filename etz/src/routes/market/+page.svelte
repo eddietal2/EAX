@@ -53,6 +53,12 @@
 	import CYN_Bill_50 from '$lib/assets/bill-notes/CYN/50_Bill.png';
 	import CYN_Bill_100 from '$lib/assets/bill-notes/CYN/100_Bill.png';
 
+	import INR_Bill_05 from '$lib/assets/bill-notes/INR/05_Bill.jpeg';
+	import INR_Bill_10 from '$lib/assets/bill-notes/INR/10_BILL.png';
+	import INR_Bill_20 from '$lib/assets/bill-notes/INR/20_Bill.png';
+	import INR_Bill_50 from '$lib/assets/bill-notes/INR/50_Bill.png';
+	import INR_Bill_500 from '$lib/assets/bill-notes/INR/500_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
@@ -149,6 +155,14 @@
 		{ value: 20, label: '¥20', image: CYN_Bill_20 },
 		{ value: 50, label: '¥50', image: CYN_Bill_50 },
 		{ value: 100, label: '¥100', image: CYN_Bill_100 }
+	];
+
+	const inrBills = [
+		{ value: 5, label: '₹5', image: INR_Bill_05 },
+		{ value: 10, label: '₹10', image: INR_Bill_10 },
+		{ value: 20, label: '₹20', image: INR_Bill_20 },
+		{ value: 50, label: '₹50', image: INR_Bill_50 },
+		{ value: 500, label: '₹500', image: INR_Bill_500 }
 	];
 
 	let openCode = '';
@@ -469,6 +483,42 @@
 												</button>
 											{/each}
 											{#each cynBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'INR'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Indian Rupee Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="INR bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each inrBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each inrBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
