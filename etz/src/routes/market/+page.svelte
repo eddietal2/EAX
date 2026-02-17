@@ -109,6 +109,11 @@
 	import CHF_Bill_200 from '$lib/assets/bill-notes/CHF/200_Bill.png';
 	import CHF_Bill_1000 from '$lib/assets/bill-notes/CHF/1000_Bill.png';
 
+	import MZN_Bill_20 from '$lib/assets/bill-notes/MZN/20_Bill.png';
+	import MZN_Bill_50 from '$lib/assets/bill-notes/MZN/50_Bill.png';
+	import MZN_Bill_100 from '$lib/assets/bill-notes/MZN/100_Bill.png';
+	import MZN_Bill_200 from '$lib/assets/bill-notes/MZN/200_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -279,6 +284,13 @@
 		{ value: 100, label: 'Fr 100', image: CHF_Bill_100 },
 		{ value: 200, label: 'Fr 200', image: CHF_Bill_200 },
 		{ value: 1000, label: 'Fr 1K', image: CHF_Bill_1000 }
+	];
+
+	const mznBills = [
+		{ value: 20, label: 'MT 20', image: MZN_Bill_20 },
+		{ value: 50, label: 'MT 50', image: MZN_Bill_50 },
+		{ value: 100, label: 'MT 100', image: MZN_Bill_100 },
+		{ value: 200, label: 'MT 200', image: MZN_Bill_200 }
 	];
 
 	let openCode = '';
@@ -966,6 +978,42 @@
 												</button>
 											{/each}
 											{#each chfBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'MZN'}
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Mozambican Metical Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="MZN bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each mznBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each mznBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
