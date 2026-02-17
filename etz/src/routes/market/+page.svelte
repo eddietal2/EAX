@@ -41,6 +41,11 @@
 	import RWF_Bill_2K from '$lib/assets/bill-notes/RWF/2K_Bill.png';
 	import RWF_Bill_5K from '$lib/assets/bill-notes/RWF/5K_Bill.png';
 
+	import AED_Bill_05 from '$lib/assets/bill-notes/AED/05_Bill.png';
+	import AED_Bill_10 from '$lib/assets/bill-notes/AED/10_Bill.png';
+	import AED_Bill_50 from '$lib/assets/bill-notes/AED/50_Bill.png';
+	import AED_Bill_100 from '$lib/assets/bill-notes/AED/100)=Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
@@ -121,6 +126,13 @@
 		{ value: 1000, label: 'RWF 1K', image: RWF_Bill_1K },
 		{ value: 2000, label: 'RWF 2K', image: RWF_Bill_2K },
 		{ value: 5000, label: 'RWF 5K', image: RWF_Bill_5K }
+	];
+
+	const aedBills = [
+		{ value: 5, label: 'AED 5', image: AED_Bill_05 },
+		{ value: 10, label: 'AED 10', image: AED_Bill_10 },
+		{ value: 50, label: 'AED 50', image: AED_Bill_50 },
+		{ value: 100, label: 'AED 100', image: AED_Bill_100 }
 	];
 
 	let openCode = '';
@@ -369,6 +381,42 @@
 												</button>
 											{/each}
 											{#each rwfBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'AED'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">UAE Dirham Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="AED bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each aedBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each aedBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
