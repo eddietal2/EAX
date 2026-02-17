@@ -18,6 +18,12 @@
 	import GBP_Bill_20 from '$lib/assets/bill-notes/GPB/20_Bill.png';
 	import GBP_Bill_50 from '$lib/assets/bill-notes/GPB/50_Bill.png';
 
+	import KES_Bill_50 from '$lib/assets/bill-notes/KES/50_Bill.png';
+	import KES_Bill_100 from '$lib/assets/bill-notes/KES/100_Bill.png';
+	import KES_Bill_200 from '$lib/assets/bill-notes/KES/200_Bill.png';
+	import KES_Bill_500 from '$lib/assets/bill-notes/KES/500_Bill.png';
+	import KES_Bill_1000 from '$lib/assets/bill-notes/KES/1000_Bill.png';
+
 	const rates = [
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
 		{ code: 'EUR', name: 'Euro', flag: '🇪🇺', value: 2890 },
@@ -66,6 +72,14 @@
 		{ value: 10, label: '£10', image: GBP_Bill_10 },
 		{ value: 20, label: '£20', image: GBP_Bill_20 },
 		{ value: 50, label: '£50', image: GBP_Bill_50 }
+	];
+
+	const kesBills = [
+		{ value: 50, label: 'KES 50', image: KES_Bill_50 },
+		{ value: 100, label: 'KES 100', image: KES_Bill_100 },
+		{ value: 200, label: 'KES 200', image: KES_Bill_200 },
+		{ value: 500, label: 'KES 500', image: KES_Bill_500 },
+		{ value: 1000, label: 'KES 1000', image: KES_Bill_1000 }
 	];
 
 	let openCode = '';
@@ -206,6 +220,42 @@
 												</button>
 											{/each}
 											{#each gbpBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'KES'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Kenyan Shilling Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="KES bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each kesBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each kesBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
