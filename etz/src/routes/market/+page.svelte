@@ -127,6 +127,15 @@
 	import CDF_Bill_1000 from '$lib/assets/bill-notes/CDF/1000_Bill.png';
 	import CDF_Bill_5000 from '$lib/assets/bill-notes/CDF/5000_Bill.png';
 
+	import NGN_Bill_05 from '$lib/assets/bill-notes/NGN/05_Bill.png';
+	import NGN_Bill_10 from '$lib/assets/bill-notes/NGN/10_Bill.png';
+	import NGN_Bill_20 from '$lib/assets/bill-notes/NGN/20_Bill.png';
+	import NGN_Bill_50 from '$lib/assets/bill-notes/NGN/50_Bill.png';
+	import NGN_Bill_100 from '$lib/assets/bill-notes/NGN/100_Bill.png';
+	import NGN_Bill_200 from '$lib/assets/bill-notes/NGN/200_Bill.png';
+	import NGN_Bill_500 from '$lib/assets/bill-notes/NGN/500_Bill.png';
+	import NGN_Bill_1000 from '$lib/assets/bill-notes/NGN/1000_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -321,6 +330,17 @@
 		{ value: 200, label: 'CDF 200', image: CDF_Bill_200 },
 		{ value: 1000, label: 'CDF 1K', image: CDF_Bill_1000 },
 		{ value: 5000, label: 'CDF 5K', image: CDF_Bill_5000 }
+	];
+
+	const ngnBills = [
+		{ value: 5, label: '₦5', image: NGN_Bill_05 },
+		{ value: 10, label: '₦10', image: NGN_Bill_10 },
+		{ value: 20, label: '₦20', image: NGN_Bill_20 },
+		{ value: 50, label: '₦50', image: NGN_Bill_50 },
+		{ value: 100, label: '₦100', image: NGN_Bill_100 },
+		{ value: 200, label: '₦200', image: NGN_Bill_200 },
+		{ value: 500, label: '₦500', image: NGN_Bill_500 },
+		{ value: 1000, label: '₦1K', image: NGN_Bill_1000 }
 	];
 
 	let openCode = '';
@@ -1116,6 +1136,42 @@
 												</button>
 											{/each}
 											{#each cdfBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'NGN'}
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Nigerian Naira Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="NGN bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each ngnBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each ngnBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
