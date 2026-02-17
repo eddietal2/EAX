@@ -24,7 +24,13 @@
 	import KES_Bill_500 from '$lib/assets/bill-notes/KES/500_Bill.png';
 	import KES_Bill_1000 from '$lib/assets/bill-notes/KES/1000_Bill.png';
 
+	import TSH_Bill_1K from '$lib/assets/bill-notes/TSh/1K_Bill.png';
+	import TSH_Bill_2K from '$lib/assets/bill-notes/TSh/2K_Bill.png';
+	import TSH_Bill_5K from '$lib/assets/bill-notes/TSh/5K_Bill.png';
+	import TSH_Bill_10K from '$lib/assets/bill-notes/TSh/10K_Bill.png';
+
 	const rates = [
+		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
 		{ code: 'EUR', name: 'Euro', flag: '🇪🇺', value: 2890 },
 		{ code: 'GBP', name: 'British Pound', flag: '🇬🇧', value: 3350 },
@@ -80,6 +86,13 @@
 		{ value: 200, label: 'KES 200', image: KES_Bill_200 },
 		{ value: 500, label: 'KES 500', image: KES_Bill_500 },
 		{ value: 1000, label: 'KES 1000', image: KES_Bill_1000 }
+	];
+
+	const tshBills = [
+		{ value: 1000, label: 'TSh 1K', image: TSH_Bill_1K },
+		{ value: 2000, label: 'TSh 2K', image: TSH_Bill_2K },
+		{ value: 5000, label: 'TSh 5K', image: TSH_Bill_5K },
+		{ value: 10000, label: 'TSh 10K', image: TSH_Bill_10K }
 	];
 
 	let openCode = '';
@@ -220,6 +233,42 @@
 												</button>
 											{/each}
 											{#each gbpBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'TZS'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Tanzanian Shilling Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="TZS bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each tshBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each tshBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
