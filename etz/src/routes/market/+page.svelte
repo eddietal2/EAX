@@ -89,6 +89,12 @@
 	import CAD_Bill_50 from '$lib/assets/bill-notes/CAD/50_Bill.png';
 	import CAD_Bill_100 from '$lib/assets/bill-notes/CAD/100_Bill.png';
 
+	import AUD_Bill_05 from '$lib/assets/bill-notes/AUD/05_Bill.png';
+	import AUD_Bill_10 from '$lib/assets/bill-notes/AUD/10_Bill.png';
+	import AUD_Bill_20 from '$lib/assets/bill-notes/AUD/20_Bill.png';
+	import AUD_Bill_50 from '$lib/assets/bill-notes/AUD/50_Bill.png';
+	import AUD_Bill_100 from '$lib/assets/bill-notes/AUD/100_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -233,6 +239,14 @@
 		{ value: 20, label: 'C$20', image: CAD_Bill_20 },
 		{ value: 50, label: 'C$50', image: CAD_Bill_50 },
 		{ value: 100, label: 'C$100', image: CAD_Bill_100 }
+	];
+
+	const audBills = [
+		{ value: 5, label: 'A$5', image: AUD_Bill_05 },
+		{ value: 10, label: 'A$10', image: AUD_Bill_10 },
+		{ value: 20, label: 'A$20', image: AUD_Bill_20 },
+		{ value: 50, label: 'A$50', image: AUD_Bill_50 },
+		{ value: 100, label: 'A$100', image: AUD_Bill_100 }
 	];
 
 	let openCode = '';
@@ -812,6 +826,42 @@
 												</button>
 											{/each}
 											{#each cadBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'AUD'}
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Australian Dollar Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="AUD bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each audBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each audBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
