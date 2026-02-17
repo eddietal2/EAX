@@ -46,6 +46,13 @@
 	import AED_Bill_50 from '$lib/assets/bill-notes/AED/50_Bill.png';
 	import AED_Bill_100 from '$lib/assets/bill-notes/AED/100)=Bill.png';
 
+	import CYN_Bill_01 from '$lib/assets/bill-notes/CYN/01_Bill.png';
+	import CYN_Bill_05 from '$lib/assets/bill-notes/CYN/05_Bill.png';
+	import CYN_Bill_10 from '$lib/assets/bill-notes/CYN/10_Bill.png';
+	import CYN_Bill_20 from '$lib/assets/bill-notes/CYN/20_Bill.png';
+	import CYN_Bill_50 from '$lib/assets/bill-notes/CYN/50_Bill.png';
+	import CYN_Bill_100 from '$lib/assets/bill-notes/CYN/100_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
@@ -133,6 +140,15 @@
 		{ value: 10, label: 'AED 10', image: AED_Bill_10 },
 		{ value: 50, label: 'AED 50', image: AED_Bill_50 },
 		{ value: 100, label: 'AED 100', image: AED_Bill_100 }
+	];
+
+	const cynBills = [
+		{ value: 1, label: '¥1', image: CYN_Bill_01 },
+		{ value: 5, label: '¥5', image: CYN_Bill_05 },
+		{ value: 10, label: '¥10', image: CYN_Bill_10 },
+		{ value: 20, label: '¥20', image: CYN_Bill_20 },
+		{ value: 50, label: '¥50', image: CYN_Bill_50 },
+		{ value: 100, label: '¥100', image: CYN_Bill_100 }
 	];
 
 	let openCode = '';
@@ -417,6 +433,42 @@
 												</button>
 											{/each}
 											{#each aedBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'CNY'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Chinese Yuan Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="CNY bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each cynBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each cynBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
