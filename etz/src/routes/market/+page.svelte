@@ -29,6 +29,18 @@
 	import TSH_Bill_5K from '$lib/assets/bill-notes/TSh/5K_Bill.png';
 	import TSH_Bill_10K from '$lib/assets/bill-notes/TSh/10K_Bill.png';
 
+	import UGX_Bill_1K from '$lib/assets/bill-notes/UGX/1K_Bill.png';
+	import UGX_Bill_2K from '$lib/assets/bill-notes/UGX/2K_Bill.png';
+	import UGX_Bill_5K from '$lib/assets/bill-notes/UGX/5K_Bill.png';
+	import UGX_Bill_10K from '$lib/assets/bill-notes/UGX/10K_Bill.png';
+	import UGX_Bill_20K from '$lib/assets/bill-notes/UGX/20K_Bill.png';
+	import UGX_Bill_50K from '$lib/assets/bill-notes/UGX/50K_Bill.png';
+
+	import RWF_Bill_500 from '$lib/assets/bill-notes/RWF/500_Bill.png';
+	import RWF_Bill_1K from '$lib/assets/bill-notes/RWF/1K_Bill.png';
+	import RWF_Bill_2K from '$lib/assets/bill-notes/RWF/2K_Bill.png';
+	import RWF_Bill_5K from '$lib/assets/bill-notes/RWF/5K_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
@@ -93,6 +105,22 @@
 		{ value: 2000, label: 'TSh 2K', image: TSH_Bill_2K },
 		{ value: 5000, label: 'TSh 5K', image: TSH_Bill_5K },
 		{ value: 10000, label: 'TSh 10K', image: TSH_Bill_10K }
+	];
+
+	const ugxBills = [
+		{ value: 1000, label: 'UGX 1K', image: UGX_Bill_1K },
+		{ value: 2000, label: 'UGX 2K', image: UGX_Bill_2K },
+		{ value: 5000, label: 'UGX 5K', image: UGX_Bill_5K },
+		{ value: 10000, label: 'UGX 10K', image: UGX_Bill_10K },
+		{ value: 20000, label: 'UGX 20K', image: UGX_Bill_20K },
+		{ value: 50000, label: 'UGX 50K', image: UGX_Bill_50K }
+	];
+
+	const rwfBills = [
+		{ value: 500, label: 'RWF 500', image: RWF_Bill_500 },
+		{ value: 1000, label: 'RWF 1K', image: RWF_Bill_1K },
+		{ value: 2000, label: 'RWF 2K', image: RWF_Bill_2K },
+		{ value: 5000, label: 'RWF 5K', image: RWF_Bill_5K }
 	];
 
 	let openCode = '';
@@ -269,6 +297,78 @@
 												</button>
 											{/each}
 											{#each tshBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'UGX'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Ugandan Shilling Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="UGX bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each ugxBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each ugxBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'RWF'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Rwandan Franc Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="RWF bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each rwfBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each rwfBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
