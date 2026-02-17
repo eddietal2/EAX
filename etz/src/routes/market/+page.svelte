@@ -95,6 +95,13 @@
 	import AUD_Bill_50 from '$lib/assets/bill-notes/AUD/50_Bill.png';
 	import AUD_Bill_100 from '$lib/assets/bill-notes/AUD/100_Bill.png';
 
+	import MWK_Bill_20 from '$lib/assets/bill-notes/MWK/20_Bill.png';
+	import MWK_Bill_50 from '$lib/assets/bill-notes/MWK/50_Bill.png';
+	import MWK_Bill_100 from '$lib/assets/bill-notes/MWK/100_Bill.png';
+	import MWK_Bill_200 from '$lib/assets/bill-notes/MWK/200_Bill.png';
+	import MWK_Bill_500 from '$lib/assets/bill-notes/MWK/500_Bill.png';
+	import MWK_Bill_1000 from '$lib/assets/bill-notes/MWK/1000_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -247,6 +254,15 @@
 		{ value: 20, label: 'A$20', image: AUD_Bill_20 },
 		{ value: 50, label: 'A$50', image: AUD_Bill_50 },
 		{ value: 100, label: 'A$100', image: AUD_Bill_100 }
+	];
+
+	const mwkBills = [
+		{ value: 20, label: 'MK 20', image: MWK_Bill_20 },
+		{ value: 50, label: 'MK 50', image: MWK_Bill_50 },
+		{ value: 100, label: 'MK 100', image: MWK_Bill_100 },
+		{ value: 200, label: 'MK 200', image: MWK_Bill_200 },
+		{ value: 500, label: 'MK 500', image: MWK_Bill_500 },
+		{ value: 1000, label: 'MK 1K', image: MWK_Bill_1000 }
 	];
 
 	let openCode = '';
@@ -862,6 +878,42 @@
 												</button>
 											{/each}
 											{#each audBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'MWK'}
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Malawian Kwacha Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="MWK bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each mwkBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each mwkBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
