@@ -83,13 +83,6 @@
 	import SAR_Bill_100 from '$lib/assets/bill-notes/SAR/100_Bill.png';
 	import SAR_Bill_500 from '$lib/assets/bill-notes/SAR/500_Bill.png';
 
-	import CHF_Bill_10 from '$lib/assets/bill-notes/CHF/10_Bill.png';
-	import CHF_Bill_20 from '$lib/assets/bill-notes/CHF/20_Bill.png';
-	import CHF_Bill_50 from '$lib/assets/bill-notes/CHF/50_Bill.png';
-	import CHF_Bill_100 from '$lib/assets/bill-notes/CHF/100_Bill.png';
-	import CHF_Bill_200 from '$lib/assets/bill-notes/CHF/200_Bill.png';
-	import CHF_Bill_1000 from '$lib/assets/bill-notes/CHF/1000_Bill.png';
-
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -228,18 +221,14 @@
 		{ value: 500, label: 'SAR 500', image: SAR_Bill_500 }
 	];
 
-	const chfBills = [
-		{ value: 10, label: 'CHF 10', image: CHF_Bill_10 },
-		{ value: 20, label: 'CHF 20', image: CHF_Bill_20 },
-		{ value: 50, label: 'CHF 50', image: CHF_Bill_50 },
-		{ value: 100, label: 'CHF 100', image: CHF_Bill_100 },
-		{ value: 200, label: 'CHF 200', image: CHF_Bill_200 },
-		{ value: 1000, label: 'CHF 1000', image: CHF_Bill_1000 }
-	];
-
 	let openCode = '';
 	let selectedBill: typeof usdBills[0] | null = null;
 	let carouselHovered = false;
+	let billImageHovered = false;
+	let magnifyMouseX = 0;
+	let magnifyMouseY = 0;
+	let billImgWidth = 0;
+	let billImgHeight = 0;
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 </script>
@@ -750,42 +739,6 @@
 										</div>
 									</div>
 								</div>
-							{:else if rate.code === 'CHF'}
-								<div class="mt-4 -mx-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Swiss Franc Bills</p>
-									<div class="usd-carousel"
-										role="region"
-										aria-label="CHF bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
-										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
-											{#each chfBills as bill}
-												<button
-													type="button"
-													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
-													aria-label="View {bill.label} bill details"
-												>
-													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
-													<p class="usd-bill-label">{bill.label}</p>
-												</button>
-											{/each}
-											{#each chfBills as bill}
-												<button
-													type="button"
-													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
-													aria-label="View {bill.label} bill details"
-													aria-hidden="true"
-													tabindex="-1"
-												>
-													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
-													<p class="usd-bill-label">{bill.label}</p>
-												</button>
-											{/each}
-										</div>
-									</div>
-								</div>
 							{:else if rate.code === 'KES'}
 							<div class="mt-4 -mx-4">
 								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Kenyan Shilling Bills</p>
@@ -858,10 +811,28 @@
 				</svg>
 			</button>
 			<div class="bill-modal-body">
+			<div
+				class="bill-image-container"
+				on:mouseenter={() => (billImageHovered = true)}
+				on:mouseleave={() => (billImageHovered = false)}
+				on:mousemove={(e) => {
+					const rect = e.currentTarget.getBoundingClientRect();
+					magnifyMouseX = e.clientX - rect.left;
+					magnifyMouseY = e.clientY - rect.top;
+					billImgWidth = rect.width;
+					billImgHeight = rect.height;
+				}}
+			>
 				<img src={selectedBill.image} alt={selectedBill.label} class="bill-modal-image" />
+				{#if billImageHovered}
+					<div
+						class="magnifying-glass"
+						style="left: {magnifyMouseX}px; top: {magnifyMouseY}px; background-image: url('{selectedBill.image}'); background-size: {billImgWidth * 2.5}px {billImgHeight * 2.5}px; background-position: {-magnifyMouseX * 2.5 + 75}px {-magnifyMouseY * 2.5 + 75}px;"
+					/>
+				{/if}
+			</div>
 				<div class="bill-modal-info">
 					<h2 class="bill-modal-title">{selectedBill.label}</h2>
-					<p class="bill-modal-value">{selectedBill.label} Bill</p>
 				</div>
 			</div>
 		</div>
@@ -991,11 +962,32 @@
 		align-items: center;
 	}
 
+	.bill-image-container {
+		position: relative;
+		display: inline-block;
+	}
+
 	.bill-modal-image {
 		width: 100%;
 		max-width: 400px;
 		border-radius: 0.75rem;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		display: block;
+		cursor: zoom-in;
+	}
+
+	.magnifying-glass {
+		position: absolute;
+		width: 150px;
+		height: 150px;
+		border: 3px solid #1f2937;
+		border-radius: 50%;
+		overflow: hidden;
+		pointer-events: none;
+		transform: translate(-50%, -50%);
+		box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.3);
+		z-index: 20;
+		background-repeat: no-repeat;
 	}
 
 	.bill-modal-info {
