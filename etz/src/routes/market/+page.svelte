@@ -59,30 +59,35 @@
 	import INR_Bill_50 from '$lib/assets/bill-notes/INR/50_Bill.png';
 	import INR_Bill_500 from '$lib/assets/bill-notes/INR/500_Bill.png';
 
+	import ETH_Bill_10 from '$lib/assets/bill-notes/ETH/10_Bill.png';
+	import ETH_Bill_50 from '$lib/assets/bill-notes/ETH/50_Bill.png';
+	import ETH_Bill_100 from '$lib/assets/bill-notes/ETH/100_Bill.png';
+	import ETH_Bill_200 from '$lib/assets/bill-notes/ETH/200_Bill.png';
+
 	const rates = [
-		{ code: 'TZS', name: 'Tanzanian Shilling', flag: '🇹🇿', value: 1 },
-		{ code: 'USD', name: 'US Dollar', flag: '🇺🇸', value: 2650 },
-		{ code: 'EUR', name: 'Euro', flag: '🇪🇺', value: 2890 },
-		{ code: 'GBP', name: 'British Pound', flag: '🇬🇧', value: 3350 },
-		{ code: 'KES', name: 'Kenyan Shilling', flag: '🇰🇪', value: 17.5 },
-		{ code: 'UGX', name: 'Ugandan Shilling', flag: '🇺🇬', value: 0.697 },
-		{ code: 'RWF', name: 'Rwandan Franc', flag: '🇷🇼', value: 2.21 },
-		{ code: 'AED', name: 'UAE Dirham', flag: '🇦🇪', value: 721 },
-		{ code: 'CNY', name: 'Chinese Yuan', flag: '🇨🇳', value: 368 },
-		{ code: 'INR', name: 'Indian Rupee', flag: '🇮🇳', value: 31.9 },
-		{ code: 'ETB', name: 'Ethiopian Birr', flag: '🇪🇹', value: 46.5 },
-		{ code: 'ZAR', name: 'South African Rand', flag: '🇿🇦', value: 147 },
-		{ code: 'ZMW', name: 'Zambian Kwacha', flag: '🇿🇲', value: 98 },
-		{ code: 'SAR', name: 'Saudi Riyal', flag: '🇸🇦', value: 707 },
-		{ code: 'CHF', name: 'Swiss Franc', flag: '🇨🇭', value: 3010 },
-		{ code: 'CAD', name: 'Canadian Dollar', flag: '🇨🇦', value: 1975 },
-		{ code: 'AUD', name: 'Australian Dollar', flag: '🇦🇺', value: 1750 },
-		{ code: 'MWK', name: 'Malawian Kwacha', flag: '🇲🇼', value: 2.04 },
-		{ code: 'MZN', name: 'Mozambican Metical', flag: '🇲🇿', value: 42.1 },
-		{ code: 'BIF', name: 'Burundian Franc', flag: '🇧🇮', value: 0.914 },
-		{ code: 'CDF', name: 'Congolese Franc', flag: '🇨🇩', value: 0.943 },
-		{ code: 'NGN', name: 'Nigerian Naira', flag: '🇳🇬', value: 1.71 },
-		{ code: 'EGP', name: 'Egyptian Pound', flag: '🇪🇬', value: 88.3 }
+		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
+		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
+		{ code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', value: 2890 },
+		{ code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', value: 3350 },
+		{ code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh', flag: '🇰🇪', value: 17.5 },
+		{ code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh', flag: '🇺🇬', value: 0.697 },
+		{ code: 'RWF', name: 'Rwandan Franc', symbol: 'FRw', flag: '🇷🇼', value: 2.21 },
+		{ code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', flag: '🇦🇪', value: 721 },
+		{ code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', value: 368 },
+		{ code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳', value: 31.9 },
+		{ code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', flag: '🇪🇹', value: 46.5 },
+		{ code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '🇿🇦', value: 147 },
+		{ code: 'ZMW', name: 'Zambian Kwacha', symbol: 'ZK', flag: '🇿🇲', value: 98 },
+		{ code: 'SAR', name: 'Saudi Riyal', symbol: 'ر.س', flag: '🇸🇦', value: 707 },
+		{ code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', flag: '🇨🇭', value: 3010 },
+		{ code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', value: 1975 },
+		{ code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', value: 1750 },
+		{ code: 'MWK', name: 'Malawian Kwacha', symbol: 'MK', flag: '🇲🇼', value: 2.04 },
+		{ code: 'MZN', name: 'Mozambican Metical', symbol: 'MT', flag: '🇲🇿', value: 42.1 },
+		{ code: 'BIF', name: 'Burundian Franc', symbol: 'Fr', flag: '🇧🇮', value: 0.914 },
+		{ code: 'CDF', name: 'Congolese Franc', symbol: 'FC', flag: '🇨🇩', value: 0.943 },
+		{ code: 'NGN', name: 'Nigerian Naira', symbol: '₦', flag: '🇳🇬', value: 1.71 },
+		{ code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬', value: 88.3 }
 	];
 
 	const usdBills = [
@@ -126,12 +131,12 @@
 	];
 
 	const ugxBills = [
-		{ value: 1000, label: 'UGX 1K', image: UGX_Bill_1K },
-		{ value: 2000, label: 'UGX 2K', image: UGX_Bill_2K },
-		{ value: 5000, label: 'UGX 5K', image: UGX_Bill_5K },
-		{ value: 10000, label: 'UGX 10K', image: UGX_Bill_10K },
-		{ value: 20000, label: 'UGX 20K', image: UGX_Bill_20K },
-		{ value: 50000, label: 'UGX 50K', image: UGX_Bill_50K }
+		{ value: 1000, label: 'USh 1K', image: UGX_Bill_1K },
+		{ value: 2000, label: 'USh 2K', image: UGX_Bill_2K },
+		{ value: 5000, label: 'USh 5K', image: UGX_Bill_5K },
+		{ value: 10000, label: 'USh 10K', image: UGX_Bill_10K },
+		{ value: 20000, label: 'USh 20K', image: UGX_Bill_20K },
+		{ value: 50000, label: 'USh 50K', image: UGX_Bill_50K }
 	];
 
 	const rwfBills = [
@@ -165,6 +170,13 @@
 		{ value: 500, label: '₹500', image: INR_Bill_500 }
 	];
 
+	const ethBills = [
+		{ value: 10, label: 'ETB 10', image: ETH_Bill_10 },
+		{ value: 50, label: 'ETB 50', image: ETH_Bill_50 },
+		{ value: 100, label: 'ETB 100', image: ETH_Bill_100 },
+		{ value: 200, label: 'ETB 200', image: ETH_Bill_200 }
+	];
+
 	let openCode = '';
 	let selectedBill: typeof usdBills[0] | null = null;
 	let carouselHovered = false;
@@ -177,7 +189,7 @@
 	
 	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
 		<div class="p-4 border-b border-gray-100">
-			<p class="text-sm text-gray-500">Live exchange rates for TZS & KES</p>
+			<p class="text-sm text-gray-500">Live exchange rates to TZS</p>
 		</div>
 		
 		<div class="divide-y divide-gray-100">
@@ -193,7 +205,7 @@
 							<span class="text-2xl">{rate.flag}</span>
 							<div>
 								<p class="font-medium text-gray-900">{rate.code} / TZS</p>
-								<p class="text-sm text-gray-500">{rate.name}</p>
+								<p class="text-sm text-gray-500">{rate.name} ({rate.symbol})</p>
 							</div>
 						</div>
 						<div class="flex items-center gap-2">
@@ -519,6 +531,42 @@
 												</button>
 											{/each}
 											{#each inrBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'ETB'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Ethiopian Birr Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="ETB bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each ethBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each ethBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
