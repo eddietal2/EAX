@@ -264,11 +264,11 @@
 						</div>
 					</button>
 					{#if openCode === rate.code}
-						<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50">
+					<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50 accordion-inner-shadow">
 							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
 							{#if rate.code === 'USD'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">US Dollar Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">US Dollar Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="USD bills carousel"
@@ -303,8 +303,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'EUR'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Euro Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Euro Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="EURO bills carousel"
@@ -339,8 +339,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'GBP'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">British Pound Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">British Pound Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="GBP bills carousel"
@@ -375,8 +375,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'TZS'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Tanzanian Shilling Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Tanzanian Shilling Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="TZS bills carousel"
@@ -411,8 +411,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'UGX'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Ugandan Shilling Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Ugandan Shilling Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="UGX bills carousel"
@@ -447,8 +447,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'RWF'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Rwandan Franc Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Rwandan Franc Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="RWF bills carousel"
@@ -483,8 +483,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'AED'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">UAE Dirham Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">UAE Dirham Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="AED bills carousel"
@@ -519,8 +519,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'CNY'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Chinese Yuan Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Chinese Yuan Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CNY bills carousel"
@@ -555,8 +555,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'INR'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Indian Rupee Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Indian Rupee Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="INR bills carousel"
@@ -591,8 +591,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'ETB'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Ethiopian Birr Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Ethiopian Birr Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ETB bills carousel"
@@ -627,8 +627,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'ZAR'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">South African Rand Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">South African Rand Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZAR bills carousel"
@@ -663,8 +663,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'ZMW'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Zambian Kwacha Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Zambian Kwacha Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZMW bills carousel"
@@ -699,8 +699,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'SAR'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Saudi Riyal Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Saudi Riyal Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="SAR bills carousel"
@@ -735,8 +735,8 @@
 									</div>
 								</div>
 							{:else if rate.code === 'KES'}
-								<div class="mt-4">
-									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Kenyan Shilling Bills</p>
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Kenyan Shilling Bills</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="KES bills carousel"
@@ -820,6 +820,7 @@
 	.usd-carousel {
 		overflow: hidden;
 		width: 100%;
+		padding: 0 1rem;
 	}
 
 	.usd-carousel-track {
@@ -979,5 +980,9 @@
 			transform: translateY(0);
 			opacity: 1;
 		}
+	}
+
+	.accordion-inner-shadow {
+		box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
 </style>
