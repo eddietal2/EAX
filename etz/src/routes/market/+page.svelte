@@ -77,6 +77,12 @@
 	import ZMW_Bill_200 from '$lib/assets/bill-notes/ZMW/200_Bill.png';
 	import ZMW_Bill_500 from '$lib/assets/bill-notes/ZMW/500_Bill.png';
 
+	import SAR_Bill_05 from '$lib/assets/bill-notes/SAR/05_Bill.png';
+	import SAR_Bill_10 from '$lib/assets/bill-notes/SAR/10_Bill.png';
+	import SAR_Bill_50 from '$lib/assets/bill-notes/SAR/50_Bill.png';
+	import SAR_Bill_100 from '$lib/assets/bill-notes/SAR/100_Bill.png';
+	import SAR_Bill_500 from '$lib/assets/bill-notes/SAR/500_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -205,6 +211,14 @@
 		{ value: 100, label: 'ZMW 100', image: ZMW_Bill_100 },
 		{ value: 200, label: 'ZMW 200', image: ZMW_Bill_200 },
 		{ value: 500, label: 'ZMW 500', image: ZMW_Bill_500 }
+	];
+
+	const sarBills = [
+		{ value: 5, label: 'SAR 5', image: SAR_Bill_05 },
+		{ value: 10, label: 'SAR 10', image: SAR_Bill_10 },
+		{ value: 50, label: 'SAR 50', image: SAR_Bill_50 },
+		{ value: 100, label: 'SAR 100', image: SAR_Bill_100 },
+		{ value: 500, label: 'SAR 500', image: SAR_Bill_500 }
 	];
 
 	let openCode = '';
@@ -669,6 +683,42 @@
 												</button>
 											{/each}
 											{#each zmwBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'SAR'}
+								<div class="mt-4">
+									<p class="text-xs uppercase tracking-wide text-gray-400 mb-2">Saudi Riyal Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="SAR bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each sarBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each sarBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
