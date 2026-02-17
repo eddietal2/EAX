@@ -230,6 +230,8 @@
 	let billImgWidth = 0;
 	let billImgHeight = 0;
 
+	$: selectedCurrency = selectedBill ? rates.find(r => r.code === openCode) ?? null : null;
+
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 </script>
 
@@ -800,41 +802,65 @@
 			on:click|stopPropagation
 			on:keydown|stopPropagation
 		>
+			<!-- Close button -->
 			<button
 				type="button"
 				class="bill-modal-close"
 				on:click={() => (selectedBill = null)}
 				aria-label="Close bill details"
 			>
-				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
 				</svg>
 			</button>
-			<div class="bill-modal-body">
-			<div
-				class="bill-image-container"
-				on:mouseenter={() => (billImageHovered = true)}
-				on:mouseleave={() => (billImageHovered = false)}
-				on:mousemove={(e) => {
-					const rect = e.currentTarget.getBoundingClientRect();
-					magnifyMouseX = e.clientX - rect.left;
-					magnifyMouseY = e.clientY - rect.top;
-					billImgWidth = rect.width;
-					billImgHeight = rect.height;
-				}}
-			>
-				<img src={selectedBill.image} alt={selectedBill.label} class="bill-modal-image" />
-				{#if billImageHovered}
-					<div
-						class="magnifying-glass"
-						style="left: {magnifyMouseX}px; top: {magnifyMouseY}px; background-image: url('{selectedBill.image}'); background-size: {billImgWidth * 2.5}px {billImgHeight * 2.5}px; background-position: {-magnifyMouseX * 2.5 + 75}px {-magnifyMouseY * 2.5 + 75}px;"
-					/>
-				{/if}
-			</div>
-				<div class="bill-modal-info">
-					<h2 class="bill-modal-title">{selectedBill.label}</h2>
+
+			<!-- Bill image stage -->
+			<div class="bill-modal-stage">
+				<div
+					class="bill-image-container"
+					role="img"
+					on:mouseenter={() => (billImageHovered = true)}
+					on:mouseleave={() => (billImageHovered = false)}
+					on:mousemove={(e) => {
+						const rect = e.currentTarget.getBoundingClientRect();
+						magnifyMouseX = e.clientX - rect.left;
+						magnifyMouseY = e.clientY - rect.top;
+						billImgWidth = rect.width;
+						billImgHeight = rect.height;
+					}}
+				>
+					<img src={selectedBill.image} alt={selectedBill.label} class="bill-modal-image" />
+					{#if billImageHovered}
+						<div
+							class="magnifying-glass"
+							style="left: {magnifyMouseX}px; top: {magnifyMouseY}px; background-image: url('{selectedBill.image}'); background-size: {billImgWidth * 2.5}px {billImgHeight * 2.5}px; background-position: {-magnifyMouseX * 2.5 + 75}px {-magnifyMouseY * 2.5 + 75}px;"
+						></div>
+					{/if}
 				</div>
 			</div>
+
+			<!-- Info bar -->
+			<div class="bill-modal-info-bar">
+				{#if selectedCurrency}
+					<span class="bill-modal-flag">{selectedCurrency.flag}</span>
+				{/if}
+				<div class="bill-modal-info-text">
+					<h2 class="bill-modal-denomination">{selectedBill.label}</h2>
+					{#if selectedCurrency}
+						<p class="bill-modal-currency-name">{selectedCurrency.name}</p>
+					{/if}
+				</div>
+				{#if selectedCurrency && selectedCurrency.code !== 'TZS'}
+					<div class="bill-modal-conversion">
+						<span class="bill-modal-conversion-value">
+							= TSh {formatRate(selectedBill.value * selectedCurrency.value)}
+						</span>
+					</div>
+				{/if}
+			</div>
+
+			<!-- Hint -->
+			<p class="bill-modal-hint">Hover over the bill to magnify</p>
 		</div>
 	</div>
 {/if}
@@ -909,57 +935,60 @@
 	.bill-modal-backdrop {
 		position: fixed;
 		inset: 0;
-		background: rgba(0, 0, 0, 0.5);
+		background: rgba(0, 0, 0, 0.9);
+		backdrop-filter: blur(24px);
+		-webkit-backdrop-filter: blur(24px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		z-index: 50;
-		padding: 1rem;
-		animation: fadeIn 0.2s ease-out;
+		animation: fadeIn 0.3s ease-out;
 	}
 
 	.bill-modal-content {
 		position: relative;
-		background: white;
-		border-radius: 1rem;
-		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-		max-width: 90vw;
-		max-height: 90vh;
-		overflow: auto;
-		animation: slideUp 0.3s ease-out;
-	}
-
-	@media (min-width: 768px) {
-		.bill-modal-content {
-			max-width: 600px;
-		}
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		animation: modalZoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.bill-modal-close {
 		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		background: rgba(255, 255, 255, 0.9);
-		border: none;
-		border-radius: 0.5rem;
-		padding: 0.5rem;
+		top: 1.25rem;
+		right: 1.25rem;
+		background: rgba(255, 255, 255, 0.08);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 50%;
+		width: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		cursor: pointer;
-		color: #6b7280;
-		transition: all 0.2s;
+		color: rgba(255, 255, 255, 0.6);
+		transition: all 0.25s ease;
 		z-index: 10;
 	}
 
 	.bill-modal-close:hover {
-		background: white;
-		color: #1f2937;
+		background: rgba(255, 255, 255, 0.18);
+		color: white;
+		transform: rotate(90deg);
 	}
 
-	.bill-modal-body {
-		padding: 2rem 1.5rem;
+	.bill-modal-stage {
+		flex: 1;
 		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
 		align-items: center;
+		justify-content: center;
+		width: 100%;
+		padding: 3rem 2rem 1rem;
 	}
 
 	.bill-image-container {
@@ -968,60 +997,136 @@
 	}
 
 	.bill-modal-image {
-		width: 100%;
-		max-width: 400px;
+		max-width: 85vw;
+		max-height: 50vh;
 		border-radius: 0.75rem;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		box-shadow:
+			0 30px 80px rgba(0, 0, 0, 0.6),
+			0 0 0 1px rgba(255, 255, 255, 0.05);
 		display: block;
 		cursor: zoom-in;
+		object-fit: contain;
+	}
+
+	@media (min-width: 768px) {
+		.bill-modal-image {
+			max-width: 65vw;
+			max-height: 62vh;
+		}
+		.bill-modal-stage {
+			padding: 4rem 3rem 1.5rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.bill-modal-image {
+			max-width: 55vw;
+			max-height: 68vh;
+		}
 	}
 
 	.magnifying-glass {
 		position: absolute;
 		width: 150px;
 		height: 150px;
-		border: 3px solid #1f2937;
+		border: 2px solid rgba(255, 255, 255, 0.5);
 		border-radius: 50%;
 		overflow: hidden;
 		pointer-events: none;
 		transform: translate(-50%, -50%);
-		box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.3);
+		box-shadow:
+			0 0 0 1px rgba(0, 0, 0, 0.3),
+			0 8px 32px rgba(0, 0, 0, 0.5),
+			inset 0 0 30px rgba(255, 255, 255, 0.03);
 		z-index: 20;
 		background-repeat: no-repeat;
 	}
 
-	.bill-modal-info {
-		flex: 1;
+	.bill-modal-info-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+		padding: 0.875rem 1.5rem;
+		background: rgba(255, 255, 255, 0.06);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 1rem;
+		margin-bottom: 2.5rem;
+		animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 	}
 
-	.bill-modal-title {
-		font-size: 1.875rem;
+	.bill-modal-flag {
+		font-size: 2rem;
+		line-height: 1;
+	}
+
+	.bill-modal-info-text {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.bill-modal-denomination {
+		font-size: 1.375rem;
 		font-weight: 700;
-		color: #1f2937;
-		margin-bottom: 0.5rem;
+		color: white;
+		line-height: 1.2;
+		margin: 0;
 	}
 
-	.bill-modal-value {
-		font-size: 1rem;
-		color: #6b7280;
+	.bill-modal-currency-name {
+		font-size: 0.8125rem;
+		color: rgba(255, 255, 255, 0.45);
+		margin: 0;
+		line-height: 1.4;
+	}
+
+	.bill-modal-conversion {
+		margin-left: 0.5rem;
+		padding-left: 1rem;
+		border-left: 1px solid rgba(255, 255, 255, 0.12);
+	}
+
+	.bill-modal-conversion-value {
+		font-size: 0.9375rem;
+		font-weight: 600;
+		color: #34d399;
+	}
+
+	.bill-modal-hint {
+		position: absolute;
+		bottom: 0.875rem;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 0.6875rem;
+		color: rgba(255, 255, 255, 0.2);
+		pointer-events: none;
+		letter-spacing: 0.025em;
 	}
 
 	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
+		from { opacity: 0; }
+		to { opacity: 1; }
 	}
 
 	@keyframes slideUp {
 		from {
-			transform: translateY(2rem);
+			transform: translateY(1rem);
 			opacity: 0;
 		}
 		to {
 			transform: translateY(0);
+			opacity: 1;
+		}
+	}
+
+	@keyframes modalZoomIn {
+		from {
+			transform: scale(0.92);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
 			opacity: 1;
 		}
 	}
