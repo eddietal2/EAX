@@ -114,6 +114,13 @@
 	import MZN_Bill_100 from '$lib/assets/bill-notes/MZN/100_Bill.png';
 	import MZN_Bill_200 from '$lib/assets/bill-notes/MZN/200_Bill.png';
 
+	import BIF_Bill_10 from '$lib/assets/bill-notes/BIF/10_Bill.png';
+	import BIF_Bill_20 from '$lib/assets/bill-notes/BIF/20_Bill.png';
+	import BIF_Bill_50 from '$lib/assets/bill-notes/BIF/50_Bill.png';
+	import BIF_Bill_100 from '$lib/assets/bill-notes/BIF/100_Bill.png';
+	import BIF_Bill_500 from '$lib/assets/bill-notes/BIF/500_Bill.png';
+	import BIF_Bill_1000 from '$lib/assets/bill-notes/BIF/1000_Bill.png';
+
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
 		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
@@ -291,6 +298,15 @@
 		{ value: 50, label: 'MT 50', image: MZN_Bill_50 },
 		{ value: 100, label: 'MT 100', image: MZN_Bill_100 },
 		{ value: 200, label: 'MT 200', image: MZN_Bill_200 }
+	];
+
+	const bifBills = [
+		{ value: 10, label: 'BIF 10', image: BIF_Bill_10 },
+		{ value: 20, label: 'BIF 20', image: BIF_Bill_20 },
+		{ value: 50, label: 'BIF 50', image: BIF_Bill_50 },
+		{ value: 100, label: 'BIF 100', image: BIF_Bill_100 },
+		{ value: 500, label: 'BIF 500', image: BIF_Bill_500 },
+		{ value: 1000, label: 'BIF 1K', image: BIF_Bill_1000 }
 	];
 
 	let openCode = '';
@@ -1014,6 +1030,42 @@
 												</button>
 											{/each}
 											{#each mznBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+													aria-hidden="true"
+													tabindex="-1"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+										</div>
+									</div>
+								</div>
+							{:else if rate.code === 'BIF'}
+							<div class="mt-4 -mx-4">
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Burundian Franc Bills</p>
+									<div class="usd-carousel"
+										role="region"
+										aria-label="BIF bills carousel"
+										on:mouseenter={() => (carouselHovered = true)}
+										on:mouseleave={() => (carouselHovered = false)}>
+										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
+											{#each bifBills as bill}
+												<button
+													type="button"
+													class="usd-bill-card"
+													on:click={() => (selectedBill = bill)}
+													aria-label="View {bill.label} bill details"
+												>
+													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
+													<p class="usd-bill-label">{bill.label}</p>
+												</button>
+											{/each}
+											{#each bifBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
