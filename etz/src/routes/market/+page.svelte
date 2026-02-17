@@ -143,29 +143,29 @@
 	import EGP_Bill_100 from '$lib/assets/bill-notes/EGP/100_Bill.png';
 
 	const rates = [
-		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1 },
-		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650 },
-		{ code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', value: 2890 },
-		{ code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', value: 3350 },
-		{ code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh', flag: '🇰🇪', value: 17.5 },
-		{ code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh', flag: '🇺🇬', value: 0.697 },
-		{ code: 'RWF', name: 'Rwandan Franc', symbol: 'FRw', flag: '🇷🇼', value: 2.21 },
-		{ code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', flag: '🇦🇪', value: 721 },
-		{ code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', value: 368 },
-		{ code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳', value: 31.9 },
-		{ code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', flag: '🇪🇹', value: 46.5 },
-		{ code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '🇿🇦', value: 147 },
-		{ code: 'ZMW', name: 'Zambian Kwacha', symbol: 'ZK', flag: '🇿🇲', value: 98 },
-		{ code: 'SAR', name: 'Saudi Riyal', symbol: 'ر.س', flag: '🇸🇦', value: 707 },
-		{ code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', flag: '🇨🇭', value: 3010 },
-		{ code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', value: 1975 },
-		{ code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', value: 1750 },
-		{ code: 'MWK', name: 'Malawian Kwacha', symbol: 'MK', flag: '🇲🇼', value: 2.04 },
-		{ code: 'MZN', name: 'Mozambican Metical', symbol: 'MT', flag: '🇲🇿', value: 42.1 },
-		{ code: 'BIF', name: 'Burundian Franc', symbol: 'Fr', flag: '🇧🇮', value: 0.914 },
-		{ code: 'CDF', name: 'Congolese Franc', symbol: 'FC', flag: '🇨🇩', value: 0.943 },
-		{ code: 'NGN', name: 'Nigerian Naira', symbol: '₦', flag: '🇳🇬', value: 1.71 },
-		{ code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬', value: 88.3 }
+		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1, description: 'The official currency of Tanzania since 1966, replacing the East African shilling. Named after the country, the shilling is issued by the Bank of Tanzania and features iconic landmarks like Mount Kilimanjaro and wildlife on its banknotes.' },
+		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650, description: 'The world\'s primary reserve currency, first minted in 1792. The "$" symbol is believed to derive from the Spanish peso. US dollars account for roughly 60% of global foreign exchange reserves and are legal tender in over 10 countries beyond the US.' },
+		{ code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', value: 2890, description: 'Introduced in 1999, the euro is used by over 340 million people across 20 EU member states. Its banknotes feature architectural styles from different European periods rather than real buildings, symbolizing unity. It is the second-most traded currency globally.' },
+		{ code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', value: 3350, description: 'The world\'s oldest currency still in use, dating back over 1,200 years to Anglo-Saxon England. The "£" symbol derives from the Latin word "libra" meaning a pound of weight. The pound sterling was once the global reserve currency before the US dollar.' },
+		{ code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh', flag: '🇰🇪', value: 17.5, description: 'Introduced in 1966 to replace the East African shilling. Kenyan banknotes feature the country\'s first president Jomo Kenyatta and showcase Africa\'s Big Five animals. The Central Bank of Kenya issues all currency denominations.' },
+		{ code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh', flag: '🇺🇬', value: 0.697, description: 'First introduced in 1966, replacing the East African shilling. The current series features landmarks like the Crested Crane (Uganda\'s national bird) and monuments. A new shilling was reintroduced in 1987 at a rate of 100 old shillings to 1 new.' },
+		{ code: 'RWF', name: 'Rwandan Franc', symbol: 'FRw', flag: '🇷🇼', value: 2.21, description: 'The official currency of Rwanda since 1964, replacing the Belgian Congo franc. Modern banknotes celebrate Rwanda\'s development and reconstruction, featuring images of coffee harvesting, gorillas, and the Kigali Convention Centre.' },
+		{ code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', flag: '🇦🇪', value: 721, description: 'Introduced in 1973, replacing the Qatar and Dubai riyal. The dirham has been pegged to the US dollar since 1997 at a fixed rate. Its name derives from the Greek drachma. Banknotes feature iconic UAE landmarks like the Burj Al Arab.' },
+		{ code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', value: 368, description: 'Also known as Renminbi ("people\'s currency"), introduced in 1949. All denominations feature Mao Zedong on the front. China has a 3,000-year history of currency innovation — they invented paper money during the Tang Dynasty around 700 AD.' },
+		{ code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳', value: 31.9, description: 'One of the oldest currencies in the world, originating from the 6th century BCE "rupyakam" silver coins. The modern ₹ symbol was adopted in 2010. Mahatma Gandhi appears on all current banknotes. India was among the first civilizations to use metal coins.' },
+		{ code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', flag: '🇪🇹', value: 46.5, description: 'The official currency of Ethiopia, with "birr" meaning silver in Amharic and other Ethiopian Semitic languages. Ethiopia is one of the few African nations never colonized, giving its currency a uniquely unbroken domestic heritage spanning centuries.' },
+		{ code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '🇿🇦', value: 147, description: 'Named after the Witwatersrand ridge where most of South Africa\'s gold deposits were found. Introduced in 1961, the rand is also legal tender in Namibia, Lesotho, and Eswatini. Nelson Mandela has appeared on all banknotes since 2012.' },
+		{ code: 'ZMW', name: 'Zambian Kwacha', symbol: 'ZK', flag: '🇿🇲', value: 98, description: 'The name "kwacha" means "dawn" in the Bemba and Nyanja languages, symbolizing the dawn of freedom at Zambia\'s independence in 1964. The currency was rebased in 2013, with 1,000 old kwacha becoming 1 new kwacha.' },
+		{ code: 'SAR', name: 'Saudi Riyal', symbol: 'ر.س', flag: '🇸🇦', value: 707, description: 'The official currency of Saudi Arabia, pegged to the US dollar since 1986. The word "riyal" derives from the Spanish "real." Banknotes feature revered Islamic sites including the Grand Mosque in Mecca and the Prophet\'s Mosque in Medina.' },
+		{ code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', flag: '🇨🇭', value: 3010, description: 'One of the world\'s strongest and most stable currencies, considered a safe-haven asset. Switzerland\'s banknotes are printed vertically — unique among major currencies. The franc is the only currency still called "franc" in Europe after France adopted the euro.' },
+		{ code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', value: 1975, description: 'Nicknamed the "loonie" after the common loon bird on its $1 coin. Canada was a pioneer in polymer banknotes, switching entirely in 2011. The Canadian dollar is the 6th most traded currency globally and is heavily influenced by commodity prices.' },
+		{ code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', value: 1750, description: 'Australia was the first country to use polymer (plastic) banknotes in 1988, a technology now adopted by over 50 nations. Nicknamed the "Aussie dollar," it replaced the Australian pound in 1966 and features notable Australians and native wildlife.' },
+		{ code: 'MWK', name: 'Malawian Kwacha', symbol: 'MK', flag: '🇲🇼', value: 2.04, description: 'Like Zambia, "kwacha" means "dawn" in local languages. Introduced in 1971 replacing the Malawian pound. Banknotes feature the country\'s first president Hastings Kamuzu Banda and iconic scenes from Lake Malawi, the third-largest lake in Africa.' },
+		{ code: 'MZN', name: 'Mozambican Metical', symbol: 'MT', flag: '🇲🇿', value: 42.1, description: 'The name "metical" derives from the Arabic "mithqal," a unit of weight used in gold trade along the East African coast. The new metical was introduced in 2006, replacing the old at 1,000:1. Banknotes celebrate Mozambican heroes and wildlife.' },
+		{ code: 'BIF', name: 'Burundian Franc', symbol: 'Fr', flag: '🇧🇮', value: 0.914, description: 'The official currency of Burundi since independence in 1964. Banknotes feature the country\'s coat of arms and depict scenes of Burundian life. Burundi is one of the smallest and most densely populated countries in Africa.' },
+		{ code: 'CDF', name: 'Congolese Franc', symbol: 'FC', flag: '🇨🇩', value: 0.943, description: 'The currency of the Democratic Republic of the Congo, reintroduced in 1997 replacing the new zaïre. The DRC is one of the most mineral-rich countries on Earth, with vast deposits of cobalt, diamonds, and coltan that influence its economy.' },
+		{ code: 'NGN', name: 'Nigerian Naira', symbol: '₦', flag: '🇳🇬', value: 1.71, description: 'Introduced in 1973, replacing the Nigerian pound. The name "naira" is a contraction of "Nigeria." As Africa\'s largest economy, the naira features prominent national figures and landmarks. Nigeria recently redesigned its 200, 500, and 1,000 naira notes in 2022.' },
+		{ code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬', value: 88.3, description: 'One of the oldest currencies in the Middle East region, introduced in 1834. Egyptian banknotes uniquely feature both Arabic and English text. The pound showcases ancient Egyptian temples and mosques, connecting thousands of years of civilization on a single note.' }
 	];
 
 	const usdBills = [
@@ -409,6 +409,7 @@
 					{#if openCode === rate.code}
 					<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50 accordion-inner-shadow">
 							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
+							<p class="mt-2 text-xs leading-relaxed text-gray-500">{rate.description}</p>
 							{#if rate.code === 'USD'}
 							<div class="mt-4 -mx-4">
 								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">US Dollar Bills</p>
