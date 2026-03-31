@@ -385,9 +385,17 @@
 </script>
 
 <div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
-	<h1 class="text-2xl font-bold text-gray-900 mb-6">Market Rates</h1>
+	<div class="flex items-center justify-between mb-6">
+		<h1 class="text-2xl font-bold text-gray-900">Market Rates</h1>
+		{#if $isLoading}
+			<div class="flex items-center gap-2">
+				<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+				<span class="text-sm text-gray-600 font-medium">Updating...</span>
+			</div>
+		{/if}
+	</div>
 	
-	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''}">
 		<div class="p-4 border-b border-gray-100">
 			<div class="flex flex-wrap items-center justify-between gap-2">
 				<p class="text-sm text-gray-500">Live exchange rates to TZS</p>

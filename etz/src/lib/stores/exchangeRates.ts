@@ -34,8 +34,26 @@ let staticRates: Record<string, Record<string, number>> = {
 	EGP: { USD: 0.0333, EUR: 0.0307, GBP: 0.0264, TZS: 88.3, KES: 5.03, UGX: 126.5, RWF: 39.95, AED: 0.122, CNY: 0.240, INR: 2.75, ETB: 1.90, ZAR: 0.599, ZMW: 0.900, SAR: 0.125, CHF: 0.0293, CAD: 0.0447, AUD: 0.0506, MWK: 43.3, MZN: 2.10, BIF: 96.8, CDF: 93.8, NGN: 51.5, EGP: 1 }
 };
 
-export function getStaticRates() {
+// Try to load most recent rates from localStorage on startup
+function loadCachedRates() {
+	if (typeof window === 'undefined') return; // SSR check
+	try {
+		const cached = localStorage.getItem('cachedExchangeRates');
+		if (cached) {
+			const parsed = JSON.parse(cached);
+			staticRates = parsed;
+		}
+	} catch (error) {
+		console.error('Failed to load cached rates:', error);
+	}
+}
+
+function getCachedRates() {
 	return staticRates;
+}
+
+export function getStaticRates() {
+	return getCachedRates();
 }
 
 function buildMatrixFromUsd(usdRates: Record<string, number>) {
@@ -57,7 +75,7 @@ function buildMatrixFromUsd(usdRates: Record<string, number>) {
 	return matrix;
 }
 
-export const rates = writable<Record<string, Record<string, number>>>(staticRates);
+export const rates = writable<Record<string, Record<string, number>>>(getCachedRates());
 export const lastUpdated = writable<string | null>(null);
 export const isLoading = writable(false);
 export const fetchError = writable<string | null>(null);
@@ -76,6 +94,15 @@ function canFetchRates(): boolean {
 function setLastFetch() {
 	if (typeof window !== 'undefined') {
 		localStorage.setItem('lastRateFetch', Date.now().toString());
+	}
+}
+
+function saveRatesToCache(ratesData: Record<string, Record<string, number>>) {
+	if (typeof window === 'undefined') return; // SSR check
+	try {
+		localStorage.setItem('cachedExchangeRates', JSON.stringify(ratesData));
+	} catch (error) {
+		console.error('Failed to save rates to cache:', error);
 	}
 }
 
@@ -113,6 +140,7 @@ export async function fetchExchangeRates() {
 		const dynamic = buildMatrixFromUsd(usdRates);
 		rates.set(dynamic);
 		staticRates = dynamic; // Update fallback with freshest rates
+		saveRatesToCache(dynamic); // Persist to localStorage
 		setLastFetch(); // Update rate limit timestamp
 		lastUpdated.set(new Date().toISOString());
 		return dynamic;
@@ -127,6 +155,8 @@ export async function fetchExchangeRates() {
 }
 
 export function initRatePolling(intervalMs = 8 * 60 * 60 * 1000) {
+	loadCachedRates(); // Load most recent rates from storage on startup
+	rates.set(getCachedRates()); // Update store with cached rates
 	if (pollingTimer) clearInterval(pollingTimer);
 	pollingTimer = window.setInterval(fetchExchangeRates, intervalMs);
 	fetchExchangeRates();
@@ -136,5 +166,13 @@ export function stopRatePolling() {
 	if (pollingTimer) {
 		clearInterval(pollingTimer);
 		pollingTimer = null;
+	}
+}
+
+export function resetRateLimit() {
+	if (typeof window !== 'undefined') {
+		localStorage.removeItem('lastRateFetch');
+		fetchError.set(null);
+		console.log('Rate limit reset. You can now fetch fresh rates.');
 	}
 }

@@ -242,9 +242,17 @@
 		</div>
 		
 		<!-- Current Exchange Rate Label -->
-		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200">
-			<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
-			<p class="text-lg font-semibold text-emerald-600 mt-1 flex items-center gap-2">
+		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 relative">
+			<div class="flex items-center justify-between">
+				<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
+				{#if $isLoading}
+					<div class="flex items-center gap-1.5">
+						<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+						<span class="text-xs text-emerald-600 font-medium">Updating...</span>
+					</div>
+				{/if}
+			</div>
+			<p class="text-lg font-semibold text-emerald-600 mt-1 flex items-center gap-2 {$isLoading ? 'opacity-70' : ''}">
 				<FlagIcon code={fromCurrency} size="md" />
 				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? getStaticRates()[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}
 				<FlagIcon code={toCurrency} size="md" />
