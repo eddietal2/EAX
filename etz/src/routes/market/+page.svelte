@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { rates as liveRates, staticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
 	import USD_Bill_05 from '$lib/assets/bill-notes/USD/05_Bill.jpg';
@@ -411,7 +412,7 @@
 						onclick={() => (openCode = openCode === rate.code ? '' : rate.code)}
 					>
 						<div class="flex items-center gap-3">
-							<span class="text-2xl">{rate.flag}</span>
+							<FlagIcon code={rate.code} size="md" />
 							<div>
 								<p class="font-medium text-gray-900">{rate.code} / TZS</p>
 								<p class="text-sm text-gray-500">{rate.name} ({rate.symbol})</p>

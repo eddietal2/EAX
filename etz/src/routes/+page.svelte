@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { rates, staticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	let amount = $state('');
 	let fromCurrency = $state('USD');
@@ -242,8 +243,10 @@
 		<!-- Current Exchange Rate Label -->
 		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200">
 			<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
-			<p class="text-lg font-semibold text-emerald-600 mt-1">
-				{countryFlag[fromCurrency]} 1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency} {countryFlag[toCurrency]}
+			<p class="text-lg font-semibold text-emerald-600 mt-1 flex items-center gap-2">
+				<FlagIcon code={fromCurrency} size="md" />
+				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}
+				<FlagIcon code={toCurrency} size="md" />
 			</p>
 		</div>
 
