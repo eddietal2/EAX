@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { rates as liveRates, staticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
 	import USD_Bill_05 from '$lib/assets/bill-notes/USD/05_Bill.jpg';
@@ -366,9 +368,19 @@
 	let billImgWidth = 0;
 	let billImgHeight = 0;
 
+	onMount(() => {
+		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
+	});
+
 	$: selectedCurrency = selectedBill ? rates.find(r => r.code === openCode) ?? null : null;
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
+
+	const getLiveRate = (code: string) => {
+		const dynamicRate = $liveRates[code]?.TZS;
+		if (dynamicRate != null) return dynamicRate;
+		return staticRates[code]?.TZS ?? 0;
+	};
 </script>
 
 <div class="p-4 md:p-8 max-w-4xl mx-auto">
@@ -376,7 +388,17 @@
 	
 	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
 		<div class="p-4 border-b border-gray-100">
-			<p class="text-sm text-gray-500">Live exchange rates to TZS</p>
+			<div class="flex flex-wrap items-center justify-between gap-2">
+				<p class="text-sm text-gray-500">Live exchange rates to TZS</p>
+			</div>
+			<p class="text-xs text-gray-400 mt-1">
+				{#if $lastUpdated}
+					Updated {new Date($lastUpdated).toLocaleString()}
+				{/if}
+				{#if $fetchError}
+					• Error: {$fetchError}
+				{/if}
+			</p>
 		</div>
 		
 		<div class="divide-y divide-gray-100">
@@ -386,7 +408,7 @@
 						type="button"
 						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
 						aria-expanded={openCode === rate.code}
-						on:click={() => (openCode = openCode === rate.code ? '' : rate.code)}
+						onclick={() => (openCode = openCode === rate.code ? '' : rate.code)}
 					>
 						<div class="flex items-center gap-3">
 							<span class="text-2xl">{rate.flag}</span>
@@ -396,7 +418,7 @@
 							</div>
 						</div>
 						<div class="flex items-center gap-2">
-							<p class="text-lg font-semibold text-gray-900">{formatRate(rate.value)}</p>
+							<p class="text-lg font-semibold text-gray-900">{formatRate(getLiveRate(rate.code))}</p>
 							<svg
 								class={`w-4 h-4 text-gray-400 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
 								viewBox="0 0 20 20"
@@ -408,7 +430,7 @@
 					</button>
 					{#if openCode === rate.code}
 					<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50 accordion-inner-shadow">
-							<p>1 {rate.code} = {formatRate(rate.value)} TZS</p>
+							<p>1 {rate.code} = {formatRate(getLiveRate(rate.code))} TZS</p>
 							<p class="mt-2 text-xs leading-relaxed text-gray-500">{rate.description}</p>
 							{#if rate.code === 'USD'}
 							<div class="mt-4 -mx-4">
@@ -416,14 +438,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="USD bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each usdBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -434,7 +456,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -452,14 +474,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="EURO bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each euroBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -470,7 +492,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -488,14 +510,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="GBP bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each gbpBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -506,7 +528,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -524,14 +546,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="TZS bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each tshBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -542,7 +564,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -560,14 +582,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="UGX bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each ugxBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -578,7 +600,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -596,14 +618,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="RWF bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each rwfBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -614,7 +636,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -632,14 +654,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="AED bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each aedBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -650,7 +672,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -668,14 +690,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CNY bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each cynBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -686,7 +708,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -704,14 +726,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="INR bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each inrBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -722,7 +744,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -740,14 +762,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ETB bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each ethBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -758,7 +780,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -776,14 +798,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZAR bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each zarBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -794,7 +816,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -812,14 +834,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZMW bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each zmwBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -830,7 +852,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -848,14 +870,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="SAR bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each sarBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -866,7 +888,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -884,14 +906,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="KES bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each kesBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -902,7 +924,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -920,14 +942,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CAD bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each cadBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -938,7 +960,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -956,14 +978,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="AUD bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each audBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -974,7 +996,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -992,14 +1014,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="MWK bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each mwkBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1010,7 +1032,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1028,14 +1050,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CHF bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each chfBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1046,7 +1068,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1064,14 +1086,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="MZN bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each mznBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1082,7 +1104,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1100,14 +1122,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="BIF bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each bifBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1118,7 +1140,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1136,14 +1158,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CDF bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each cdfBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1154,7 +1176,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1172,14 +1194,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="NGN bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each ngnBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1190,7 +1212,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1208,14 +1230,14 @@
 									<div class="usd-carousel"
 										role="region"
 										aria-label="EGP bills carousel"
-										on:mouseenter={() => (carouselHovered = true)}
-										on:mouseleave={() => (carouselHovered = false)}>
+										onmouseenter={() => (carouselHovered = true)}
+										onmouseleave={() => (carouselHovered = false)}>
 										<div class="usd-carousel-track {carouselHovered ? 'paused' : ''}">
 											{#each egpBills as bill}
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 												>
 													<img src={bill.image} alt={bill.label} class="usd-bill-image" />
@@ -1226,7 +1248,7 @@
 												<button
 													type="button"
 													class="usd-bill-card"
-													on:click={() => (selectedBill = bill)}
+													onclick={() => (selectedBill = bill)}
 													aria-label="View {bill.label} bill details"
 													aria-hidden="true"
 													tabindex="-1"
@@ -1252,22 +1274,22 @@
 	<div
 		class="bill-modal-backdrop"
 		role="presentation"
-		on:click={() => (selectedBill = null)}
-		on:keydown={(e) => e.key === 'Escape' && (selectedBill = null)}
+		onclick={() => (selectedBill = null)}
+		onkeydown={(e) => e.key === 'Escape' && (selectedBill = null)}
 	>
 		<div
 			class="bill-modal-content"
 			role="dialog"
 			aria-modal="true"
 			tabindex="0"
-			on:click|stopPropagation
-			on:keydown|stopPropagation
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => e.stopPropagation()}
 		>
 			<!-- Close button -->
 			<button
 				type="button"
 				class="bill-modal-close"
-				on:click={() => (selectedBill = null)}
+				onclick={() => (selectedBill = null)}
 				aria-label="Close bill details"
 			>
 				<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1280,9 +1302,9 @@
 				<div
 					class="bill-image-container"
 					role="img"
-					on:mouseenter={() => (billImageHovered = true)}
-					on:mouseleave={() => (billImageHovered = false)}
-					on:mousemove={(e) => {
+					onmouseenter={() => (billImageHovered = true)}
+					onmouseleave={() => (billImageHovered = false)}
+					onmousemove={(e) => {
 						const rect = e.currentTarget.getBoundingClientRect();
 						magnifyMouseX = e.clientX - rect.left;
 						magnifyMouseY = e.clientY - rect.top;
