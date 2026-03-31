@@ -6,9 +6,12 @@
 	let { children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+</svelte:head>
 
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 md:flex md:flex-col">
 	<Navigation />
 	<main class="pb-20 md:pb-0">
 		{@render children()}

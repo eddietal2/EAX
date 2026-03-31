@@ -176,8 +176,7 @@
 						<option value="NGN">🇳🇬 NGN</option>
 						<option value="EGP">🇪🇬 EGP</option>
 					</select>
-					<div class="flex-1 min-w-0 flex items-center justify-end gap-1">
-						<span class="shrink-0 text-lg font-medium text-gray-500">{countryFlag[fromCurrency]}</span>
+					<div class="flex-1 min-w-0">
 						<input
 							use:currencyInput
 							type="text"
@@ -231,8 +230,7 @@
 					<option value="CDF">🇨🇩 CDF</option>
 					<option value="NGN">🇳🇬 NGN</option>
 					<option value="EGP">🇪🇬 EGP</option>					</select>
-					<div class="flex-1 min-w-0 flex items-center justify-end gap-1 overflow-hidden">
-						<span class="shrink-0 text-lg font-medium text-emerald-500">{countryFlag[toCurrency]}</span>
+					<div class="flex-1 min-w-0">
 						<p class="text-2xl font-semibold text-emerald-600 tabular-nums truncate">
 							{convertedAmount() || '0.00'}
 						</p>

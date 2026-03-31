@@ -383,7 +383,7 @@
 	};
 </script>
 
-<div class="p-4 md:p-8 max-w-4xl mx-auto">
+<div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
 	<h1 class="text-2xl font-bold text-gray-900 mb-6">Market Rates</h1>
 	
 	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
