@@ -89,6 +89,32 @@
 		EGP: 'E£'
 	};
 
+	const countryFlag: Record<string, string> = {
+		USD: '🇺🇸',
+		EUR: '🇪🇺',
+		GBP: '🇬🇧',
+		TZS: '🇹🇿',
+		KES: '🇰🇪',
+		UGX: '🇺🇬',
+		RWF: '🇷🇼',
+		AED: '🇦🇪',
+		CNY: '🇨🇳',
+		INR: '🇮🇳',
+		ETB: '🇪🇹',
+		ZAR: '🇿🇦',
+		ZMW: '🇿🇲',
+		SAR: '🇸🇦',
+		CHF: '🇨🇭',
+		CAD: '🇨🇦',
+		AUD: '🇦🇺',
+		MWK: '🇲🇼',
+		MZN: '🇲🇿',
+		BIF: '🇧🇮',
+		CDF: '🇨🇩',
+		NGN: '🇳🇬',
+		EGP: '🇪🇬'
+	};
+
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 	});
@@ -151,7 +177,7 @@
 						<option value="EGP">🇪🇬 EGP</option>
 					</select>
 					<div class="flex-1 min-w-0 flex items-center justify-end gap-1">
-						<span class="shrink-0 text-lg font-medium text-gray-500">{currencySymbol[fromCurrency]}</span>
+						<span class="shrink-0 text-lg font-medium text-gray-500">{countryFlag[fromCurrency]}</span>
 						<input
 							use:currencyInput
 							type="text"
@@ -206,7 +232,7 @@
 					<option value="NGN">🇳🇬 NGN</option>
 					<option value="EGP">🇪🇬 EGP</option>					</select>
 					<div class="flex-1 min-w-0 flex items-center justify-end gap-1 overflow-hidden">
-						<span class="shrink-0 text-lg font-medium text-emerald-500">{currencySymbol[toCurrency]}</span>
+						<span class="shrink-0 text-lg font-medium text-emerald-500">{countryFlag[toCurrency]}</span>
 						<p class="text-2xl font-semibold text-emerald-600 tabular-nums truncate">
 							{convertedAmount() || '0.00'}
 						</p>
@@ -215,14 +241,15 @@
 			</div>
 		</div>
 		
-		<!-- Current Rate Info -->
-		{#if amount && convertedAmount()}
-			<div class="mt-4 text-center text-sm text-gray-500">
-				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString()} {toCurrency}
-			</div>
-		{/if}
+		<!-- Current Exchange Rate Label -->
+		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+			<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
+			<p class="text-lg font-semibold text-emerald-600 mt-1">
+				{countryFlag[fromCurrency]} 1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency} {countryFlag[toCurrency]}
+			</p>
+		</div>
 
-		<div class="mt-2 text-center text-xs text-gray-500">
+		<div class="mt-3 text-center text-xs text-gray-500">
 			{#if $lastUpdated}
 				Updated {new Date($lastUpdated).toLocaleString()}
 			{/if}
