@@ -1,6 +1,5 @@
 <script lang="ts">
-	export let code: string = '';
-	export let size: 'sm' | 'md' | 'lg' = 'md';
+	let { code = '', size = 'md' }: { code: string; size: 'sm' | 'md' | 'lg' } = $props();
 
 	// Map currency codes to flag SVG file codes
 	const currencyToFlagCode: Record<string, string> = {
@@ -35,8 +34,8 @@
 		lg: 'w-8 h-8'
 	};
 
-	const flagCode = currencyToFlagCode[code] || code.toLowerCase();
-	const flagPath = `/flags/${flagCode}.svg`;
+	const flagCode = $derived(currencyToFlagCode[code] || code.toLowerCase());
+	const flagPath = $derived(`/flags/${flagCode}.svg`);
 </script>
 
 <img src={flagPath} alt="{code} flag" class={`${sizeClass[size]} inline-block rounded-sm`} loading="lazy" />
