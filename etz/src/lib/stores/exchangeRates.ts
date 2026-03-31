@@ -7,7 +7,8 @@ export const currencyCodes = [
 	'USD', 'EUR', 'GBP', 'TZS', 'KES', 'UGX', 'RWF', 'AED', 'CNY', 'INR', 'ETB', 'ZAR', 'ZMW', 'SAR', 'CHF', 'CAD', 'AUD', 'MWK', 'MZN', 'BIF', 'CDF', 'NGN', 'EGP'
 ];
 
-export const staticRates: Record<string, Record<string, number>> = {
+// Initial fallback rates - will be updated with most recent API data
+let staticRates: Record<string, Record<string, number>> = {
 	USD: { EUR: 0.92, GBP: 0.79, TZS: 2650, KES: 151, UGX: 3800, RWF: 1200, AED: 3.67, CNY: 7.2, INR: 83, ETB: 57, ZAR: 18, ZMW: 27, SAR: 3.75, CHF: 0.88, CAD: 1.34, AUD: 1.52, MWK: 1300, MZN: 63, BIF: 2900, CDF: 2800, NGN: 1550, EGP: 30, USD: 1 },
 	EUR: { USD: 1.09, GBP: 0.86, TZS: 2890, KES: 164, UGX: 4130, RWF: 1305, AED: 4.00, CNY: 7.83, INR: 90.4, ETB: 62, ZAR: 19.6, ZMW: 29.4, SAR: 4.08, CHF: 0.96, CAD: 1.46, AUD: 1.65, MWK: 1415, MZN: 68.6, BIF: 3160, CDF: 3045, NGN: 1686, EGP: 32.6, EUR: 1 },
 	GBP: { USD: 1.26, EUR: 1.16, TZS: 3350, KES: 191, UGX: 4800, RWF: 1516, AED: 4.65, CNY: 9.10, INR: 105, ETB: 72, ZAR: 22.8, ZMW: 34.2, SAR: 4.74, CHF: 1.11, CAD: 1.70, AUD: 1.92, MWK: 1645, MZN: 79.8, BIF: 3670, CDF: 3540, NGN: 1960, EGP: 37.9, GBP: 1 },
@@ -32,6 +33,10 @@ export const staticRates: Record<string, Record<string, number>> = {
 	NGN: { USD: 0.000645, EUR: 0.000594, GBP: 0.000510, TZS: 1.71, KES: 0.097, UGX: 2.44, RWF: 0.775, AED: 0.00237, CNY: 0.00467, INR: 0.0535, ETB: 0.0368, ZAR: 0.0116, ZMW: 0.0174, SAR: 0.00243, CHF: 0.000569, CAD: 0.000867, AUD: 0.000981, MWK: 0.840, MZN: 0.0408, BIF: 1.88, CDF: 1.82, EGP: 0.0194, NGN: 1 },
 	EGP: { USD: 0.0333, EUR: 0.0307, GBP: 0.0264, TZS: 88.3, KES: 5.03, UGX: 126.5, RWF: 39.95, AED: 0.122, CNY: 0.240, INR: 2.75, ETB: 1.90, ZAR: 0.599, ZMW: 0.900, SAR: 0.125, CHF: 0.0293, CAD: 0.0447, AUD: 0.0506, MWK: 43.3, MZN: 2.10, BIF: 96.8, CDF: 93.8, NGN: 51.5, EGP: 1 }
 };
+
+export function getStaticRates() {
+	return staticRates;
+}
 
 function buildMatrixFromUsd(usdRates: Record<string, number>) {
 	const matrix: Record<string, Record<string, number>> = {};
@@ -58,8 +63,32 @@ export const isLoading = writable(false);
 export const fetchError = writable<string | null>(null);
 
 let pollingTimer: number | null = null;
+const RATE_LIMIT_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function canFetchRates(): boolean {
+	if (typeof window === 'undefined') return true; // SSR bypass
+	const lastFetchStr = localStorage.getItem('lastRateFetch');
+	if (!lastFetchStr) return true; // First fetch always allowed
+	const lastFetch = parseInt(lastFetchStr, 10);
+	return Date.now() - lastFetch >= RATE_LIMIT_MS;
+}
+
+function setLastFetch() {
+	if (typeof window !== 'undefined') {
+		localStorage.setItem('lastRateFetch', Date.now().toString());
+	}
+}
 
 export async function fetchExchangeRates() {
+	// Check rate limit
+	if (!canFetchRates()) {
+		const lastFetchStr = localStorage.getItem('lastRateFetch');
+		const lastFetch = lastFetchStr ? parseInt(lastFetchStr, 10) : 0;
+		const hoursUntil = Math.ceil((RATE_LIMIT_MS - (Date.now() - lastFetch)) / (60 * 60 * 1000));
+		fetchError.set(`Rate limit: check rates again in ${hoursUntil} hour${hoursUntil !== 1 ? 's' : ''}`);
+		return staticRates;
+	}
+
 	isLoading.set(true);
 	fetchError.set(null);
 
@@ -83,12 +112,14 @@ export async function fetchExchangeRates() {
 		const usdRates: Record<string, number> = { USD: 1, ...data.rates };
 		const dynamic = buildMatrixFromUsd(usdRates);
 		rates.set(dynamic);
+		staticRates = dynamic; // Update fallback with freshest rates
+		setLastFetch(); // Update rate limit timestamp
 		lastUpdated.set(new Date().toISOString());
 		return dynamic;
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown fetch error';
 		fetchError.set(message);
-		// keep existing rates (possibly static fallback)
+		// Fall back to most recent rates (which started as initial rates, then updated with each successful fetch)
 		return staticRates;
 	} finally {
 		isLoading.set(false);

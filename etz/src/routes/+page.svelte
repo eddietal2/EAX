@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import { rates, staticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	let amount = $state('');
@@ -124,7 +124,8 @@
 		const num = parseFloat(amount);
 		if (isNaN(num) || num <= 0) return '';
 		if (fromCurrency === toCurrency) return num.toLocaleString();
-		const rate = $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1;
+		const staticFallback = getStaticRates();
+		const rate = $rates[fromCurrency]?.[toCurrency] ?? staticFallback[fromCurrency]?.[toCurrency] ?? 1;
 		return (num * rate).toLocaleString(undefined, { maximumFractionDigits: 2 });
 	});
 
@@ -245,7 +246,7 @@
 			<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
 			<p class="text-lg font-semibold text-emerald-600 mt-1 flex items-center gap-2">
 				<FlagIcon code={fromCurrency} size="md" />
-				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? staticRates[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}
+				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? getStaticRates()[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}
 				<FlagIcon code={toCurrency} size="md" />
 			</p>
 		</div>

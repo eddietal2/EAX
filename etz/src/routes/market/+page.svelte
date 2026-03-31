@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { rates as liveRates, staticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import { rates as liveRates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
@@ -380,7 +380,7 @@
 	const getLiveRate = (code: string) => {
 		const dynamicRate = $liveRates[code]?.TZS;
 		if (dynamicRate != null) return dynamicRate;
-		return staticRates[code]?.TZS ?? 0;
+		return getStaticRates()[code]?.TZS ?? 0;
 	};
 </script>
 
