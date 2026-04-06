@@ -373,6 +373,11 @@
 	let zoomLevel = $state(1);
 	let initialDistance = 0;
 	let startZoom = 1;
+	let isTouching = $state(false);
+	let panX = $state(0);
+	let panY = $state(0);
+	let initialPanX = 0;
+	let initialPanY = 0;
 	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
 	let sortDropdownOpen = $state(false);
 	
@@ -405,31 +410,47 @@
 	};
 
 	const handlePinch = (e: TouchEvent) => {
-		if (e.touches.length !== 2) return;
+		if (e.touches.length === 2) {
+			// Two-finger pinch zoom
+			const currentDistance = getDistance(e.touches[0], e.touches[1]);
 
-		const currentDistance = getDistance(e.touches[0], e.touches[1]);
-
-		if (initialDistance === 0) {
-			// First pinch, store initial distance
-			initialDistance = currentDistance;
-			startZoom = zoomLevel;
-		} else {
-			// Calculate zoom based on pinch distance
-			const scale = currentDistance / initialDistance;
-			zoomLevel = Math.max(1, Math.min(3, startZoom * scale));
+			if (initialDistance === 0) {
+				// First pinch, store initial distance
+				initialDistance = currentDistance;
+				startZoom = zoomLevel;
+			} else {
+				// Calculate zoom based on pinch distance
+				const scale = currentDistance / initialDistance;
+				zoomLevel = Math.max(1, Math.min(3, startZoom * scale));
+			}
+		} else if (e.touches.length === 1 && zoomLevel > 1) {
+			// Single finger pan (only when zoomed in)
+			const touch = e.touches[0];
+			const deltaX = touch.clientX - initialPanX;
+			const deltaY = touch.clientY - initialPanY;
+			
+			// Apply pan with limits based on zoom level
+			const maxPan = 100 * (zoomLevel - 1);
+			panX = Math.max(-maxPan, Math.min(maxPan, deltaX));
+			panY = Math.max(-maxPan, Math.min(maxPan, deltaY));
 		}
 	};
 
 	const handlePinchEnd = () => {
 		initialDistance = 0;
 		startZoom = 1;
+		initialPanX = 0;
+		initialPanY = 0;
 	};
 
-	// Reset zoom when bill modal is opened (selectedBill changes)
+	// Reset zoom/pan when bill modal is opened (selectedBill changes)
 	$effect(() => {
 		selectedBill;
 		zoomLevel = 1;
+		panX = 0;
+		panY = 0;
 		initialDistance = 0;
+		isTouching = false;
 	});
 
 	const formatRate = (value: number) => {
@@ -1578,19 +1599,29 @@
 				<div
 					class="bill-image-container"
 					role="img"
-					ontouchstart={() => { initialDistance = 0; }}
+					ontouchstart={(e) => { 
+						e.preventDefault();
+						isTouching = true;
+						initialDistance = 0;
+						if (e.touches.length === 1) {
+							initialPanX = e.touches[0].clientX;
+							initialPanY = e.touches[0].clientY;
+						}
+					}}
 					ontouchmove={(e) => {
+						e.preventDefault();
 						if (e.touches.length === 0) return;
 						const rect = e.currentTarget.getBoundingClientRect();
-						// Get touch position for magnifying glass
-						magnifyMouseX = e.touches[0].clientX - rect.left;
-						magnifyMouseY = e.touches[0].clientY - rect.top;
 						billImgWidth = rect.width;
 						billImgHeight = rect.height;
-						// Pinch zoom
+						// Handle pinch zoom or pan
 						handlePinch(e);
 					}}
-					ontouchend={handlePinchEnd}
+					ontouchend={(e) => {
+						e.preventDefault();
+						isTouching = false;
+						handlePinchEnd();
+					}}
 					onmouseenter={() => (billImageHovered = true)}
 					onmouseleave={() => { billImageHovered = false; }}
 					onmousemove={(e) => {
@@ -1605,10 +1636,10 @@
 						src={selectedBill.image} 
 						alt={selectedBill.label} 
 						class="bill-modal-image" 
-						style="transform: scale({zoomLevel}); transition: transform 0.2s ease-out;"
+						style="transform: scale({zoomLevel}) translate({panX}px, {panY}px); transition: transform 0.2s ease-out; cursor: {zoomLevel > 1 && isTouching ? 'grabbing' : zoomLevel > 1 ? 'grab' : 'zoom-in'};"
 					/>
-					<!-- Desktop Magnifying Glass (mouse only) -->
-					{#if billImageHovered}
+					<!-- Desktop Magnifying Glass (mouse only - not on touch) -->
+					{#if billImageHovered && !isTouching}
 						<div
 							class="magnifying-glass"
 							style="left: {magnifyMouseX}px; top: {magnifyMouseY}px; background-image: url('{selectedBill.image}'); background-size: {billImgWidth * 2.5}px {billImgHeight * 2.5}px; background-position: {-magnifyMouseX * 2.5 + 75}px {-magnifyMouseY * 2.5 + 75}px;"
@@ -1767,17 +1798,19 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		padding: 3rem 2rem 1rem;
+		padding: 2rem 1rem;
 	}
 
 	.bill-image-container {
 		position: relative;
 		display: inline-block;
+		touch-action: none;
+		overflow: hidden;
 	}
 
 	.bill-modal-image {
-		max-width: 85vw;
-		max-height: 50vh;
+		max-width: 90vw;
+		max-height: 65vh;
 		border-radius: 0.75rem;
 		box-shadow:
 			0 30px 80px rgba(0, 0, 0, 0.6),
@@ -1789,18 +1822,18 @@
 
 	@media (min-width: 768px) {
 		.bill-modal-image {
-			max-width: 65vw;
-			max-height: 62vh;
+			max-width: 75vw;
+			max-height: 75vh;
 		}
 		.bill-modal-stage {
-			padding: 4rem 3rem 1.5rem;
+			padding: 2rem;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.bill-modal-image {
-			max-width: 55vw;
-			max-height: 68vh;
+			max-width: 65vw;
+			max-height: 80vh;
 		}
 	}
 
