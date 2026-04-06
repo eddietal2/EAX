@@ -174,30 +174,31 @@
 			<div class="p-4 md:p-6">
 				<label for="from-currency" class="block text-sm text-gray-500 mb-3">From</label>
 				<div class="flex items-center gap-3">
+					<FlagIcon code={fromCurrency} size="md" />
 					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
-						<option value="USD">🇺🇸 USD</option>
-						<option value="EUR">🇪🇺 EUR</option>
-						<option value="GBP">🇬🇧 GBP</option>
-						<option value="TZS">🇹🇿 TZS</option>
-						<option value="KES">🇰🇪 KES</option>
-						<option value="UGX">🇺🇬 UGX</option>
-						<option value="RWF">🇷🇼 RWF</option>
-						<option value="AED">🇦🇪 AED</option>
-						<option value="CNY">🇨🇳 CNY</option>
-						<option value="INR">🇮🇳 INR</option>
-						<option value="ETB">🇪🇹 ETB</option>
-						<option value="ZAR">🇿🇦 ZAR</option>
-						<option value="ZMW">🇿🇲 ZMW</option>
-						<option value="SAR">🇸🇦 SAR</option>
-						<option value="CHF">🇨🇭 CHF</option>
-						<option value="CAD">🇨🇦 CAD</option>
-						<option value="AUD">🇦🇺 AUD</option>
-						<option value="MWK">🇲🇼 MWK</option>
-						<option value="MZN">🇲🇿 MZN</option>
-						<option value="BIF">🇧🇮 BIF</option>
-						<option value="CDF">🇨🇩 CDF</option>
-						<option value="NGN">🇳🇬 NGN</option>
-						<option value="EGP">🇪🇬 EGP</option>
+						<option value="USD">USD</option>
+						<option value="EUR">EUR</option>
+						<option value="GBP">GBP</option>
+						<option value="TZS">TZS</option>
+						<option value="KES">KES</option>
+						<option value="UGX">UGX</option>
+						<option value="RWF">RWF</option>
+						<option value="AED">AED</option>
+						<option value="CNY">CNY</option>
+						<option value="INR">INR</option>
+						<option value="ETB">ETB</option>
+						<option value="ZAR">ZAR</option>
+						<option value="ZMW">ZMW</option>
+						<option value="SAR">SAR</option>
+						<option value="CHF">CHF</option>
+						<option value="CAD">CAD</option>
+						<option value="AUD">AUD</option>
+						<option value="MWK">MWK</option>
+						<option value="MZN">MZN</option>
+						<option value="BIF">BIF</option>
+						<option value="CDF">CDF</option>
+						<option value="NGN">NGN</option>
+						<option value="EGP">EGP</option>
 					</select>
 					<div class="flex-1 min-w-0">
 						<input
@@ -230,29 +231,32 @@
 			<div class="p-4 md:p-6 bg-gray-50">
 				<label for="to-currency" class="block text-sm text-gray-500 mb-3">To</label>
 				<div class="flex items-center gap-3">
+					<FlagIcon code={toCurrency} size="md" />
 					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
-						<option value="TZS">🇹🇿 TZS</option>
-						<option value="KES">🇰🇪 KES</option>
-						<option value="USD">🇺🇸 USD</option>
-						<option value="EUR">🇪🇺 EUR</option>
-						<option value="GBP">🇬🇧 GBP</option>					<option value="UGX">🇺🇬 UGX</option>
-					<option value="RWF">🇷🇼 RWF</option>
-					<option value="AED">🇦🇪 AED</option>
-					<option value="CNY">🇨🇳 CNY</option>
-					<option value="INR">🇮🇳 INR</option>
-					<option value="ETB">🇪🇹 ETB</option>
-					<option value="ZAR">🇿🇦 ZAR</option>
-					<option value="ZMW">🇿🇲 ZMW</option>
-					<option value="SAR">🇸🇦 SAR</option>
-					<option value="CHF">🇨🇭 CHF</option>
-					<option value="CAD">🇨🇦 CAD</option>
-					<option value="AUD">🇦🇺 AUD</option>
-					<option value="MWK">🇲🇼 MWK</option>
-					<option value="MZN">🇲🇿 MZN</option>
-					<option value="BIF">🇧🇮 BIF</option>
-					<option value="CDF">🇨🇩 CDF</option>
-					<option value="NGN">🇳🇬 NGN</option>
-					<option value="EGP">🇪🇬 EGP</option>					</select>
+						<option value="TZS">TZS</option>
+						<option value="KES">KES</option>
+						<option value="USD">USD</option>
+						<option value="EUR">EUR</option>
+						<option value="GBP">GBP</option>
+						<option value="UGX">UGX</option>
+						<option value="RWF">RWF</option>
+						<option value="AED">AED</option>
+						<option value="CNY">CNY</option>
+						<option value="INR">INR</option>
+						<option value="ETB">ETB</option>
+						<option value="ZAR">ZAR</option>
+						<option value="ZMW">ZMW</option>
+						<option value="SAR">SAR</option>
+						<option value="CHF">CHF</option>
+						<option value="CAD">CAD</option>
+						<option value="AUD">AUD</option>
+						<option value="MWK">MWK</option>
+						<option value="MZN">MZN</option>
+						<option value="BIF">BIF</option>
+						<option value="CDF">CDF</option>
+						<option value="NGN">NGN</option>
+						<option value="EGP">EGP</option>
+					</select>
 					<div class="flex-1 min-w-0">
 						<p class="text-2xl font-semibold text-emerald-600 tabular-nums truncate">
 							{convertedAmount() || '0.00'}
