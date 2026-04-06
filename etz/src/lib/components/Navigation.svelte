@@ -28,7 +28,7 @@
 
 <!-- Desktop Top Navigation -->
 <nav class="relative hidden md:flex items-center justify-center px-6 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
-	<a href="/" class="absolute left-6 text-xl font-bold text-emerald-600">Exchange.tz</a>
+		<a href="/" class="absolute left-6 text-2xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</a>
 	<div class="flex items-center gap-8">
 		{#each navItems as item}
 			<a

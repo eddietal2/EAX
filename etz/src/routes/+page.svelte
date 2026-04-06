@@ -171,7 +171,8 @@
 	<div class="p-4 md:p-8 w-full max-w-full mx-auto md:min-h-[calc(100vh-6rem)] md:flex md:items-center md:justify-center">
 		<!-- Header -->
 		<div class="text-center mb-8 md:hidden">
-			<h1 class="text-2xl font-bold text-emerald-600">Exchange.tz</h1>
+			<h1 class="text-4xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
+			<p class="text-lg text-gray-600 dark:text-gray-400 mt-2">East African Exchange</p>
 			<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Quick currency conversions</p>
 		</div>
 	
