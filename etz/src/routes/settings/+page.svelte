@@ -27,7 +27,8 @@
 	}
 
 	let lang = $derived($currentLanguage);
-	let t = $derived((key: string) => getTranslation(key, lang));</script>
+	let t = $derived((key: string) => getTranslation(key, lang));
+</script>
 
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
@@ -71,7 +72,7 @@
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
 			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
 				<div class="flex-1">
-					<p class="font-medium text-gray-900 dark:text-white text-sm">{t('settings.theme')}</p>
+					<p class="font-medium text-gray-900 dark:text-white text-sm">Light/Dark Mode</p>
 					<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.themeDescription')}</p>
 				</div>
 				<div class="flex items-center gap-3 shrink-0">
