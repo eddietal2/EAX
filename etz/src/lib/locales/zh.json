@@ -3,7 +3,8 @@
     "home": "主页",
     "market": "市场",
     "history": "历史",
-    "settings": "设置"
+    "settings": "设置",
+    "appSubtitle": "东非交易所"
   },
   "home": {
     "title": "货币转换器",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "兑换历史",
+    "subtitle": "您的兑换历史",
     "empty": "还没有保存任何兑换记录",
+    "emptySuggestion": "前往主页保存兑换以开始",
     "addName": "+ 添加名称",
     "deleteButton": "删除",
     "today": "今天",
@@ -26,7 +29,9 @@
   "settings": {
     "title": "设置",
     "language": "语言",
-    "languageDescription": "选择您首选的语言",    "theme": "主题",
+    "languageDescription": "选择您首选的语言",
+    "themeLabel": "浅色/深色模式",
+    "theme": "主题",
     "themeDescription": "选择您首选的配色方案",
     "themeLight": "浅色",
     "themeDark": "深色",

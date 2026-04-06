@@ -3,7 +3,8 @@
     "home": "Início",
     "market": "Mercado",
     "history": "Histórico",
-    "settings": "Configurações"
+    "settings": "Configurações",
+    "appSubtitle": "Bolsa da África Oriental"
   },
   "home": {
     "title": "Conversor de Moedas",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Histórico de Conversões",
+    "subtitle": "Seu histórico de conversões",
     "empty": "Nenhuma conversão salva ainda",
+    "emptySuggestion": "Vá para Home e salve uma conversão para começar",
     "addName": "+ Adicionar nome",
     "deleteButton": "Deletar",
     "today": "Hoje",
@@ -26,7 +29,9 @@
   "settings": {
     "title": "Configurações",
     "language": "Idioma",
-    "languageDescription": "Escolha seu idioma preferido",    "theme": "Tema",
+    "languageDescription": "Escolha seu idioma preferido",
+    "themeLabel": "Modo Claro/Escuro",
+    "theme": "Tema",
     "themeDescription": "Escolha seu esquema de cores preferido",
     "themeLight": "Claro",
     "themeDark": "Escuro",

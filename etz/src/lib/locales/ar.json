@@ -3,7 +3,8 @@
     "home": "الصفحة الرئيسية",
     "market": "السوق",
     "history": "السجل",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "appSubtitle": "بورصة شرق أفريقيا"
   },
   "home": {
     "title": "محول العملات",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "سجل التحويلات",
+    "subtitle": "سجل التحويلات الخاص بك",
     "empty": "لا توجد تحويلات محفوظة حتى الآن",
+    "emptySuggestion": "انتقل إلى الصفحة الرئيسية وحفظ حويل للبدء",
     "addName": "+ إضافة اسم",
     "deleteButton": "حذف",
     "today": "اليوم",
@@ -26,7 +29,9 @@
   "settings": {
     "title": "الإعدادات",
     "language": "اللغة",
-    "languageDescription": "اختر لغتك المفضلة",    "theme": "المظهر",
+    "languageDescription": "اختر لغتك المفضلة",
+    "themeLabel": "وضع مضيء/مظلم",
+    "theme": "المظهر",
     "themeDescription": "اختر مخطط الألوان المفضل لديك",
     "themeLight": "فاتح",
     "themeDark": "داكن",

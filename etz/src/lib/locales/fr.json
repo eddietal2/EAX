@@ -3,7 +3,8 @@
     "home": "Accueil",
     "market": "Marché",
     "history": "Historique",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "appSubtitle": "Bourse d'Afrique de l'Est"
   },
   "home": {
     "title": "Convertisseur de Devises",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Historique des Conversions",
+    "subtitle": "Votre historique de conversions",
     "empty": "Aucune conversion enregistrée pour le moment",
+    "emptySuggestion": "Allez à l'accueil et enregistrez une conversion pour commencer",
     "addName": "+ Ajouter un nom",
     "deleteButton": "Supprimer",
     "today": "Aujourd'hui",
@@ -27,6 +30,7 @@
     "title": "Paramètres",
     "language": "Langue",
     "languageDescription": "Choisissez votre langue préférée",
+    "themeLabel": "Mode Clair/Sombre",
     "theme": "Thème",
     "themeDescription": "Choisissez votre palette de couleurs préférée",
     "themeLight": "Clair",

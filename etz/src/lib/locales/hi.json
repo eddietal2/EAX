@@ -3,7 +3,8 @@
     "home": "होम",
     "market": "बाजार",
     "history": "इतिहास",
-    "settings": "सेटिंग्स"
+    "settings": "सेटिंग्स",
+    "appSubtitle": "पूर्वी अफ्रीकी विनिमय"
   },
   "home": {
     "title": "मुद्रा परिवर्तक",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "रूपांतरण इतिहास",
+    "subtitle": "आपका रूपांतरण इतिहास",
     "empty": "अभी तक कोई रूपांतरण सहेजा नहीं गया है",
+    "emptySuggestion": "होम पर जाएं और शुरू करने के लिए एक रूपांतरण सहेजें",
     "addName": "+ नाम जोड़ें",
     "deleteButton": "हटाएं",
     "today": "आज",
@@ -27,6 +30,7 @@
     "title": "सेटिंग्स",
     "language": "भाषा",
     "languageDescription": "अपनी पसंदीदा भाषा चुनें",
+    "themeLabel": "हल्का/गहरा मोड",
     "theme": "थीम",
     "themeDescription": "अपनी पसंदीदा रंग योजना चुनें",
     "themeLight": "हल्का",

@@ -3,7 +3,8 @@
     "home": "Inicio",
     "market": "Mercado",
     "history": "Historial",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "appSubtitle": "Bolsa Centroafricana"
   },
   "home": {
     "title": "Convertidor de Divisas",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Historial de Conversiones",
+    "subtitle": "Tu historial de conversiones",
     "empty": "No hay conversiones guardadas",
+    "emptySuggestion": "Ve a Inicio y guarda una conversión para comenzar",
     "addName": "+ Agregar nombre",
     "deleteButton": "Eliminar",
     "today": "Hoy",
@@ -27,6 +30,7 @@
     "title": "Configuración",
     "language": "Idioma",
     "languageDescription": "Elija su idioma preferido",
+    "themeLabel": "Modo Claro/Oscuro",
     "theme": "Tema",
     "themeDescription": "Elige tu esquema de colores preferido",
     "themeLight": "Claro",

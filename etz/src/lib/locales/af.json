@@ -3,7 +3,8 @@
     "home": "Tuis",
     "market": "Mark",
     "history": "Geskiedenis",
-    "settings": "Instellings"
+    "settings": "Instellings",
+    "appSubtitle": "Oosafrika-uitruil"
   },
   "home": {
     "title": "Geldeenheidsomskakkelaar",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Omskakkelingsgeskiedenis",
+    "subtitle": "Jou omskakkelingsgeskiedenis",
     "empty": "Geen omskakkelings gestoor nie",
+    "emptySuggestion": "Gaan na Tuis en stoor 'n omskakkel om te begin",
     "addName": "+ Voeg naam by",
     "deleteButton": "Wis",
     "today": "Vandag",
@@ -26,7 +29,9 @@
   "settings": {
     "title": "Instellings",
     "language": "Taal",
-    "languageDescription": "Kies jou voorkeur taal",    "theme": "Tema",
+    "languageDescription": "Kies jou voorkeur taal",
+    "themeLabel": "Lig/Donker-modus",
+    "theme": "Tema",
     "themeDescription": "Kies jou voorkeur kleurskema",
     "themeLight": "Lig",
     "themeDark": "Donker",

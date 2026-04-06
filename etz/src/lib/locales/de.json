@@ -3,7 +3,8 @@
     "home": "Startseite",
     "market": "Markt",
     "history": "Verlauf",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "appSubtitle": "Ostafrikanische Börse"
   },
   "home": {
     "title": "Währungsumrechner",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Umrechnungsverlauf",
+    "subtitle": "Ihr Umrechnungsverlauf",
     "empty": "Keine Umrechnungen gespeichert",
+    "emptySuggestion": "Gehen Sie zur Startseite und speichern Sie eine Umrechnung, um zu beginnen",
     "addName": "+ Namen hinzufügen",
     "deleteButton": "Löschen",
     "today": "Heute",
@@ -27,6 +30,7 @@
     "title": "Einstellungen",
     "language": "Sprache",
     "languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
+    "themeLabel": "Hell/Dunkel-Modus",
     "theme": "Design",
     "themeDescription": "Wählen Sie Ihr bevorzugtes Farbschema",
     "themeLight": "Hell",

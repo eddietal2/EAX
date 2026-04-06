@@ -3,7 +3,8 @@
     "home": "Home",
     "market": "Market",
     "history": "History",
-    "settings": "Settings"
+    "settings": "Settings",
+    "appSubtitle": "East African Exchange"
   },
   "home": {
     "title": "Currency Converter",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Conversion History",
+    "subtitle": "Your conversion history",
     "empty": "No conversions saved yet",
+    "emptySuggestion": "Go to Home and save a conversion to get started",
     "addName": "+ Add a name",
     "deleteButton": "Delete",
     "today": "Today",
@@ -27,6 +30,7 @@
     "title": "Settings",
     "language": "Language",
     "languageDescription": "Choose your preferred language",
+    "themeLabel": "Light/Dark Mode",
     "theme": "Theme",
     "themeDescription": "Choose your preferred color scheme",
     "themeLight": "Light",

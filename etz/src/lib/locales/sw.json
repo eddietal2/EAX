@@ -3,7 +3,8 @@
     "home": "Nyumbani",
     "market": "Soko",
     "history": "Historia",
-    "settings": "Mipangilio"
+    "settings": "Mipangilio",
+    "appSubtitle": "Ubadilishaji wa Afrika Mashariki"
   },
   "home": {
     "title": "Kichanganishi cha Sarafu",
@@ -17,7 +18,9 @@
   },
   "history": {
     "title": "Historia ya Ubadilishaji",
+    "subtitle": "Historia yako ya ubadilishaji",
     "empty": "Hakuna ubadilishaji ulioohifadhiwa bado",
+    "emptySuggestion": "Nenda kwenye Nyumbani na hifadhi ubadilishaji ili kuanza",
     "addName": "+ Ongeza jina",
     "deleteButton": "Futa",
     "today": "Leo",
@@ -27,6 +30,7 @@
     "title": "Mipangilio",
     "language": "Lugha",
     "languageDescription": "Chagua lugha yako inayopendekezwa",
+    "themeLabel": "Hali ya Jivu/Giza",
     "theme": "Mandhari",
     "themeDescription": "Chagua muundo wa rangi unaopendekezwa",
     "themeLight": "Nzuri (Mwanga)",
