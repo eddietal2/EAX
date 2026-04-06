@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { rates as liveRates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
+	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
@@ -369,14 +370,32 @@
 	let magnifyMouseY = $state(0);
 	let billImgWidth = $state(0);
 	let billImgHeight = $state(0);
+	
+	// Drag and drop state
+	let draggedIndex = $state<number | null>(null);
+	let dragOverIndex = $state<number | null>(null);
+	let customCurrencyOrder = $state<string[]>([]);
 
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
+		// Load custom currency order from localStorage
+		const saved = localStorage.getItem('currencyOrder');
+		if (saved) {
+			customCurrencyOrder = JSON.parse(saved);
+		}
 	});
 
 	let selectedCurrency = $derived(selectedBill ? rates.find(r => r.code === openCode) ?? null : null);
 
-	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
+	const formatRate = (value: number) => {
+		if (value === 0) return '0';
+		// For very small numbers (< 0.001), show more decimal places
+		if (Math.abs(value) < 0.001) {
+			return value.toLocaleString(undefined, { maximumFractionDigits: 6, minimumFractionDigits: 4 });
+		}
+		// For normal numbers, show up to 3 decimal places
+		return value.toLocaleString(undefined, { maximumFractionDigits: 3 });
+	};
 
 	const getLiveRate = (code: string) => {
 		const dynamicRate = $liveRates[code]?.TZS;
@@ -384,8 +403,114 @@
 		return getStaticRates()[code]?.TZS ?? 0;
 	};
 
+	// Drag and drop handlers
+	const handleDragStart = (index: number) => {
+		// Only allow dragging items after the first 2 (protected FROM/TO)
+		if (index > 1) {
+			draggedIndex = index;
+		}
+	};
+
+	const handleDragOver = (index: number, e: DragEvent) => {
+		e.preventDefault();
+		if (draggedIndex !== null && draggedIndex !== index && index > 1) {
+			dragOverIndex = index;
+		}
+	};
+
+	const handleDrop = (index: number) => {
+		if (draggedIndex !== null && index > 1 && draggedIndex !== index) {
+			// Swap items in sortedRates
+			const items = [...sortedRates];
+			[items[draggedIndex], items[index]] = [items[index], items[draggedIndex]];
+
+			// Update custom order for items after the first 2
+			const reorderedCodes = items.slice(2).map(r => r.code);
+			customCurrencyOrder = reorderedCodes;
+
+			// Persist to localStorage
+			localStorage.setItem('currencyOrder', JSON.stringify(reorderedCodes));
+		}
+		draggedIndex = null;
+		dragOverIndex = null;
+	};
+
+	const handleDragEnd = () => {
+		draggedIndex = null;
+		dragOverIndex = null;
+	};
+
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
+
+	// Get the TO currency code
+	let selectedToCurrencyCode = $derived($defaultToCurrency);
+
+	// Reorder rates to show user's selected FROM/TO currencies at the top
+	let sortedRates = $derived.by(() => {
+		const fromCode = $defaultFromCurrency;
+		const toCode = $defaultToCurrency;
+
+		const topRates: typeof rates = [];
+		let remainingRates: typeof rates = [];
+
+		// Separate top 2 (default FROM/TO) from the rest
+		rates.forEach(rate => {
+			if (rate.code === fromCode) {
+				topRates.unshift(rate); // Add FROM first (leftmost)
+			} else if (rate.code === toCode) {
+				topRates.push(rate); // Add TO second
+			} else {
+				remainingRates.push(rate);
+			}
+		});
+
+		// Apply custom order to remaining rates
+		if (customCurrencyOrder.length > 0) {
+			const orderedRemaining: typeof rates = [];
+			const orderedCodes = new Set<string>();
+
+			// Add rates in the custom order
+			customCurrencyOrder.forEach(code => {
+				const rate = remainingRates.find(r => r.code === code);
+				if (rate) {
+					orderedRemaining.push(rate);
+					orderedCodes.add(code);
+				}
+			});
+
+			// Append any new rates not in custom order
+			remainingRates.forEach(rate => {
+				if (!orderedCodes.has(rate.code)) {
+					orderedRemaining.push(rate);
+				}
+			});
+
+			remainingRates = orderedRemaining;
+		}
+
+		return [...topRates, ...remainingRates];
+	});
+
+	// Convert rates relative to the selected TO currency
+	let convertedRates = $derived.by(() => {
+		const toCode = selectedToCurrencyCode;
+		
+		// Find the TO currency rate (relative to TZS)
+		const toCurrencyRate = rates.find(r => r.code === toCode);
+		if (!toCurrencyRate) return sortedRates;
+
+		// Exclude the TO currency itself from conversion
+		return sortedRates.map(rate => {
+			if (rate.code === toCode) {
+				// TO currency converts to itself at 1:1
+				return { ...rate, value: 1 };
+			}
+			// Convert: (X / ToCurrency) = (X / TZS) / (ToCurrency / TZS)
+			const convertedValue = rate.value / toCurrencyRate.value;
+			return { ...rate, value: convertedValue };
+		});
+	});
 </script>
 
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
@@ -403,36 +528,70 @@
 	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
 		<div class="p-4 border-b border-gray-100 dark:border-gray-800">
 			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</p>
+				<p class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')} {selectedToCurrencyCode}</p>
 			</div>
-			<p class="text-xs text-gray-400 mt-1">
+			<div class="flex flex-col gap-2 mt-2">
 				{#if $lastUpdated}
-					Updated {new Date($lastUpdated).toLocaleString()}
+					<p class="text-xs text-gray-400">
+						Updated {new Date($lastUpdated).toLocaleString()}
+					</p>
 				{/if}
 				{#if $fetchError}
-					• Error: {$fetchError}
+					<div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded px-3 py-2 flex items-start gap-2">
+						<svg class="w-4 h-4 text-yellow-600 dark:text-yellow-500 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+						</svg>
+						<p class="text-xs text-yellow-800 dark:text-yellow-200">{$fetchError}</p>
+					</div>
 				{/if}
-			</p>
+			</div>
 		</div>
 		
-		<div class="divide-y divide-gray-100 dark:divide-gray-800">
-			{#each rates as rate}
-				<div class="border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+		<div class="divide-y divide-gray-100 dark:divide-gray-800" role="list">
+			{#each convertedRates as rate, index}
+				<div
+					class={`border-b border-gray-100 dark:border-gray-800 last:border-b-0 transition-all ${index > 1 ? 'cursor-grab active:cursor-grabbing' : ''} ${dragOverIndex === index ? 'bg-blue-50 dark:bg-blue-900/20' : ''} ${draggedIndex === index ? 'opacity-50' : ''}`}
+					role="listitem"
+					draggable={index > 1}
+					ondragstart={() => handleDragStart(index)}
+					ondragover={(e) => handleDragOver(index, e)}
+					ondrop={() => handleDrop(index)}
+					ondragend={handleDragEnd}
+					onmouseleave={() => {
+						if (draggedIndex !== null) dragOverIndex = null;
+					}}
+				>
 					<button
 						type="button"
 						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
 						aria-expanded={openCode === rate.code}
-						onclick={() => (openCode = openCode === rate.code ? '' : rate.code)}
+						onclick={() => (openCode === rate.code ? (openCode = '') : (openCode = rate.code))}
 					>
 						<div class="flex items-center gap-3">
+							{#if index > 1}
+								<div class="text-gray-400 dark:text-gray-600 cursor-grab active:cursor-grabbing flex-shrink-0">
+									<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+										<path d="M9 3h2v2H9V3zm0 4h2v2H9V7zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm4-16h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z" />
+									</svg>
+								</div>
+							{:else}
+								<div class="text-gray-300 dark:text-gray-700 flex-shrink-0 w-4"></div>
+							{/if}
 							<FlagIcon code={rate.code} size="md" />
 							<div>
-								<p class="font-medium text-gray-900 dark:text-white">{rate.code} / TZS</p>
+								<div class="flex items-center gap-2">
+									<p class="font-medium text-gray-900 dark:text-white">{rate.code} → {selectedToCurrencyCode}</p>
+									{#if index === 0}
+										<span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded">FROM</span>
+									{:else if index === 1}
+										<span class="text-xs font-semibold px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded">TO</span>
+									{/if}
+								</div>
 								<p class="text-sm text-gray-500 dark:text-gray-400">{rate.name} ({rate.symbol})</p>
 							</div>
 						</div>
 						<div class="flex items-center gap-2">
-							<p class="text-lg font-semibold text-gray-900 dark:text-white">{formatRate(getLiveRate(rate.code))}</p>
+							<p class="text-lg font-semibold text-gray-900 dark:text-white">{formatRate(rate.value)}</p>
 							<svg
 								class={`w-4 h-4 text-gray-400 dark:text-gray-600 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
 								viewBox="0 0 20 20"
@@ -444,7 +603,7 @@
 					</button>
 					{#if openCode === rate.code}
 					<div class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 bg-slate-50 dark:bg-gray-800/50 accordion-inner-shadow transition-colors">
-							<p>1 {rate.code} = {formatRate(getLiveRate(rate.code))} TZS</p>
+							<p>1 {rate.code} → {formatRate(rate.value)} {selectedToCurrencyCode}</p>
 							<p class="mt-2 text-xs leading-relaxed text-gray-500">{rate.description}</p>
 							{#if rate.code === 'USD'}
 							<div class="mt-4 -mx-4">
