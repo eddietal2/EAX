@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import Navigation from '$lib/components/Navigation.svelte';
+	import Toast from '$lib/components/Toast.svelte';
 
 	let { children } = $props();
 </script>
@@ -16,5 +17,6 @@
 	<main class="pb-20 md:pb-0">
 		{@render children()}
 	</main>
+	<Toast />
 </div>
 

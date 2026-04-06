@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import { conversionHistory } from '$lib/stores/conversionHistory';
+	import { toastStore } from '$lib/stores/toast';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	let amount = $state('');
@@ -137,6 +139,25 @@
 		toCurrency = temp;
 		setTimeout(() => { isSwapping = false; }, 400);
 	}
+
+	function saveConversion() {
+		const num = parseFloat(amount);
+		if (isNaN(num) || num <= 0) return;
+
+		const staticFallback = getStaticRates();
+		const rate = $rates[fromCurrency]?.[toCurrency] ?? staticFallback[fromCurrency]?.[toCurrency] ?? 1;
+		const toAmount = num * rate;
+
+		conversionHistory.addConversion({
+			fromCurrency,
+			toCurrency,
+			fromAmount: num,
+			toAmount,
+			rate
+		});
+
+		toastStore.success('Conversion saved to history!');
+	}
 </script>
 
 <div class="p-4 md:p-8 w-full max-w-full mx-auto md:min-h-[calc(100vh-6rem)] md:flex md:items-center md:justify-center">
@@ -267,6 +288,15 @@
 				• Failed to refresh: {$fetchError}
 			{/if}
 		</div>
+
+		<!-- Save to History Button -->
+		<button
+			onclick={saveConversion}
+			disabled={!amount || parseFloat(amount) <= 0}
+			class="w-full mt-6 px-4 py-3 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+		>
+			💾 Save to History
+		</button>
 
 	</div>
 </div>
