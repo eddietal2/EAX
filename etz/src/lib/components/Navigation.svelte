@@ -19,9 +19,7 @@
 	let currentTheme = $derived($themeStore);
 
 	function toggleTheme() {
-		const themes: Theme[] = ['light', 'dark', 'system'];
-		const currentIndex = themes.indexOf(currentTheme);
-		const nextTheme = themes[(currentIndex + 1) % themes.length];
+		const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
 		themeStore.setTheme(nextTheme);
 	}
 </script>
@@ -52,15 +50,10 @@
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1m-16 0H1m15.364 1.636l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
 			</svg>
-		{:else if currentTheme === 'dark'}
+		{:else}
 			<!-- Moon icon -->
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
 				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-			</svg>
-		{:else}
-			<!-- Auto/System icon -->
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5a4 4 0 100-8 4 4 0 000 8z" />
 			</svg>
 		{/if}
 	</button>
