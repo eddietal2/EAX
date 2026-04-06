@@ -375,6 +375,9 @@
 	let draggedIndex = $state<number | null>(null);
 	let dragOverIndex = $state<number | null>(null);
 	let customCurrencyOrder = $state<string[]>([]);
+	let isDragging = $state(false);
+	let touchStartY = $state(0);
+	let itemRects = $state<DOMRect[]>([]);
 
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
@@ -407,6 +410,7 @@
 	const handleDragStart = (index: number) => {
 		// Only allow dragging items after the first 2 (protected FROM/TO)
 		if (index > 1) {
+			isDragging = true;
 			draggedIndex = index;
 		}
 	};
@@ -433,12 +437,121 @@
 		}
 		draggedIndex = null;
 		dragOverIndex = null;
+		isDragging = false;
 	};
 
 	const handleDragEnd = () => {
 		draggedIndex = null;
 		dragOverIndex = null;
+		isDragging = false;
 	};
+
+	const handleCurrencyClick = (code: string) => {
+		// Prevent expanding details if we just finished dragging
+		if (isDragging) {
+			isDragging = false;
+			return;
+		}
+		openCode = openCode === code ? '' : code;
+	};
+
+	let longPressTimer: ReturnType<typeof setTimeout> | null = null;
+	let touchLocked = false;
+
+	const cancelLongPress = () => {
+		if (longPressTimer) {
+			clearTimeout(longPressTimer);
+			longPressTimer = null;
+		}
+	};
+
+	// Svelte action: attaches NON-PASSIVE touch listeners so preventDefault() actually works
+	function touchDrag(node: HTMLElement, index: number) {
+		let currentIndex = index;
+
+		function onTouchStart(e: TouchEvent) {
+			if (currentIndex <= 1) return;
+			touchStartY = e.touches[0].clientY;
+			touchLocked = false;
+			isDragging = false;
+
+			cancelLongPress();
+			longPressTimer = setTimeout(() => {
+				longPressTimer = null;
+				touchLocked = true;
+				isDragging = true;
+				draggedIndex = currentIndex;
+				if (navigator.vibrate) navigator.vibrate(30);
+			}, 300);
+		}
+
+		function onTouchMove(e: TouchEvent) {
+			const touch = e.touches[0];
+			const deltaY = Math.abs(touch.clientY - touchStartY);
+
+			if (!touchLocked) {
+				if (deltaY > 8) {
+					cancelLongPress();
+					draggedIndex = null;
+				}
+				return;
+			}
+
+			// This actually blocks scrolling because listener is non-passive
+			e.preventDefault();
+
+			const el = document.elementFromPoint(touch.clientX, touch.clientY);
+			if (el) {
+				const listItem = el.closest('[data-drag-index]') as HTMLElement | null;
+				if (listItem) {
+					const overIndex = parseInt(listItem.dataset.dragIndex!, 10);
+					if (overIndex > 1 && overIndex !== draggedIndex) {
+						dragOverIndex = overIndex;
+					} else {
+						dragOverIndex = null;
+					}
+				}
+			}
+		}
+
+		function onTouchEnd() {
+			cancelLongPress();
+
+			if (touchLocked && draggedIndex !== null && dragOverIndex !== null && draggedIndex !== dragOverIndex) {
+				const items = [...sortedRates];
+				[items[draggedIndex], items[dragOverIndex]] = [items[dragOverIndex], items[draggedIndex]];
+
+				const reorderedCodes = items.slice(2).map(r => r.code);
+				customCurrencyOrder = reorderedCodes;
+				localStorage.setItem('currencyOrder', JSON.stringify(reorderedCodes));
+			}
+
+			draggedIndex = null;
+			dragOverIndex = null;
+			if (touchLocked) {
+				setTimeout(() => { isDragging = false; }, 50);
+			} else {
+				isDragging = false;
+			}
+			touchLocked = false;
+		}
+
+		// KEY: { passive: false } allows preventDefault() to block scrolling
+		node.addEventListener('touchstart', onTouchStart, { passive: true });
+		node.addEventListener('touchmove', onTouchMove, { passive: false });
+		node.addEventListener('touchend', onTouchEnd, { passive: true });
+
+		return {
+			update(newIndex: number) {
+				currentIndex = newIndex;
+			},
+			destroy() {
+				node.removeEventListener('touchstart', onTouchStart);
+				node.removeEventListener('touchmove', onTouchMove);
+				node.removeEventListener('touchend', onTouchEnd);
+			}
+		};
+	}
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -559,33 +672,23 @@
 		<div class="divide-y divide-gray-100 dark:divide-gray-800" role="list">
 			{#each convertedRates as rate, index}
 				<div
-					class={`border-b border-gray-100 dark:border-gray-800 last:border-b-0 transition-all ${index > 1 ? 'cursor-grab active:cursor-grabbing' : ''} ${dragOverIndex === index ? 'bg-blue-50 dark:bg-blue-900/20' : ''} ${draggedIndex === index ? 'opacity-50' : ''}`}
+						class={`border-b border-gray-100 dark:border-gray-800 last:border-b-0 transition-all select-none ${index > 1 ? 'cursor-grab active:cursor-grabbing' : ''} ${dragOverIndex === index ? 'bg-blue-50 dark:bg-blue-900/20' : ''} ${draggedIndex === index ? 'opacity-50' : ''}`}
 					role="listitem"
+					data-drag-index={index}
 					draggable={index > 1}
 					ondragstart={() => handleDragStart(index)}
 					ondragover={(e) => handleDragOver(index, e)}
 					ondrop={() => handleDrop(index)}
 					ondragend={handleDragEnd}
+					use:touchDrag={index}
 					onmouseleave={() => {
 						if (draggedIndex !== null) dragOverIndex = null;
 					}}
 				>
-					<button
-						type="button"
-						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
-						aria-expanded={openCode === rate.code}
-						onclick={() => (openCode === rate.code ? (openCode = '') : (openCode = rate.code))}
+					<div
+						class="w-full p-4 flex items-center justify-between text-left"
 					>
 						<div class="flex items-center gap-3">
-							{#if index > 1}
-								<div class="text-gray-400 dark:text-gray-600 cursor-grab active:cursor-grabbing flex-shrink-0">
-									<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-										<path d="M9 3h2v2H9V3zm0 4h2v2H9V7zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm0 4h2v2H9v-2zm4-16h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z" />
-									</svg>
-								</div>
-							{:else}
-								<div class="text-gray-300 dark:text-gray-700 flex-shrink-0 w-4"></div>
-							{/if}
 							<FlagIcon code={rate.code} size="md" />
 							<div>
 								<div class="flex items-center gap-2">
@@ -601,15 +704,24 @@
 						</div>
 						<div class="flex items-center gap-2">
 							<p class="text-lg font-semibold text-gray-900 dark:text-white">{formatRate(rate.value)}</p>
-							<svg
-								class={`w-4 h-4 text-gray-400 dark:text-gray-600 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
-								viewBox="0 0 20 20"
-								fill="currentColor"
+							<button
+								type="button"
+								class="p-2 -m-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+								aria-expanded={openCode === rate.code}
+								aria-label={openCode === rate.code ? 'Collapse details' : 'Expand details'}
+								onclick={(e) => { e.stopPropagation(); handleCurrencyClick(rate.code); }}
+								ontouchend={(e) => { e.stopPropagation(); }}
 							>
-								<path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" />
-							</svg>
+								<svg
+									class={`w-5 h-5 text-gray-400 dark:text-gray-600 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.25a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z" />
+								</svg>
+							</button>
 						</div>
-					</button>
+					</div>
 					{#if openCode === rate.code}
 					<div class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 bg-slate-50 dark:bg-gray-800/50 accordion-inner-shadow transition-colors">
 							<p>1 {rate.code} → {formatRate(rate.value)} {selectedToCurrencyCode}</p>
