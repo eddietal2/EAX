@@ -28,7 +28,7 @@
 <nav class="relative hidden md:flex items-center justify-center px-6 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
 	<a href="/" class="absolute left-6 flex items-center gap-3">
 		<span class="text-2xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</span>
-		<span class="text-sm font-medium text-white">East African Exchange</span>
+		<span class="text-sm font-medium text-gray-700 dark:text-white">East African Exchange</span>
 	</a>
 	<div class="flex items-center gap-8">
 		{#each navItems as item}
