@@ -555,7 +555,10 @@
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
-			<h1 class="text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
+			<div class="flex items-center gap-3">
+				<h1 class="md:hidden text-xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
+				<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
+			</div>
 		{#if $isLoading}
 			<div class="flex items-center gap-2">
 				<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>

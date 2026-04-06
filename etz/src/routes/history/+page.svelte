@@ -99,7 +99,10 @@
 
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
-		<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('history.title')}</h1>
+		<div class="flex items-center gap-3 mb-6">
+			<h1 class="md:hidden text-xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
+			<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('history.title')}</h1>
+		</div>
 		<p class="text-gray-600 dark:text-gray-400 mb-6">Your conversion history</p>
 		
 <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
