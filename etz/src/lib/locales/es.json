@@ -32,6 +32,11 @@
     "defaultToCurrency": "Moneda Por Defecto Para",
     "defaultToDescription": "Selecciona la moneda a la que deseas convertir"
   },
+  "market": {
+    "title": "Cotizaciones del Mercado",
+    "subtitle": "Tipos de cambio en vivo a TZS",
+    "updating": "Actualizando..."
+  },
   "messages": {
     "saved": "¡Conversión guardada en el historial!",
     "deleted": "Conversión eliminada",

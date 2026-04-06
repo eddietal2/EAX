@@ -32,6 +32,11 @@
     "defaultToCurrency": "Standaard Geldeenheid Na",
     "defaultToDescription": "Kies die geldeenheid wat jy wil omskakel na"
   },
+  "market": {
+    "title": "Markkoerse",
+    "subtitle": "Lewendige wisselkoerse na TZS",
+    "updating": "Besig om op te dateer..."
+  },
   "messages": {
     "saved": "Omskakkling gestoor in geskiedenis!",
     "deleted": "Omskakkling gewis",

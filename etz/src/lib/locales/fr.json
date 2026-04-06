@@ -32,6 +32,11 @@
     "defaultToCurrency": "Devise Par Défaut VERS",
     "defaultToDescription": "Sélectionnez la devise d'arrivée"
   },
+  "market": {
+    "title": "Taux de Marché",
+    "subtitle": "Taux de change en direct vers XOF",
+    "updating": "Mise à jour..."
+  },
   "messages": {
     "saved": "Conversion enregistrée dans l'historique!",
     "deleted": "Conversion supprimée",

@@ -32,6 +32,11 @@
     "defaultToCurrency": "Standardwährung Nach",
     "defaultToDescription": "Wählen Sie die Währung aus, in die Sie umrechnen möchten"
   },
+  "market": {
+    "title": "Marktkurse",
+    "subtitle": "Live-Wechselkurse zu TZS",
+    "updating": "Wird aktualisiert..."
+  },
   "messages": {
     "saved": "Umrechnung im Verlauf gespeichert!",
     "deleted": "Umrechnung gelöscht",

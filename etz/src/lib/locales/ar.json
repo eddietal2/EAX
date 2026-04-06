@@ -32,6 +32,11 @@
     "defaultToCurrency": "العملة الافتراضية إلى",
     "defaultToDescription": "اختر العملة التي تريد التحويل إليها"
   },
+  "market": {
+    "title": "أسعار السوق",
+    "subtitle": "أسعار الصرف الحية إلى TZS",
+    "updating": "جاري التحديث..."
+  },
   "messages": {
     "saved": "تم حفظ التحويل في السجل!",
     "deleted": "تم حذف التحويل",

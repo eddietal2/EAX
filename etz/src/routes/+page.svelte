@@ -4,6 +4,7 @@
 	import { conversionHistory } from '$lib/stores/conversionHistory';
 	import { toastStore } from '$lib/stores/toast';
 	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
+	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	let amount = $state('');
@@ -11,6 +12,9 @@
 	let toCurrency = $state('TZS');
 	let swapRotation = $state(0);
 	let isSwapping = $state(false);
+
+	let lang = $derived($currentLanguage);
+	let t = $derived((key: string) => getTranslation(key, lang));
 
 	function formatWithCommas(value: string): string {
 		if (!value) return '';
@@ -159,7 +163,7 @@
 			rate
 		});
 
-		toastStore.success('Conversion saved to history!');
+		toastStore.success(t('messages.saved'));
 	}
 </script>
 
@@ -175,7 +179,7 @@
 		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 			<!-- From Currency -->
 			<div class="p-4 md:p-6">
-				<label for="from-currency" class="block text-sm text-gray-500 mb-3">From</label>
+				<label for="from-currency" class="block text-sm text-gray-500 mb-3">{t('home.fromLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={fromCurrency} size="md" />
 					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
@@ -232,7 +236,7 @@
 			
 			<!-- To Currency -->
 			<div class="p-4 md:p-6 bg-gray-50">
-				<label for="to-currency" class="block text-sm text-gray-500 mb-3">To</label>
+				<label for="to-currency" class="block text-sm text-gray-500 mb-3">{t('home.toLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={toCurrency} size="md" />
 					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
@@ -272,11 +276,11 @@
 		<!-- Current Exchange Rate Label -->
 		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 relative">
 			<div class="flex items-center justify-between">
-				<p class="text-sm font-medium text-emerald-900">Exchange Rate</p>
+				<p class="text-sm font-medium text-emerald-900">{t('home.exchangeRate')}</p>
 				{#if $isLoading}
 					<div class="flex items-center gap-1.5">
 						<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-						<span class="text-xs text-emerald-600 font-medium">Updating...</span>
+						<span class="text-xs text-emerald-600 font-medium">{t('messages.loading')}</span>
 					</div>
 				{/if}
 			</div>
@@ -303,14 +307,14 @@
 				disabled={!amount || parseFloat(amount) <= 0}
 				class="w-full px-4 py-3 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 			>
-				💾 Save to History
+				💾 {t('home.saveButton')}
 			</button>
 
 			<a
 				href="/history"
 				class="w-full inline-flex items-center justify-center px-4 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all"
 			>
-				📜 View History
+				📜 {t('home.viewHistoryButton')}
 			</a>
 		</div>
 

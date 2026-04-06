@@ -32,6 +32,11 @@
     "defaultToCurrency": "Sarafu Chaguo la Nchi ya Lengwa",
     "defaultToDescription": "Chagua sarafu unataka kuhitimia nayo"
   },
+  "market": {
+    "title": "Viwango vya Soko",
+    "subtitle": "Viwango vya ubadilishaji hai kwa TZS",
+    "updating": "Inaendesha..."
+  },
   "messages": {
     "saved": "Ubadilishaji umehifadhiwa katika historia!",
     "deleted": "Ubadilishaji umefutwa",

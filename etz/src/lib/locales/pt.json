@@ -32,6 +32,11 @@
     "defaultToCurrency": "Moeda Padrão Para",
     "defaultToDescription": "Selecione a moeda que deseja converter para"
   },
+  "market": {
+    "title": "Taxas de Mercado",
+    "subtitle": "Taxas de câmbio ao vivo para TZS",
+    "updating": "Atualizando..."
+  },
   "messages": {
     "saved": "Conversão salva no histórico!",
     "deleted": "Conversão deletada",

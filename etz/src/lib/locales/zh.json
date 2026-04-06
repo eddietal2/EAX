@@ -32,6 +32,11 @@
     "defaultToCurrency": "默认目标货币",
     "defaultToDescription": "选择您要转换为的货币"
   },
+  "market": {
+    "title": "市场汇率",
+    "subtitle": "实时汇率至 TZS",
+    "updating": "更新中..."
+  },
   "messages": {
     "saved": "兑换已保存到历史!",
     "deleted": "兑换已删除",

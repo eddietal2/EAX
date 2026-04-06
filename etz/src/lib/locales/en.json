@@ -32,6 +32,11 @@
     "defaultToCurrency": "Default TO Currency",
     "defaultToDescription": "Select the currency you want to convert to"
   },
+  "market": {
+    "title": "Market Rates",
+    "subtitle": "Live exchange rates to TZS",
+    "updating": "Updating..."
+  },
   "messages": {
     "saved": "Conversion saved to history!",
     "deleted": "Conversion deleted",

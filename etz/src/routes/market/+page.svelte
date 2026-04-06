@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { rates as liveRates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
+	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
@@ -366,14 +367,16 @@
 	let billImageHovered = false;
 	let magnifyMouseX = 0;
 	let magnifyMouseY = 0;
-	let billImgWidth = 0;
-	let billImgHeight = 0;
+	let selectedBill = $state(false);
+	let openCode = $state('USD');
+	let billImgWidth = $state(0);
+	let billImgHeight = $state(0);
 
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 	});
 
-	$: selectedCurrency = selectedBill ? rates.find(r => r.code === openCode) ?? null : null;
+	let selectedCurrency = $derived(selectedBill ? rates.find(r => r.code === openCode) ?? null : null);
 
 	const formatRate = (value: number) => value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 
@@ -382,15 +385,18 @@
 		if (dynamicRate != null) return dynamicRate;
 		return getStaticRates()[code]?.TZS ?? 0;
 	};
+
+	let lang = $derived($currentLanguage);
+	let t = $derived((key: string) => getTranslation(key, lang));
 </script>
 
 <div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
 	<div class="flex items-center justify-between mb-6">
-		<h1 class="text-2xl font-bold text-gray-900">Market Rates</h1>
+		<h1 class="text-2xl font-bold text-gray-900">{t('market.title')}</h1>
 		{#if $isLoading}
 			<div class="flex items-center gap-2">
 				<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-				<span class="text-sm text-gray-600 font-medium">Updating...</span>
+				<span class="text-sm text-gray-600 font-medium">{t('market.updating')}</span>
 			</div>
 		{/if}
 	</div>
@@ -398,7 +404,7 @@
 	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''}">
 		<div class="p-4 border-b border-gray-100">
 			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm text-gray-500">Live exchange rates to TZS</p>
+				<p class="text-sm text-gray-500">{t('market.subtitle')}</p>
 			</div>
 			<p class="text-xs text-gray-400 mt-1">
 				{#if $lastUpdated}
