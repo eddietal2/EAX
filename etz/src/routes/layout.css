@@ -1,1 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
+
+:root {
+	--font-space-grotesk: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+}
+
+nav,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--font-space-grotesk);
+}
+
+nav a {
+	font-family: var(--font-space-grotesk);
+}
+
