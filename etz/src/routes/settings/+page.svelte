@@ -33,20 +33,20 @@
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 	<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('settings.title')}</h1>
 	
-	<div class="space-y-4">
+	<div class="space-y-3">
 		<!-- Language Selection -->
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
-			<div class="flex items-center justify-between gap-4">
-				<div>
-					<p class="font-medium text-gray-900 dark:text-white">{t('settings.language')}</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">{t('settings.languageDescription')}</p>
+			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+				<div class="flex-1">
+					<p class="font-medium text-gray-900 dark:text-white text-sm">{t('settings.language')}</p>
+					<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.languageDescription')}</p>
 				</div>
-				<div class="flex items-center gap-3 relative">
+				<div class="flex items-center gap-3 relative shrink-0">
 					<select 
 						bind:value={selectedLanguage} 
 						onchange={updateLanguage}
 						disabled={isChangingLanguage}
-						class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+						class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						{#each languages as lang}
 							<option value={lang.code}>{lang.nativeName}</option>
@@ -66,16 +66,16 @@
 
 		<!-- Theme Selection -->
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
-			<div class="flex items-center justify-between gap-4">
-				<div>
-					<p class="font-medium text-gray-900 dark:text-white">{t('settings.theme')}</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">{t('settings.themeDescription')}</p>
+			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+				<div class="flex-1">
+					<p class="font-medium text-gray-900 dark:text-white text-sm">{t('settings.theme')}</p>
+					<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.themeDescription')}</p>
 				</div>
-				<div class="flex items-center gap-3">
+				<div class="flex items-center gap-3 shrink-0">
 					<select 
 						bind:value={selectedTheme}
 						onchange={() => themeStore.setTheme(selectedTheme)}
-						class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+						class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300"
 					>
 						<option value="light">{t('settings.themeLight')}</option>
 						<option value="dark">{t('settings.themeDark')}</option>
@@ -87,14 +87,14 @@
 
 		<!-- Default FROM Currency -->
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
-			<div class="flex items-center justify-between gap-4">
-				<div>
-					<p class="font-medium text-gray-900 dark:text-white">{t('settings.defaultFromCurrency')}</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">{t('settings.defaultFromDescription')}</p>
+			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+				<div class="flex-1">
+					<p class="font-medium text-gray-900 dark:text-white text-sm">{t('settings.defaultFromCurrency')}</p>
+					<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.defaultFromDescription')}</p>
 				</div>
-				<div class="flex items-center gap-3">
-					<FlagIcon code={selectedFromCurrency} size="md" />
-					<select bind:value={selectedFromCurrency} onchange={updateDefaultFromCurrency} class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+				<div class="flex items-center gap-2 md:gap-3 shrink-0">
+					<FlagIcon code={selectedFromCurrency} size="sm" />
+					<select bind:value={selectedFromCurrency} onchange={updateDefaultFromCurrency} class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">
 						{#each currencyOptions as option}
 							<option value={option.code}>{option.code} — {option.name}</option>
 						{/each}
@@ -105,14 +105,14 @@
 
 		<!-- Default TO Currency -->
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
-			<div class="flex items-center justify-between gap-4">
-				<div>
-					<p class="font-medium text-gray-900 dark:text-white">{t('settings.defaultToCurrency')}</p>
-					<p class="text-sm text-gray-500 dark:text-gray-400">{t('settings.defaultToDescription')}</p>
+			<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+				<div class="flex-1">
+					<p class="font-medium text-gray-900 dark:text-white text-sm">{t('settings.defaultToCurrency')}</p>
+					<p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('settings.defaultToDescription')}</p>
 				</div>
-				<div class="flex items-center gap-3">
-					<FlagIcon code={selectedToCurrency} size="md" />
-					<select bind:value={selectedToCurrency} onchange={updateDefaultToCurrency} class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+				<div class="flex items-center gap-2 md:gap-3 shrink-0">
+					<FlagIcon code={selectedToCurrency} size="sm" />
+					<select bind:value={selectedToCurrency} onchange={updateDefaultToCurrency} class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300">
 						{#each currencyOptions as option}
 							<option value={option.code}>{option.code} — {option.name}</option>
 						{/each}
