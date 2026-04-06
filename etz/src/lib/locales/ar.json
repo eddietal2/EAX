@@ -37,7 +37,8 @@
   },
   "market": {
     "title": "أسعار السوق",
-    "subtitle": "أسعار الصرف الحية إلى",
+    "subtitle": "كم",
+    "subtitleSuffix": "لكل 1",
     "updating": "جاري التحديث..."
   },
   "messages": {

@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "Marktkurse",
-    "subtitle": "Live-Wechselkurse zu",
+    "subtitle": "Wie viele",
+    "subtitleSuffix": "pro 1",
     "updating": "Wird aktualisiert..."
   },
   "messages": {

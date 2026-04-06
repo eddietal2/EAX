@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "Market Rates",
-    "subtitle": "Live exchange rates to",
+    "subtitle": "How many",
+    "subtitleSuffix": "per 1",
     "updating": "Updating..."
   },
   "messages": {

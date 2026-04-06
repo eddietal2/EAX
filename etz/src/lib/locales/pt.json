@@ -37,7 +37,8 @@
   },
   "market": {
     "title": "Taxas de Mercado",
-    "subtitle": "Taxas de câmbio ao vivo para",
+    "subtitle": "Quantos",
+    "subtitleSuffix": "por 1",
     "updating": "Atualizando..."
   },
   "messages": {

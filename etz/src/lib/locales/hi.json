@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "बाजार दरें",
-    "subtitle": "लाइव विनिमय दरें",
+    "subtitle": "कितने",
+    "subtitleSuffix": "प्रति 1",
     "updating": "अपडेट हो रहा है..."
   },
   "messages": {

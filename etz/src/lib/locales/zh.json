@@ -37,7 +37,8 @@
   },
   "market": {
     "title": "市场汇率",
-    "subtitle": "实时汇率至",
+    "subtitle": "多少",
+    "subtitleSuffix": "每 1",
     "updating": "更新中..."
   },
   "messages": {

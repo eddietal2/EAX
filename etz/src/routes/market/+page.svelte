@@ -514,7 +514,7 @@
 </script>
 
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
-	<div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
+	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<h1 class="text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
 		{#if $isLoading}
@@ -527,8 +527,17 @@
 	
 	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
 		<div class="p-4 border-b border-gray-100 dark:border-gray-800">
-			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')} {selectedToCurrencyCode}</p>
+			<div class="flex flex-wrap items-center justify-start gap-2">
+				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</span>
+				<div class="flex items-center gap-2">
+					<span class="font-semibold text-gray-600 dark:text-gray-300">{selectedToCurrencyCode}</span>
+					<span class="text-xs font-semibold px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded">TO</span>
+				</div>
+				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitleSuffix')}</span>
+				<div class="flex items-center gap-2">
+					<span class="font-semibold text-gray-600 dark:text-gray-300">{$defaultFromCurrency}</span>
+					<span class="text-xs font-semibold px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded">FROM</span>
+				</div>
 			</div>
 			<div class="flex flex-col gap-2 mt-2">
 				{#if $lastUpdated}

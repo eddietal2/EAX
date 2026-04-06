@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "Cotizaciones del Mercado",
-    "subtitle": "Tipos de cambio en vivo a",
+    "subtitle": "Cuántos",
+    "subtitleSuffix": "por 1",
     "updating": "Actualizando..."
   },
   "messages": {

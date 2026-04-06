@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "Taux de Marché",
-    "subtitle": "Taux de change en direct vers",
+    "subtitle": "Combien de",
+    "subtitleSuffix": "par 1",
     "updating": "Mise à jour..."
   },
   "messages": {

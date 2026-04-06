@@ -39,7 +39,8 @@
   },
   "market": {
     "title": "Viwango vya Soko",
-    "subtitle": "Viwango vya ubadilishaji hai kwa",
+    "subtitle": "Kwa kiasi gani",
+    "subtitleSuffix": "kwa kila 1",
     "updating": "Inaendesha..."
   },
   "messages": {

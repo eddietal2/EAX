@@ -37,7 +37,8 @@
   },
   "market": {
     "title": "Markkoerse",
-    "subtitle": "Lewendige wisselkoerse na",
+    "subtitle": "Hoeveel",
+    "subtitleSuffix": "per 1",
     "updating": "Besig om op te dateer..."
   },
   "messages": {
