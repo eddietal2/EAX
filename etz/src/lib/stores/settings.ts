@@ -34,21 +34,38 @@ export const currencyOptions: CurrencyOption[] = [
 	{ code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬' }
 ];
 
-const storageKey = 'exchangeDefaultCurrency';
+const fromStorageKey = 'exchangeDefaultFromCurrency';
+const toStorageKey = 'exchangeDefaultToCurrency';
 
-function createDefaultCurrencyStore() {
-	const defaultCode = browser && localStorage.getItem(storageKey)
-		? localStorage.getItem(storageKey)
+function createDefaultFromCurrencyStore() {
+	const defaultCode = browser && localStorage.getItem(fromStorageKey)
+		? localStorage.getItem(fromStorageKey)
 		: 'USD';
 
 	const store = writable<string>(defaultCode as string);
 
 	store.subscribe((value) => {
 		if (!browser) return;
-		localStorage.setItem(storageKey, value);
+		localStorage.setItem(fromStorageKey, value);
 	});
 
 	return store;
 }
 
-export const defaultCurrency = createDefaultCurrencyStore();
+function createDefaultToCurrencyStore() {
+	const defaultCode = browser && localStorage.getItem(toStorageKey)
+		? localStorage.getItem(toStorageKey)
+		: 'TZS';
+
+	const store = writable<string>(defaultCode as string);
+
+	store.subscribe((value) => {
+		if (!browser) return;
+		localStorage.setItem(toStorageKey, value);
+	});
+
+	return store;
+}
+
+export const defaultFromCurrency = createDefaultFromCurrencyStore();
+export const defaultToCurrency = createDefaultToCurrencyStore();

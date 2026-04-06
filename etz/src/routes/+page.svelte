@@ -2,7 +2,9 @@
 	import { onMount, tick } from 'svelte';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { conversionHistory } from '$lib/stores/conversionHistory';
-	import { toastStore } from '$lib/stores/toast';import { defaultCurrency } from '$lib/stores/settings';	import FlagIcon from '$lib/components/FlagIcon.svelte';
+	import { toastStore } from '$lib/stores/toast';
+	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
+	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	let amount = $state('');
 	let fromCurrency = $state('USD');
@@ -118,7 +120,8 @@
 	};
 
 	onMount(() => {
-		fromCurrency = $defaultCurrency;
+		fromCurrency = $defaultFromCurrency;
+		toCurrency = $defaultToCurrency;
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 	});
 
