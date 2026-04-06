@@ -370,12 +370,29 @@
 	let magnifyMouseY = $state(0);
 	let billImgWidth = $state(0);
 	let billImgHeight = $state(0);
+	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
+	let sortDropdownOpen = $state(false);
 	
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 	});
 
 	let selectedCurrency = $derived(selectedBill ? rates.find(r => r.code === openCode) ?? null : null);
+
+	const getSortLabel = () => {
+		switch (sortMode) {
+			case 'nameAsc':
+				return 'Name (A-Z)';
+			case 'nameDesc':
+				return 'Name (Z-A)';
+			case 'valueAsc':
+				return 'Rate (Low to High)';
+			case 'valueDesc':
+				return 'Rate (High to Low)';
+			default:
+				return 'Name (A-Z)';
+		}
+	};
 
 	const formatRate = (value: number) => {
 		if (value === 0) return '0';
@@ -432,7 +449,7 @@
 		if (!toCurrencyRate) return sortedRates;
 
 		// Exclude the TO currency itself from conversion
-		return sortedRates.map(rate => {
+		let result = sortedRates.map(rate => {
 			if (rate.code === toCode) {
 				// TO currency converts to itself at 1:1
 				return { ...rate, value: 1 };
@@ -441,6 +458,28 @@
 			const convertedValue = rate.value / toCurrencyRate.value;
 			return { ...rate, value: convertedValue };
 		});
+
+		// Separate top 2 FROM/TO from the rest for sorting
+		const top2 = result.slice(0, 2);
+		const remaining = result.slice(2);
+
+		// Apply sort only to the remaining rates (keep FROM/TO pinned at top)
+		const sorted = remaining.sort((a, b) => {
+			switch (sortMode) {
+				case 'nameAsc':
+					return a.code.localeCompare(b.code);
+				case 'nameDesc':
+					return b.code.localeCompare(a.code);
+				case 'valueAsc':
+					return a.value - b.value;
+				case 'valueDesc':
+					return b.value - a.value;
+				default:
+					return 0;
+			}
+		});
+
+		return [...top2, ...sorted];
 	});
 </script>
 
@@ -1360,6 +1399,109 @@
 						</div>
 					{/if}
 				</div>
+				{#if index === 1}
+					<div class="px-4 py-3 flex justify-center">
+						<a
+							href="/settings"
+							class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors flex items-center gap-1"
+						>
+							<svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+								<path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+							</svg>
+							Change Default Currency in Settings
+						</a>
+					</div>
+					<div class="border-b-2 border-gray-200 dark:border-gray-700"></div>
+					<!-- Sort Dropdown -->
+					<div class="px-4 py-3 flex justify-end items-center gap-3 relative">
+						<span class="text-xs text-gray-600 dark:text-gray-400">Sorted by: <span class="font-semibold text-gray-900 dark:text-white">{getSortLabel()}</span></span>
+						<div class="relative inline-block">
+							<button
+								type="button"
+								class="text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all flex items-center gap-2 bg-white dark:bg-gray-800"
+								onclick={() => { sortDropdownOpen = !sortDropdownOpen; }}
+								aria-expanded={sortDropdownOpen}
+								aria-haspopup="listbox"
+							>
+								<svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+									<path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v2.586l-.293-.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L15 10.586V8z" />
+								</svg>
+								Sort
+								<svg class={`w-3 h-3 transition-transform ${sortDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+									<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+								</svg>
+							</button>
+							
+							{#if sortDropdownOpen}
+								<div
+									class="absolute top-full mt-1 w-44 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-10 overflow-hidden"
+									role="listbox"
+									tabindex="0"
+									onkeydown={(e) => {
+										if (e.key === 'Escape') sortDropdownOpen = false;
+									}}
+								>
+									<button
+										type="button"
+										class={`w-full text-left px-3 py-2 text-xs transition-colors ${
+											sortMode === 'nameAsc'
+												? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium'
+												: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+										}`}
+										role="option"
+										aria-selected={sortMode === 'nameAsc'}
+										onclick={() => { sortMode = 'nameAsc'; sortDropdownOpen = false; }}
+									>
+										By Name (A-Z)
+										{#if sortMode === 'nameAsc'}<span class="float-right">✓</span>{/if}
+									</button>
+									<button
+										type="button"
+										class={`w-full text-left px-3 py-2 text-xs transition-colors ${
+											sortMode === 'nameDesc'
+												? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium'
+												: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+										}`}
+										role="option"
+										aria-selected={sortMode === 'nameDesc'}
+										onclick={() => { sortMode = 'nameDesc'; sortDropdownOpen = false; }}
+									>
+										By Name (Z-A)
+										{#if sortMode === 'nameDesc'}<span class="float-right">✓</span>{/if}
+									</button>
+									<button
+										type="button"
+										class={`w-full text-left px-3 py-2 text-xs transition-colors ${
+											sortMode === 'valueAsc'
+												? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium'
+												: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+										}`}
+										role="option"
+										aria-selected={sortMode === 'valueAsc'}
+										onclick={() => { sortMode = 'valueAsc'; sortDropdownOpen = false; }}
+									>
+										By Rate (Low to High)
+										{#if sortMode === 'valueAsc'}<span class="float-right">✓</span>{/if}
+									</button>
+									<button
+										type="button"
+										class={`w-full text-left px-3 py-2 text-xs transition-colors ${
+											sortMode === 'valueDesc'
+												? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-medium'
+												: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+										}`}
+										role="option"
+										aria-selected={sortMode === 'valueDesc'}
+										onclick={() => { sortMode = 'valueDesc'; sortDropdownOpen = false; }}
+									>
+										By Rate (High to Low)
+										{#if sortMode === 'valueDesc'}<span class="float-right">✓</span>{/if}
+									</button>
+								</div>
+							{/if}
+						</div>
+					</div>
+				{/if}
 			{/each}
 		</div>
 	</div>
