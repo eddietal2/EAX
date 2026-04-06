@@ -370,6 +370,9 @@
 	let magnifyMouseY = $state(0);
 	let billImgWidth = $state(0);
 	let billImgHeight = $state(0);
+	let zoomLevel = $state(1);
+	let initialDistance = 0;
+	let startZoom = 1;
 	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
 	let sortDropdownOpen = $state(false);
 	
@@ -393,6 +396,41 @@
 				return 'Name (A-Z)';
 		}
 	};
+
+	// Calculate distance between two touch points
+	const getDistance = (touch1: Touch, touch2: Touch) => {
+		const dx = touch1.clientX - touch2.clientX;
+		const dy = touch1.clientY - touch2.clientY;
+		return Math.sqrt(dx * dx + dy * dy);
+	};
+
+	const handlePinch = (e: TouchEvent) => {
+		if (e.touches.length !== 2) return;
+
+		const currentDistance = getDistance(e.touches[0], e.touches[1]);
+
+		if (initialDistance === 0) {
+			// First pinch, store initial distance
+			initialDistance = currentDistance;
+			startZoom = zoomLevel;
+		} else {
+			// Calculate zoom based on pinch distance
+			const scale = currentDistance / initialDistance;
+			zoomLevel = Math.max(1, Math.min(3, startZoom * scale));
+		}
+	};
+
+	const handlePinchEnd = () => {
+		initialDistance = 0;
+		startZoom = 1;
+	};
+
+	// Reset zoom when bill modal is opened (selectedBill changes)
+	$effect(() => {
+		selectedBill;
+		zoomLevel = 1;
+		initialDistance = 0;
+	});
 
 	const formatRate = (value: number) => {
 		if (value === 0) return '0';
@@ -1540,8 +1578,21 @@
 				<div
 					class="bill-image-container"
 					role="img"
+					ontouchstart={() => { initialDistance = 0; }}
+					ontouchmove={(e) => {
+						if (e.touches.length === 0) return;
+						const rect = e.currentTarget.getBoundingClientRect();
+						// Get touch position for magnifying glass
+						magnifyMouseX = e.touches[0].clientX - rect.left;
+						magnifyMouseY = e.touches[0].clientY - rect.top;
+						billImgWidth = rect.width;
+						billImgHeight = rect.height;
+						// Pinch zoom
+						handlePinch(e);
+					}}
+					ontouchend={handlePinchEnd}
 					onmouseenter={() => (billImageHovered = true)}
-					onmouseleave={() => (billImageHovered = false)}
+					onmouseleave={() => { billImageHovered = false; }}
 					onmousemove={(e) => {
 						const rect = e.currentTarget.getBoundingClientRect();
 						magnifyMouseX = e.clientX - rect.left;
@@ -1550,7 +1601,13 @@
 						billImgHeight = rect.height;
 					}}
 				>
-					<img src={selectedBill.image} alt={selectedBill.label} class="bill-modal-image" />
+					<img 
+						src={selectedBill.image} 
+						alt={selectedBill.label} 
+						class="bill-modal-image" 
+						style="transform: scale({zoomLevel}); transition: transform 0.2s ease-out;"
+					/>
+					<!-- Desktop Magnifying Glass (mouse only) -->
 					{#if billImageHovered}
 						<div
 							class="magnifying-glass"
@@ -1581,7 +1638,7 @@
 			</div>
 
 			<!-- Hint -->
-			<p class="bill-modal-hint">Hover over the bill to magnify</p>
+			<p class="bill-modal-hint">Hover over to magnify on desktop • Pinch to zoom on mobile</p>
 		</div>
 	</div>
 	{/if}
@@ -1762,6 +1819,20 @@
 			inset 0 0 30px rgba(255, 255, 255, 0.03);
 		z-index: 20;
 		background-repeat: no-repeat;
+	}
+
+	/* On touch devices, add visual indicator/label */
+	@media (hover: none) and (pointer: coarse) {
+		.magnifying-glass::after {
+			content: '🔍';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 24px;
+			opacity: 0.3;
+			pointer-events: none;
+		}
 	}
 
 	.bill-modal-info-bar {
