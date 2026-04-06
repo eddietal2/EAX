@@ -170,18 +170,18 @@
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0">
 	<div class="p-4 md:p-8 w-full max-w-full mx-auto md:min-h-[calc(100vh-6rem)] md:flex md:items-center md:justify-center">
 		<!-- Header -->
-		<div class="text-center mb-8 md:hidden">
-			<h1 class="text-4xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
-			<p class="text-lg text-gray-600 dark:text-gray-400 mt-2">East African Exchange</p>
-			<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Quick currency conversions</p>
-		</div>
-	
+	<div class="text-center mb-3 md:hidden">
+		<h1 class="text-3xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
+		<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">East African Exchange</p>
+		<p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Quick currency conversions</p>
+	</div>
+
 	<!-- Converter Card + Rate Info wrapper -->
 	<div class="md:w-[40%] md:min-w-[320px] md:mx-auto">
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- From Currency -->
-			<div class="p-4 md:p-6 dark:text-gray-300">
-				<label for="from-currency" class="block text-sm text-gray-500 dark:text-gray-400 mb-3">{t('home.fromLabel')}</label>
+			<div class="p-3 md:p-6 dark:text-gray-300">
+				<label for="from-currency" class="block text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-2 md:mb-3">{t('home.fromLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={fromCurrency} size="md" />
 					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500">
@@ -215,19 +215,19 @@
 							type="text"
 							placeholder="0"
 							inputmode="decimal"
-							class="min-w-0 w-full text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 {!amount ? 'animate-pulse md:animate-none' : ''}"
+							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
 					</div>
 				</div>
 			</div>
 			
 			<!-- Swap Button -->
-			<div class="flex items-center justify-center relative py-2">
+			<div class="flex items-center justify-center relative py-1 md:py-2">
 				<div class="absolute inset-x-0 top-1/2 border-t border-gray-100"></div>
 				<button
 					onclick={swapCurrencies}
 					aria-label="Swap currencies"
-					class="relative w-10 h-10 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
+					class="relative w-9 h-9 md:w-10 md:h-10 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
 					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -237,8 +237,8 @@
 			</div>
 			
 			<!-- To Currency -->
-			<div class="p-4 md:p-6 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
-				<label for="to-currency" class="block text-sm text-gray-500 dark:text-gray-400 mb-3">{t('home.toLabel')}</label>
+			<div class="p-3 md:p-6 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+				<label for="to-currency" class="block text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-2 md:mb-3">{t('home.toLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={toCurrency} size="md" />
 					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white dark:bg-gray-700 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500">
@@ -267,7 +267,7 @@
 						<option value="EGP">EGP</option>
 					</select>
 					<div class="flex-1 min-w-0">
-						<p class="text-2xl font-semibold text-emerald-600 tabular-nums truncate">
+						<p class="text-xl md:text-2xl font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums truncate">
 							{convertedAmount() || '0.00'}
 						</p>
 					</div>
@@ -276,24 +276,24 @@
 		</div>
 		
 		<!-- Current Exchange Rate Label -->
-		<div class="mt-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800 relative transition-colors duration-200">
+		<div class="mt-3 md:mt-6 p-3 md:p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800 relative transition-colors duration-200">
 			<div class="flex items-center justify-between">
-				<p class="text-sm font-medium text-emerald-900">{t('home.exchangeRate')}</p>
+				<p class="text-xs md:text-sm font-medium text-emerald-900 dark:text-emerald-200">{t('home.exchangeRate')}</p>
 				{#if $isLoading}
 					<div class="flex items-center gap-1.5">
-						<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-						<span class="text-xs text-emerald-600 font-medium">{t('messages.loading')}</span>
+						<div class="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+						<span class="text-xs text-emerald-600 dark:text-emerald-400 font-medium">{t('messages.loading')}</span>
 					</div>
 				{/if}
 			</div>
-			<p class="text-lg font-semibold text-emerald-600 mt-1 flex items-center gap-2 {$isLoading ? 'opacity-70' : ''}">
-				<FlagIcon code={fromCurrency} size="md" />
-				1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? getStaticRates()[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}
-				<FlagIcon code={toCurrency} size="md" />
+			<p class="text-sm md:text-lg font-semibold text-emerald-600 dark:text-emerald-400 mt-1.5 flex items-center gap-1 md:gap-2 {$isLoading ? 'opacity-70' : ''}">
+				<FlagIcon code={fromCurrency} size="sm" />
+				<span class="text-xs md:text-base">1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? getStaticRates()[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}</span>
+				<FlagIcon code={toCurrency} size="sm" />
 			</p>
 		</div>
 
-		<div class="mt-3 text-center text-xs text-gray-500">
+		<div class="mt-1.5 md:mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
 			{#if $lastUpdated}
 				Updated {new Date($lastUpdated).toLocaleString()}
 			{/if}
@@ -303,18 +303,18 @@
 		</div>
 
 		<!-- Save to History Button -->
-		<div class="space-y-3 mt-6">
+		<div class="space-y-2 md:space-y-3 mt-3 md:mt-6">
 			<button
 				onclick={saveConversion}
 				disabled={!amount || parseFloat(amount) <= 0}
-				class="w-full px-4 py-3 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+				class="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
 			>
 				💾 {t('home.saveButton')}
 			</button>
 
 			<a
 				href="/history"
-				class="w-full inline-flex items-center justify-center px-4 py-3 bg-gray-200 dark:bg-gray-800 border dark:border-gray-700 text-gray-900 dark:text-white font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+				class="w-full inline-flex items-center justify-center px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base bg-gray-200 dark:bg-gray-800 border dark:border-gray-700 text-gray-900 dark:text-white font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
 			>
 				📜 {t('home.viewHistoryButton')}
 			</a>
