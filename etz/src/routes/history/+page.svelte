@@ -1,9 +1,9 @@
 <script lang="ts">
-	// Mshiko page - Conversion history
+	// History page - Conversion history
 </script>
 
 <div class="p-4 md:p-8 max-w-4xl mx-auto">
-	<h1 class="text-2xl font-bold text-gray-900 mb-6">Mshiko</h1>
+	<h1 class="text-2xl font-bold text-gray-900 mb-6">History</h1>
 	<p class="text-gray-600 mb-6">Your conversion history</p>
 	
 	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

@@ -4,7 +4,7 @@
 	const navItems = [
 		{ href: '/', label: 'Home', icon: 'home' },
 		{ href: '/market', label: 'Market', icon: 'chart' },
-		{ href: '/mshiko', label: 'Mshiko', icon: 'history' },
+		{ href: '/history', label: 'History', icon: 'history' },
 		{ href: '/settings', label: 'Settings', icon: 'settings' }
 	];
 
