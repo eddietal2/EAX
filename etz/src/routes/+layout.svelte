@@ -12,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950 md:flex md:flex-col">
+<div class="min-h-screen bg-gray-50 md:flex md:flex-col">
 	<Navigation />
 	<main class="pb-20 md:pb-0">
 		{@render children()}
