@@ -3,8 +3,7 @@
     "home": "Inicio",
     "market": "Mercado",
     "history": "Historial",
-    "settings": "Configuración",
-    "appSubtitle": "Bolsa Centroafricana"
+    "settings": "Configuración",    "appLogo": "BAE",    "appSubtitle": "Bolsa Centroafricana"
   },
   "home": {
     "title": "Convertidor de Divisas",
