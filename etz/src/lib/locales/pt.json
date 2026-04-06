@@ -26,8 +26,11 @@
   "settings": {
     "title": "Configurações",
     "language": "Idioma",
-    "languageDescription": "Escolha seu idioma preferido",
-    "defaultFromCurrency": "Moeda Padrão De",
+    "languageDescription": "Escolha seu idioma preferido",    "theme": "Tema",
+    "themeDescription": "Escolha seu esquema de cores preferido",
+    "themeLight": "Claro",
+    "themeDark": "Escuro",
+    "themeSystem": "Sistema",    "defaultFromCurrency": "Moeda Padrão De",
     "defaultFromDescription": "Selecione a moeda que deseja converter de",
     "defaultToCurrency": "Moeda Padrão Para",
     "defaultToDescription": "Selecione a moeda que deseja converter para"

@@ -26,8 +26,11 @@
   "settings": {
     "title": "设置",
     "language": "语言",
-    "languageDescription": "选择您首选的语言",
-    "defaultFromCurrency": "默认源货币",
+    "languageDescription": "选择您首选的语言",    "theme": "主题",
+    "themeDescription": "选择您首选的配色方案",
+    "themeLight": "浅色",
+    "themeDark": "深色",
+    "themeSystem": "系统",    "defaultFromCurrency": "默认源货币",
     "defaultFromDescription": "选择您要转换的货币",
     "defaultToCurrency": "默认目标货币",
     "defaultToDescription": "选择您要转换为的货币"

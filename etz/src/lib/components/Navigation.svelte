@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
+	import { themeStore, type Theme } from '$lib/stores/theme';
 
 	const navItems = [
 		{ href: '/', labelKey: 'nav.home', icon: 'home' },
@@ -14,11 +15,19 @@
 		return currentPath.startsWith(href);
 	}
 
-	$: lang = $currentLanguage;
+	let lang = $derived($currentLanguage);
+	let currentTheme = $derived($themeStore);
+
+	function toggleTheme() {
+		const themes: Theme[] = ['light', 'dark', 'system'];
+		const currentIndex = themes.indexOf(currentTheme);
+		const nextTheme = themes[(currentIndex + 1) % themes.length];
+		themeStore.setTheme(nextTheme);
+	}
 </script>
 
 <!-- Desktop Top Navigation -->
-<nav class="relative hidden md:flex items-center justify-center px-6 py-4 bg-white border-b border-gray-200 sticky top-0 z-50">
+<nav class="relative hidden md:flex items-center justify-center px-6 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
 	<a href="/" class="absolute left-6 text-xl font-bold text-emerald-600">Exchange.tz</a>
 	<div class="flex items-center gap-8">
 		{#each navItems as item}
@@ -26,23 +35,46 @@
 				href={item.href}
 				class="text-sm font-medium transition-colors {isActive(item.href, $page.url.pathname)
 					? 'text-emerald-600'
-					: 'text-gray-600 hover:text-emerald-600'}"
+					: 'text-gray-600 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400'}"
 			>
 				{getTranslation(item.labelKey, lang)}
 			</a>
 		{/each}
 	</div>
+	<!-- Theme Toggle Button -->
+	<button
+		onclick={toggleTheme}
+		class="absolute right-6 p-2 rounded-lg text-gray-600 hover:text-emerald-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-emerald-400 transition-colors"
+		title="Toggle theme"
+	>
+		{#if currentTheme === 'light'}
+			<!-- Sun icon -->
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1m-16 0H1m15.364 1.636l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+			</svg>
+		{:else if currentTheme === 'dark'}
+			<!-- Moon icon -->
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+			</svg>
+		{:else}
+			<!-- Auto/System icon -->
+			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5a4 4 0 100-8 4 4 0 000 8z" />
+			</svg>
+		{/if}
+	</button>
 </nav>
 
 <!-- Mobile Bottom Tab Bar -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50" style="padding-bottom: max(0.25rem, env(safe-area-inset-bottom));">
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 z-50" style="padding-bottom: max(0.25rem, env(safe-area-inset-bottom));">
 	<div class="flex items-center justify-between px-1">
 		{#each navItems as item}
 			<a
 				href={item.href}
 				class="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 transition-colors {isActive(item.href, $page.url.pathname)
 					? 'text-emerald-600'
-					: 'text-gray-500 hover:text-gray-700'}"
+					: 'text-gray-500 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-300'}"
 			>
 				{#if item.icon === 'home'}
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

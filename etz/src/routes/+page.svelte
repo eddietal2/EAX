@@ -167,22 +167,23 @@
 	}
 </script>
 
-<div class="p-4 md:p-8 w-full max-w-full mx-auto md:min-h-[calc(100vh-6rem)] md:flex md:items-center md:justify-center">
-	<!-- Header -->
-	<div class="text-center mb-8 md:hidden">
-		<h1 class="text-2xl font-bold text-emerald-600">Exchange.tz</h1>
-		<p class="text-gray-500 text-sm mt-1">Quick currency conversions</p>
-	</div>
+<div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0">
+	<div class="p-4 md:p-8 w-full max-w-full mx-auto md:min-h-[calc(100vh-6rem)] md:flex md:items-center md:justify-center">
+		<!-- Header -->
+		<div class="text-center mb-8 md:hidden">
+			<h1 class="text-2xl font-bold text-emerald-600">Exchange.tz</h1>
+			<p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Quick currency conversions</p>
+		</div>
 	
 	<!-- Converter Card + Rate Info wrapper -->
 	<div class="md:w-[40%] md:min-w-[320px] md:mx-auto">
-		<div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- From Currency -->
-			<div class="p-4 md:p-6">
-				<label for="from-currency" class="block text-sm text-gray-500 mb-3">{t('home.fromLabel')}</label>
+			<div class="p-4 md:p-6 dark:text-gray-300">
+				<label for="from-currency" class="block text-sm text-gray-500 dark:text-gray-400 mb-3">{t('home.fromLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={fromCurrency} size="md" />
-					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
+					<select id="from-currency" bind:value={fromCurrency} class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500">
 						<option value="USD">USD</option>
 						<option value="EUR">EUR</option>
 						<option value="GBP">GBP</option>
@@ -213,7 +214,7 @@
 							type="text"
 							placeholder="0"
 							inputmode="decimal"
-							class="min-w-0 w-full text-2xl font-semibold text-gray-900 bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 {!amount ? 'animate-pulse md:animate-none' : ''}"
+							class="min-w-0 w-full text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
 					</div>
 				</div>
@@ -235,11 +236,11 @@
 			</div>
 			
 			<!-- To Currency -->
-			<div class="p-4 md:p-6 bg-gray-50">
-				<label for="to-currency" class="block text-sm text-gray-500 mb-3">{t('home.toLabel')}</label>
+			<div class="p-4 md:p-6 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+				<label for="to-currency" class="block text-sm text-gray-500 dark:text-gray-400 mb-3">{t('home.toLabel')}</label>
 				<div class="flex items-center gap-3">
 					<FlagIcon code={toCurrency} size="md" />
-					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 focus:ring-2 focus:ring-emerald-500">
+					<select id="to-currency" bind:value={toCurrency} class="shrink-0 bg-white dark:bg-gray-700 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500">
 						<option value="TZS">TZS</option>
 						<option value="KES">KES</option>
 						<option value="USD">USD</option>
@@ -274,7 +275,7 @@
 		</div>
 		
 		<!-- Current Exchange Rate Label -->
-		<div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-200 relative">
+		<div class="mt-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800 relative transition-colors duration-200">
 			<div class="flex items-center justify-between">
 				<p class="text-sm font-medium text-emerald-900">{t('home.exchangeRate')}</p>
 				{#if $isLoading}
@@ -312,12 +313,13 @@
 
 			<a
 				href="/history"
-				class="w-full inline-flex items-center justify-center px-4 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all"
+				class="w-full inline-flex items-center justify-center px-4 py-3 bg-gray-200 dark:bg-gray-800 border dark:border-gray-700 text-gray-900 dark:text-white font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
 			>
 				📜 {t('home.viewHistoryButton')}
 			</a>
 		</div>
 
+	</div>
 	</div>
 </div>
 

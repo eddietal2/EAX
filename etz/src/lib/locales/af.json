@@ -26,8 +26,11 @@
   "settings": {
     "title": "Instellings",
     "language": "Taal",
-    "languageDescription": "Kies jou voorkeur taal",
-    "defaultFromCurrency": "Standaard Geldeenheid Van",
+    "languageDescription": "Kies jou voorkeur taal",    "theme": "Tema",
+    "themeDescription": "Kies jou voorkeur kleurskema",
+    "themeLight": "Lig",
+    "themeDark": "Donker",
+    "themeSystem": "Stelsel",    "defaultFromCurrency": "Standaard Geldeenheid Van",
     "defaultFromDescription": "Kies die geldeenheid wat jy wil omskakel van",
     "defaultToCurrency": "Standaard Geldeenheid Na",
     "defaultToDescription": "Kies die geldeenheid wat jy wil omskakel na"

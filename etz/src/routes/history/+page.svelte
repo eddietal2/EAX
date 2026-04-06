@@ -97,78 +97,77 @@
 	}
 </script>
 
-<div class="p-4 md:p-8 max-w-4xl mx-auto">
-	<h1 class="text-2xl font-bold text-gray-900 mb-6">{t('history.title')}</h1>
-	<p class="text-gray-600 mb-6">Your conversion history</p>
-	
-<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-		<div class="divide-y divide-gray-100">
+<div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0">
+	<div class="p-4 md:p-8 max-w-4xl mx-auto">
+		<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">{t('history.title')}</h1>
+		<p class="text-gray-600 dark:text-gray-400 mb-6">Your conversion history</p>
+		
+<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
+			<div class="divide-y divide-gray-100 dark:divide-gray-800">
 			{#if $conversionHistory.length === 0}
 				<div class="p-8 text-center">
-					<p class="text-gray-500 mb-2">{t('history.empty')}</p>
-					<p class="text-sm text-gray-400">Go to Home and save a conversion to get started</p>
+					<p class="text-gray-500 dark:text-gray-400 mb-2">{t('history.empty')}</p>
+					<p class="text-sm text-gray-400 dark:text-gray-500">Go to Home and save a conversion to get started</p>
 				</div>
 			{:else}
 				{#each $conversionHistory as item (item.id)}
-					<div class="p-4 hover:bg-gray-50 transition-colors">
+					<div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
 						<div class="flex items-center justify-between mb-3 gap-3">
-								<span class="text-sm text-gray-500">{formatDate(item.timestamp, lang)}</span>
+							<span class="text-sm text-gray-500 dark:text-gray-400">{formatDate(item.timestamp, lang)}</span>
 							<div class="flex items-center gap-2">
-								<span class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">{item.fromCurrency} → {item.toCurrency}</span>
+								<span class="text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 px-2 py-1 rounded-full transition-colors">{item.fromCurrency} → {item.toCurrency}</span>
 								<button
 									type="button"
-									class="text-gray-400 hover:text-red-600 transition-colors text-sm"
-										onclick={() => deleteConversion(item.id)}
+									class="text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors text-sm"
+									onclick={() => deleteConversion(item.id)}
 								>
-										{t('history.deleteButton')}
+									{t('history.deleteButton')}
 								</button>
 							</div>
 						</div>
-
 						{#if editingId === item.id}
 							<input
 								bind:this={inputElement}
 								bind:value={editingName}
 								type="text"
 								placeholder={t('history.addName')}
-								class="w-full px-3 py-2 border border-emerald-300 rounded-md text-sm font-semibold mb-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+								class="w-full px-3 py-2 border border-emerald-300 dark:border-emerald-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md text-sm font-semibold mb-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 transition-colors"
 								onblur={() => saveName(item.id)}
 								onkeydown={(e) => handleKeydown(e, item.id)}
 							/>
 						{:else}
 							<button
 								type="button"
-								class="w-full text-left mb-3 px-3 py-2 rounded hover:bg-gray-100 transition-colors cursor-pointer group"
-							onclick={() => startEditing(item.id, item.name)}
+								class="w-full text-left mb-3 px-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer group"
+								onclick={() => startEditing(item.id, item.name)}
 							>
-								<p class="text-sm font-semibold text-gray-600 group-hover:text-emerald-600">
+								<p class="text-sm font-semibold text-gray-600 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
 									{item.name || t('history.addName')}
 								</p>
 							</button>
 						{/if}
-
 						<div class="flex items-center justify-between gap-3">
 							<div class="flex items-center gap-2">
 								<FlagIcon code={item.fromCurrency} size="sm" />
 								<div class="flex flex-col">
-									<p class="text-xs text-gray-500">{item.fromCurrency}</p>
-									<p class="font-medium text-gray-900">{item.fromAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+									<p class="text-xs text-gray-500 dark:text-gray-400">{item.fromCurrency}</p>
+									<p class="font-medium text-gray-900 dark:text-white">{item.fromAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
 								</div>
 							</div>
-							<span class="text-gray-400">→</span>
+							<span class="text-gray-400 dark:text-gray-600">→</span>
 							<div class="flex items-center gap-2 ml-auto">
 								<div class="flex flex-col text-right">
-									<p class="text-xs text-gray-500">{item.toCurrency}</p>
-									<p class="font-semibold text-emerald-600">{item.toAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
+									<p class="text-xs text-gray-500 dark:text-gray-400">{item.toCurrency}</p>
+									<p class="font-semibold text-emerald-600 dark:text-emerald-400">{item.toAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
 								</div>
 								<FlagIcon code={item.toCurrency} size="sm" />
 							</div>
 						</div>
 					</div>
-				{/each}
-			{/if}
+			{/each}
+		{/if}
 		</div>
 	</div>
 	
-	<p class="text-center text-sm text-gray-400 mt-6">Conversions are saved locally on your device</p>
+	<p class="text-center text-sm text-gray-400 dark:text-gray-500 mt-6">Conversions are saved locally on your device</p>	</div>
 </div>

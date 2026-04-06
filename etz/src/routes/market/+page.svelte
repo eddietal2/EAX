@@ -388,21 +388,22 @@
 	let t = $derived((key: string) => getTranslation(key, lang));
 </script>
 
-<div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
-	<div class="flex items-center justify-between mb-6">
-		<h1 class="text-2xl font-bold text-gray-900">{t('market.title')}</h1>
+<div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
+	<div class="p-4 md:p-8 max-w-4xl mx-auto mb-40">
+		<div class="flex items-center justify-between mb-6">
+			<h1 class="text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
 		{#if $isLoading}
 			<div class="flex items-center gap-2">
 				<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-				<span class="text-sm text-gray-600 font-medium">{t('market.updating')}</span>
+				<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">{t('market.updating')}</span>
 			</div>
 		{/if}
 	</div>
 	
-	<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''}">
-		<div class="p-4 border-b border-gray-100">
+	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
+		<div class="p-4 border-b border-gray-100 dark:border-gray-800">
 			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm text-gray-500">{t('market.subtitle')}</p>
+				<p class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</p>
 			</div>
 			<p class="text-xs text-gray-400 mt-1">
 				{#if $lastUpdated}
@@ -414,26 +415,26 @@
 			</p>
 		</div>
 		
-		<div class="divide-y divide-gray-100">
+		<div class="divide-y divide-gray-100 dark:divide-gray-800">
 			{#each rates as rate}
-				<div class="border-b border-gray-100 last:border-b-0">
+				<div class="border-b border-gray-100 dark:border-gray-800 last:border-b-0">
 					<button
 						type="button"
-						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50"
+						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
 						aria-expanded={openCode === rate.code}
 						onclick={() => (openCode = openCode === rate.code ? '' : rate.code)}
 					>
 						<div class="flex items-center gap-3">
 							<FlagIcon code={rate.code} size="md" />
 							<div>
-								<p class="font-medium text-gray-900">{rate.code} / TZS</p>
-								<p class="text-sm text-gray-500">{rate.name} ({rate.symbol})</p>
+								<p class="font-medium text-gray-900 dark:text-white">{rate.code} / TZS</p>
+								<p class="text-sm text-gray-500 dark:text-gray-400">{rate.name} ({rate.symbol})</p>
 							</div>
 						</div>
 						<div class="flex items-center gap-2">
-							<p class="text-lg font-semibold text-gray-900">{formatRate(getLiveRate(rate.code))}</p>
+							<p class="text-lg font-semibold text-gray-900 dark:text-white">{formatRate(getLiveRate(rate.code))}</p>
 							<svg
-								class={`w-4 h-4 text-gray-400 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
+								class={`w-4 h-4 text-gray-400 dark:text-gray-600 transition-transform ${openCode === rate.code ? 'rotate-180' : ''}`}
 								viewBox="0 0 20 20"
 								fill="currentColor"
 							>
@@ -442,7 +443,7 @@
 						</div>
 					</button>
 					{#if openCode === rate.code}
-					<div class="px-4 py-4 text-sm text-gray-600 bg-slate-50 accordion-inner-shadow">
+					<div class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 bg-slate-50 dark:bg-gray-800/50 accordion-inner-shadow transition-colors">
 							<p>1 {rate.code} = {formatRate(getLiveRate(rate.code))} TZS</p>
 							<p class="mt-2 text-xs leading-relaxed text-gray-500">{rate.description}</p>
 							{#if rate.code === 'USD'}
@@ -1280,10 +1281,10 @@
 			{/each}
 		</div>
 	</div>
-</div>
+	</div>
 
-<!-- Bill Detail Modal -->
-{#if selectedBill}
+	<!-- Bill Detail Modal -->
+	{#if selectedBill}
 	<div
 		class="bill-modal-backdrop"
 		role="presentation"
@@ -1359,7 +1360,8 @@
 			<p class="bill-modal-hint">Hover over the bill to magnify</p>
 		</div>
 	</div>
-{/if}
+	{/if}
+</div>
 
 <style>
 	.usd-carousel {
