@@ -6,7 +6,7 @@
 
 	let editingId = $state<string | null>(null);
 	let editingName = $state('');
-	let inputElement: HTMLInputElement;
+	let inputElement = $state<HTMLInputElement | undefined>();
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));

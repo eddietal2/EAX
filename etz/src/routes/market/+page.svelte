@@ -361,14 +361,12 @@
 		{ value: 100, label: 'EGP 100', image: EGP_Bill_100 }
 	];
 
-	let openCode = '';
-	let selectedBill: typeof usdBills[0] | null = null;
-	let carouselHovered = false;
-	let billImageHovered = false;
-	let magnifyMouseX = 0;
-	let magnifyMouseY = 0;
-	let selectedBill = $state(false);
-	let openCode = $state('USD');
+	let openCode = $state('');
+	let selectedBill = $state<typeof usdBills[0] | null>(null);
+	let carouselHovered = $state(false);
+	let billImageHovered = $state(false);
+	let magnifyMouseX = $state(0);
+	let magnifyMouseY = $state(0);
 	let billImgWidth = $state(0);
 	let billImgHeight = $state(0);
 
