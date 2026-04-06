@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Início",
+    "market": "Mercado",
+    "history": "Histórico",
+    "settings": "Configurações"
+  },
+  "home": {
+    "title": "Conversor de Moedas",
+    "fromLabel": "De",
+    "toLabel": "Para",
+    "fromPlaceholder": "Digite o valor",
+    "swapButton": "Trocar",
+    "exchangeRate": "Taxa de Câmbio",
+    "saveButton": "Salvar no Histórico",
+    "viewHistoryButton": "Visualizar Histórico"
+  },
+  "history": {
+    "title": "Histórico de Conversões",
+    "empty": "Nenhuma conversão salva ainda",
+    "addName": "+ Adicionar nome",
+    "deleteButton": "Deletar",
+    "today": "Hoje",
+    "yesterday": "Ontem"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "languageDescription": "Escolha seu idioma preferido",
+    "defaultFromCurrency": "Moeda Padrão De",
+    "defaultFromDescription": "Selecione a moeda que deseja converter de",
+    "defaultToCurrency": "Moeda Padrão Para",
+    "defaultToDescription": "Selecione a moeda que deseja converter para"
+  },
+  "messages": {
+    "saved": "Conversão salva no histórico!",
+    "deleted": "Conversão deletada",
+    "loading": "Carregando taxas de câmbio...",
+    "error": "Erro ao carregar taxas de câmbio"
+  }
+}

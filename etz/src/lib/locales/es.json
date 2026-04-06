@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "market": "Mercado",
+    "history": "Historial",
+    "settings": "Configuración"
+  },
+  "home": {
+    "title": "Convertidor de Divisas",
+    "fromLabel": "De",
+    "toLabel": "Para",
+    "fromPlaceholder": "Ingrese el monto",
+    "swapButton": "Intercambiar",
+    "exchangeRate": "Tipo de Cambio",
+    "saveButton": "Guardar en el Historial",
+    "viewHistoryButton": "Ver Historial"
+  },
+  "history": {
+    "title": "Historial de Conversiones",
+    "empty": "No hay conversiones guardadas",
+    "addName": "+ Agregar nombre",
+    "deleteButton": "Eliminar",
+    "today": "Hoy",
+    "yesterday": "Ayer"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "languageDescription": "Elija su idioma preferido",
+    "defaultFromCurrency": "Moneda Por Defecto De",
+    "defaultFromDescription": "Selecciona la moneda de la que deseas convertir",
+    "defaultToCurrency": "Moneda Por Defecto Para",
+    "defaultToDescription": "Selecciona la moneda a la que deseas convertir"
+  },
+  "messages": {
+    "saved": "¡Conversión guardada en el historial!",
+    "deleted": "Conversión eliminada",
+    "loading": "Cargando tipos de cambio...",
+    "error": "Error al cargar los tipos de cambio"
+  }
+}

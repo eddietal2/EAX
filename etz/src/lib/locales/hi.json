@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "होम",
+    "market": "बाजार",
+    "history": "इतिहास",
+    "settings": "सेटिंग्स"
+  },
+  "home": {
+    "title": "मुद्रा परिवर्तक",
+    "fromLabel": "से",
+    "toLabel": "को",
+    "fromPlaceholder": "राशि दर्ज करें",
+    "swapButton": "स्वैप करें",
+    "exchangeRate": "विनिमय दर",
+    "saveButton": "इतिहास में सहेजें",
+    "viewHistoryButton": "इतिहास देखें"
+  },
+  "history": {
+    "title": "रूपांतरण इतिहास",
+    "empty": "अभी तक कोई रूपांतरण सहेजा नहीं गया है",
+    "addName": "+ नाम जोड़ें",
+    "deleteButton": "हटाएं",
+    "today": "आज",
+    "yesterday": "कल"
+  },
+  "settings": {
+    "title": "सेटिंग्स",
+    "language": "भाषा",
+    "languageDescription": "अपनी पसंदीदा भाषा चुनें",
+    "defaultFromCurrency": "डिफ़ॉल्ट से मुद्रा",
+    "defaultFromDescription": "वह मुद्रा चुनें जिससे आप रूपांतरित करना चाहते हैं",
+    "defaultToCurrency": "डिफ़ॉल्ट को मुद्रा",
+    "defaultToDescription": "वह मुद्रा चुनें जिसमें आप रूपांतरित करना चाहते हैं"
+  },
+  "messages": {
+    "saved": "रूपांतरण इतिहास में सहेजा गया!",
+    "deleted": "रूपांतरण हटाया गया",
+    "loading": "विनिमय दर लोड हो रहा है...",
+    "error": "विनिमय दर लोड करने में त्रुटि"
+  }
+}

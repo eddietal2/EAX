@@ -1,17 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 
 	const navItems = [
-		{ href: '/', label: 'Home', icon: 'home' },
-		{ href: '/market', label: 'Market', icon: 'chart' },
-		{ href: '/history', label: 'History', icon: 'history' },
-		{ href: '/settings', label: 'Settings', icon: 'settings' }
+		{ href: '/', labelKey: 'nav.home', icon: 'home' },
+		{ href: '/market', labelKey: 'nav.market', icon: 'chart' },
+		{ href: '/history', labelKey: 'nav.history', icon: 'history' },
+		{ href: '/settings', labelKey: 'nav.settings', icon: 'settings' }
 	];
 
 	function isActive(href: string, currentPath: string): boolean {
 		if (href === '/') return currentPath === '/';
 		return currentPath.startsWith(href);
 	}
+
+	$: lang = $currentLanguage;
 </script>
 
 <!-- Desktop Top Navigation -->
@@ -25,7 +28,7 @@
 					? 'text-emerald-600'
 					: 'text-gray-600 hover:text-emerald-600'}"
 			>
-				{item.label}
+				{getTranslation(item.labelKey, lang)}
 			</a>
 		{/each}
 	</div>
@@ -59,7 +62,7 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 					</svg>
 				{/if}
-				<span class="text-[0.65rem] font-semibold leading-tight">{item.label}</span>
+				<span class="text-[0.65rem] font-semibold leading-tight">{getTranslation(item.labelKey, lang)}</span>
 			</a>
 		{/each}
 	</div>

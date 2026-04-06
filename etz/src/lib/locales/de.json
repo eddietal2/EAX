@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "market": "Markt",
+    "history": "Verlauf",
+    "settings": "Einstellungen"
+  },
+  "home": {
+    "title": "Währungsumrechner",
+    "fromLabel": "Von",
+    "toLabel": "Nach",
+    "fromPlaceholder": "Betrag eingeben",
+    "swapButton": "Tauschen",
+    "exchangeRate": "Wechselkurs",
+    "saveButton": "Im Verlauf speichern",
+    "viewHistoryButton": "Verlauf anzeigen"
+  },
+  "history": {
+    "title": "Umrechnungsverlauf",
+    "empty": "Keine Umrechnungen gespeichert",
+    "addName": "+ Namen hinzufügen",
+    "deleteButton": "Löschen",
+    "today": "Heute",
+    "yesterday": "Gestern"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
+    "defaultFromCurrency": "Standardwährung Von",
+    "defaultFromDescription": "Wählen Sie die Währung aus, von der Sie umrechnen möchten",
+    "defaultToCurrency": "Standardwährung Nach",
+    "defaultToDescription": "Wählen Sie die Währung aus, in die Sie umrechnen möchten"
+  },
+  "messages": {
+    "saved": "Umrechnung im Verlauf gespeichert!",
+    "deleted": "Umrechnung gelöscht",
+    "loading": "Wechselkurse werden geladen...",
+    "error": "Fehler beim Laden der Wechselkurse"
+  }
+}

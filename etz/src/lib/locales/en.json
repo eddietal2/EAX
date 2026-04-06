@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Home",
+    "market": "Market",
+    "history": "History",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "Currency Converter",
+    "fromLabel": "From",
+    "toLabel": "To",
+    "fromPlaceholder": "Enter amount",
+    "swapButton": "Swap",
+    "exchangeRate": "Exchange Rate",
+    "saveButton": "Save to History",
+    "viewHistoryButton": "View History"
+  },
+  "history": {
+    "title": "Conversion History",
+    "empty": "No conversions saved yet",
+    "addName": "+ Add a name",
+    "deleteButton": "Delete",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language",
+    "defaultFromCurrency": "Default FROM Currency",
+    "defaultFromDescription": "Select the currency you want to convert from",
+    "defaultToCurrency": "Default TO Currency",
+    "defaultToDescription": "Select the currency you want to convert to"
+  },
+  "messages": {
+    "saved": "Conversion saved to history!",
+    "deleted": "Conversion deleted",
+    "loading": "Loading exchange rates...",
+    "error": "Error loading exchange rates"
+  }
+}

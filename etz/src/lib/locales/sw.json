@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "Nyumbani",
+    "market": "Soko",
+    "history": "Historia",
+    "settings": "Mipangilio"
+  },
+  "home": {
+    "title": "Kichanganishi cha Sarafu",
+    "fromLabel": "Kutoka",
+    "toLabel": "Kwenda",
+    "fromPlaceholder": "Ingiza kiasi",
+    "swapButton": "Badili",
+    "exchangeRate": "Kiwango cha Ubadilishaji",
+    "saveButton": "Hifadhi katika Historia",
+    "viewHistoryButton": "Angalia Historia"
+  },
+  "history": {
+    "title": "Historia ya Ubadilishaji",
+    "empty": "Hakuna ubadilishaji ulioohifadhiwa bado",
+    "addName": "+ Ongeza jina",
+    "deleteButton": "Futa",
+    "today": "Leo",
+    "yesterday": "Jana"
+  },
+  "settings": {
+    "title": "Mipangilio",
+    "language": "Lugha",
+    "languageDescription": "Chagua lugha yako inayopendekezwa",
+    "defaultFromCurrency": "Sarafu Chaguo la Nchi ya Asili",
+    "defaultFromDescription": "Chagua sarafu unataka kuanzia nayo",
+    "defaultToCurrency": "Sarafu Chaguo la Nchi ya Lengwa",
+    "defaultToDescription": "Chagua sarafu unataka kuhitimia nayo"
+  },
+  "messages": {
+    "saved": "Ubadilishaji umehifadhiwa katika historia!",
+    "deleted": "Ubadilishaji umefutwa",
+    "loading": "Inapakua kiwango cha ubadilishaji...",
+    "error": "Hitilafu katika kupakua kiwango cha ubadilishaji"
+  }
+}

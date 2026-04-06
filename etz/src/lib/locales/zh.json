@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "home": "主页",
+    "market": "市场",
+    "history": "历史",
+    "settings": "设置"
+  },
+  "home": {
+    "title": "货币转换器",
+    "fromLabel": "从",
+    "toLabel": "到",
+    "fromPlaceholder": "输入金额",
+    "swapButton": "交换",
+    "exchangeRate": "汇率",
+    "saveButton": "保存到历史",
+    "viewHistoryButton": "查看历史"
+  },
+  "history": {
+    "title": "兑换历史",
+    "empty": "还没有保存任何兑换记录",
+    "addName": "+ 添加名称",
+    "deleteButton": "删除",
+    "today": "今天",
+    "yesterday": "昨天"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "languageDescription": "选择您首选的语言",
+    "defaultFromCurrency": "默认源货币",
+    "defaultFromDescription": "选择您要转换的货币",
+    "defaultToCurrency": "默认目标货币",
+    "defaultToDescription": "选择您要转换为的货币"
+  },
+  "messages": {
+    "saved": "兑换已保存到历史!",
+    "deleted": "兑换已删除",
+    "loading": "加载汇率中...",
+    "error": "加载汇率出错"
+  }
+}
