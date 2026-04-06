@@ -378,6 +378,8 @@
 	let panY = $state(0);
 	let initialPanX = 0;
 	let initialPanY = 0;
+	let swapRotation = $state(0);
+	let isSwapping = $state(false);
 	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
 	let sortDropdownOpen = $state(false);
 	
@@ -469,7 +471,15 @@
 		return getStaticRates()[code]?.TZS ?? 0;
 	};
 
-
+	// Swap FROM and TO currencies
+	const swapCurrencies = () => {
+		isSwapping = true;
+		swapRotation += 180;
+		const temp = $defaultFromCurrency;
+		defaultFromCurrency.set($defaultToCurrency);
+		defaultToCurrency.set(temp);
+		setTimeout(() => { isSwapping = false; }, 400);
+	};
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -556,12 +566,23 @@
 	
 	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
 		<div class="p-4 border-b border-gray-100 dark:border-gray-800">
-			<div class="flex flex-wrap items-center justify-start gap-2">
+			<div class="flex flex-wrap items-center justify-start gap-3">
 				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</span>
 				<div class="flex items-center gap-2">
 					<span class="font-semibold text-gray-600 dark:text-gray-300">{selectedToCurrencyCode}</span>
 					<span class="text-xs font-semibold px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded">TO</span>
 				</div>
+				<button
+					onclick={swapCurrencies}
+					aria-label="Swap FROM and TO currencies"
+					class="p-2 rounded-full bg-emerald-500 text-white shadow-lg hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
+					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};" 
+					title="Swap currencies"
+				>
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+					</svg>
+				</button>
 				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitleSuffix')}</span>
 				<div class="flex items-center gap-2">
 					<span class="font-semibold text-gray-600 dark:text-gray-300">{$defaultFromCurrency}</span>
@@ -1959,5 +1980,9 @@
 
 	.accordion-inner-shadow {
 		box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	button[aria-label="Swap FROM and TO currencies"] {
+		transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
 	}
 </style>
