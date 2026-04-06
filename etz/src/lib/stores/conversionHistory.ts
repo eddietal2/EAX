@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 
 export interface Conversion {
 	id: string;
+	name?: string;
 	fromCurrency: string;
 	toCurrency: string;
 	fromAmount: number;
@@ -72,11 +73,23 @@ function createConversionHistoryStore() {
 		});
 	}
 
+	// Update conversion (e.g., change name)
+	function updateConversion(id: string, updates: Partial<Conversion>) {
+		store.update((conversions) => {
+			const updated = conversions.map((item) =>
+				item.id === id ? { ...item, ...updates } : item
+			);
+			saveToStorage(updated);
+			return updated;
+		});
+	}
+
 	return {
 		subscribe: store.subscribe,
 		addConversion,
 		clearHistory,
 		removeConversion,
+		updateConversion,
 		loadFromStorage
 	};
 }
