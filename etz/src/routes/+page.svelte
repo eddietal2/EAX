@@ -290,13 +290,22 @@
 		</div>
 
 		<!-- Save to History Button -->
-		<button
-			onclick={saveConversion}
-			disabled={!amount || parseFloat(amount) <= 0}
-			class="w-full mt-6 px-4 py-3 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-		>
-			💾 Save to History
-		</button>
+		<div class="space-y-3 mt-6">
+			<button
+				onclick={saveConversion}
+				disabled={!amount || parseFloat(amount) <= 0}
+				class="w-full px-4 py-3 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+			>
+				💾 Save to History
+			</button>
+
+			<a
+				href="/history"
+				class="w-full inline-flex items-center justify-center px-4 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-all"
+			>
+				📜 View History
+			</a>
+		</div>
 
 	</div>
 </div>
