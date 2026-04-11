@@ -1875,7 +1875,7 @@
 			<!-- Info bar -->
 			<div class="bill-modal-info-bar">
 				{#if selectedCurrency}
-					<span class="bill-modal-flag">{selectedCurrency.flag}</span>
+					<span class="bill-modal-flag"><FlagIcon code={selectedCurrency.code} size="lg" /></span>
 				{/if}
 				<div class="bill-modal-info-text">
 					<h2 class="bill-modal-denomination">{selectedBill.label}</h2>
