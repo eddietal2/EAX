@@ -318,9 +318,15 @@
 				<!-- Mobile Custom Keyboard -->
 				{#if showMobileKeyboard}
 					<div transition:fly={{ y: 300, duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }} class="md:hidden fixed bottom-20 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-2 space-y-2 z-50">
-						<!-- Close button -->
-						<div class="flex justify-end">
-							<button onclick={() => { showMobileKeyboard = false; }} class="px-3 py-1 text-base font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform">
+						<!-- Header: converted value + Done -->
+						<div class="flex items-center justify-between">
+							<span class="px-3 py-1 text-base font-semibold text-gray-900 dark:text-white truncate flex items-center gap-1.5">
+								{#if convertedAmount()}
+									<FlagIcon code={toCurrency} size="sm" />
+									{convertedAmount()} {toCurrency}
+								{/if}
+							</span>
+							<button onclick={() => { showMobileKeyboard = false; }} class="px-3 py-1 text-base font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform shrink-0">
 								Done
 							</button>
 						</div>
@@ -329,7 +335,7 @@
 						<!-- Row 1: 1 2 3 -->
 						<div class="grid grid-cols-3 gap-2">
 							{#each [1, 2, 3] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
 									{num}
 								</button>
 							{/each}
@@ -338,7 +344,7 @@
 						<!-- Row 2: 4 5 6 -->
 						<div class="grid grid-cols-3 gap-2">
 							{#each [4, 5, 6] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
 									{num}
 								</button>
 							{/each}
@@ -347,7 +353,7 @@
 						<!-- Row 3: 7 8 9 -->
 						<div class="grid grid-cols-3 gap-2">
 							{#each [7, 8, 9] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
 									{num}
 								</button>
 							{/each}
@@ -355,23 +361,23 @@
 
 						<!-- Row 4: . 0 ⌫ -->
 						<div class="grid grid-cols-3 gap-2">
-							<button onclick={() => appendToInput('.')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+							<button onclick={() => appendToInput('.')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
 								.
 							</button>
-							<button onclick={() => appendToInput('0')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+							<button onclick={() => appendToInput('0')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
 								0
 							</button>
-							<button onclick={backspace} class="py-3 text-base bg-red-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+							<button onclick={backspace} class="py-3 text-base bg-red-500 text-white font-semibold rounded-lg active:scale-95 active:bg-red-600 transition-all duration-100">
 								⌫
 							</button>
 						</div>
 
 						<!-- Row 5: + - operators -->
 						<div class="grid grid-cols-2 gap-2">
-							<button onclick={() => appendToInput('+')} class="py-3 text-base bg-emerald-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+							<button onclick={() => appendToInput('+')} class="py-3 text-xl bg-emerald-500 text-white font-bold rounded-lg active:scale-95 active:bg-emerald-600 transition-all duration-100">
 								+
 							</button>
-							<button onclick={() => appendToInput('-')} class="py-3 text-base bg-emerald-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+							<button onclick={() => appendToInput('-')} class="py-3 text-xl bg-emerald-500 text-white font-bold rounded-lg active:scale-95 active:bg-emerald-600 transition-all duration-100">
 								−
 							</button>
 						</div>
