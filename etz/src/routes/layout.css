@@ -45,3 +45,46 @@ nav a {
 	font-family: var(--font-space-grotesk);
 }
 
+/* Scrollbar Styling - Light Mode */
+html {
+	scrollbar-color: #059669 #f3f4f6; /* emerald-600, gray-100 */
+	scrollbar-width: thin;
+}
+
+html ::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+html ::-webkit-scrollbar-track {
+	background: #f3f4f6; /* gray-100 */
+	border-radius: 5px;
+}
+
+html ::-webkit-scrollbar-thumb {
+	background: #059669; /* emerald-600 */
+	border-radius: 5px;
+	border: 2px solid #f3f4f6;
+}
+
+html ::-webkit-scrollbar-thumb:hover {
+	background: #047857; /* emerald-700 */
+}
+
+/* Scrollbar Styling - Dark Mode */
+html.dark {
+	scrollbar-color: #34d399 #1f2937; /* emerald-400, gray-800 */
+}
+
+html.dark ::-webkit-scrollbar-track {
+	background: #1f2937; /* gray-800 */
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+	background: #34d399; /* emerald-400 */
+	border: 2px solid #1f2937;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+	background: #6ee7b7; /* emerald-300 */
+}
