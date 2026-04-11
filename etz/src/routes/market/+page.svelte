@@ -362,6 +362,32 @@
 		{ value: 100, label: 'EGP 100', image: EGP_Bill_100 }
 	];
 
+	const countryFlag: Record<string, string> = {
+		USD: '🇺🇸',
+		EUR: '🇪🇺',
+		GBP: '🇬🇧',
+		TZS: '🇹🇿',
+		KES: '🇰🇪',
+		UGX: '🇺🇬',
+		RWF: '🇷🇼',
+		AED: '🇦🇪',
+		CNY: '🇨🇳',
+		INR: '🇮🇳',
+		ETB: '🇪🇹',
+		ZAR: '🇿🇦',
+		ZMW: '🇿🇲',
+		SAR: '🇸🇦',
+		CHF: '🇨🇭',
+		CAD: '🇨🇦',
+		AUD: '🇦🇺',
+		MWK: '🇲🇼',
+		MZN: '🇲🇿',
+		BIF: '🇧🇮',
+		CDF: '🇨🇩',
+		NGN: '🇳🇬',
+		EGP: '🇪🇬'
+	};
+
 	// Map of currency codes to their bill arrays
 	const billsByCode: Record<string, typeof usdBills> = {
 		USD: usdBills,
@@ -409,9 +435,35 @@
 	let isSwapping = $state(false);
 	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
 	let sortDropdownOpen = $state(false);
+	let headerRef: HTMLElement | undefined;
+	let showStickyHeader = $state(false);
 	
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
+		
+		// Measure actual navbar height and set CSS variable
+		const desktopNav = document.querySelector('nav');
+		if (desktopNav) {
+			const navHeight = desktopNav.getBoundingClientRect().height;
+			document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`);
+			document.documentElement.style.setProperty('--navbar-height-mobile', `${navHeight}px`);
+		}
+		
+		// Use IntersectionObserver to detect when header scrolls out of view
+		let observer: IntersectionObserver | undefined;
+		if (headerRef) {
+			observer = new IntersectionObserver(
+				([entry]) => {
+					showStickyHeader = !entry.isIntersecting;
+				},
+				{ threshold: 0 }
+			);
+			observer.observe(headerRef);
+		}
+		
+		return () => {
+			observer?.disconnect();
+		};
 	});
 
 	let selectedCurrency = $derived(selectedBill ? rates.find(r => r.code === openCode) ?? null : null);
@@ -477,7 +529,8 @@
 		const bills = billsByCode[openCode];
 		if (!bills) return;
 		
-		const currentIndex = bills.findIndex(b => b.image === selectedBill.image);
+		const currentBill = selectedBill;
+		const currentIndex = bills.findIndex(b => b.image === currentBill.image);
 		if (currentIndex === -1) return;
 		
 		const previousIndex = currentIndex === 0 ? bills.length - 1 : currentIndex - 1;
@@ -489,7 +542,8 @@
 		const bills = billsByCode[openCode];
 		if (!bills) return;
 		
-		const currentIndex = bills.findIndex(b => b.image === selectedBill.image);
+		const currentBill = selectedBill;
+		const currentIndex = bills.findIndex(b => b.image === currentBill.image);
 		if (currentIndex === -1) return;
 		
 		const nextIndex = currentIndex === bills.length - 1 ? 0 : currentIndex + 1;
@@ -516,6 +570,10 @@
 		return value.toLocaleString(undefined, { maximumFractionDigits: 3 });
 	};
 
+	const scrollToTop = () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	};
+
 	const getLiveRate = (code: string) => {
 		const dynamicRate = $liveRates[code]?.TZS;
 		if (dynamicRate != null) return dynamicRate;
@@ -537,6 +595,21 @@
 
 	// Get the TO currency code
 	let selectedToCurrencyCode = $derived($defaultToCurrency);
+	let selectedFromCurrencyCode = $derived($defaultFromCurrency);
+
+	let stickyFromFlag = $derived(countryFlag[selectedFromCurrencyCode] || '');
+	let stickyToFlag = $derived(countryFlag[selectedToCurrencyCode] || '');
+
+	let stickyFromRate = $derived.by(() => {
+		const rate = rates.find(r => r.code === selectedFromCurrencyCode);
+		return rate?.value ?? 1;
+	});
+
+	let stickyConvertedValue = $derived.by(() => {
+		const toRate = rates.find(r => r.code === selectedToCurrencyCode);
+		if (!toRate) return stickyFromRate;
+		return stickyFromRate / toRate.value;
+	});
 
 	// Reorder rates to show user's selected FROM/TO currencies at the top
 	let sortedRates = $derived.by(() => {
@@ -604,6 +677,56 @@
 </script>
 
 <div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
+	<!-- Sticky Header (Desktop) -->
+	{#if showStickyHeader}
+		<div class="sticky-rate-bar hidden md:block fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+			<div class="max-w-4xl mx-auto px-8 py-2.5 flex items-center justify-between gap-4">
+				<div class="flex items-center justify-center gap-4 flex-1">
+					<FlagIcon code={selectedFromCurrencyCode} size="sm" />
+					<span class="font-semibold text-gray-600 dark:text-gray-300">{selectedFromCurrencyCode}</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+					</svg>
+					<span class="text-sm text-gray-600 dark:text-gray-400">
+						1 {selectedFromCurrencyCode} = <span class="font-semibold text-gray-900 dark:text-white">{formatRate(stickyConvertedValue)}</span>
+					</span>
+					<FlagIcon code={selectedToCurrencyCode} size="sm" />
+					<span class="font-semibold text-gray-600 dark:text-gray-300">{selectedToCurrencyCode}</span>
+				</div>
+				<button onclick={scrollToTop} class="flex-shrink-0 p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors duration-200" aria-label="Scroll to top">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+					</svg>
+				</button>
+			</div>
+		</div>
+	{/if}
+
+	<!-- Sticky Header (Mobile) -->
+	{#if showStickyHeader}
+		<div class="sticky-rate-bar-mobile md:hidden fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+			<div class="px-4 py-2 flex items-center justify-between gap-2">
+				<div class="flex items-center justify-center gap-2 flex-1 min-w-0">
+					<FlagIcon code={selectedFromCurrencyCode} size="sm" />
+					<span class="text-xs font-semibold text-gray-600 dark:text-gray-300">{selectedFromCurrencyCode}</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+					</svg>
+					<span class="text-xs text-gray-500 dark:text-gray-400 truncate">
+						1 = <span class="font-semibold text-gray-900 dark:text-white">{formatRate(stickyConvertedValue)}</span>
+					</span>
+					<FlagIcon code={selectedToCurrencyCode} size="sm" />
+					<span class="text-xs font-semibold text-gray-600 dark:text-gray-300">{selectedToCurrencyCode}</span>
+				</div>
+				<button onclick={scrollToTop} class="flex-shrink-0 p-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors duration-200" aria-label="Scroll to top">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+					</svg>
+				</button>
+			</div>
+		</div>
+	{/if}
+
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<div class="flex items-center gap-3">
@@ -619,7 +742,7 @@
 	</div>
 	
 	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
-		<div class="p-4 border-b border-gray-100 dark:border-gray-800">
+		<div class="p-4 border-b border-gray-100 dark:border-gray-800" bind:this={headerRef}>
 			<div class="flex flex-wrap items-center justify-start gap-3">
 				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</span>
 				<div class="flex items-center gap-2">
@@ -1838,6 +1961,15 @@
 		.usd-carousel-track {
 			animation: none;
 		}
+	}
+
+	/* Sticky Rate Bar - position under navbar */
+	.sticky-rate-bar {
+		top: var(--navbar-height, 57px);
+	}
+
+	.sticky-rate-bar-mobile {
+		top: var(--navbar-height-mobile, 56px);
 	}
 
 	/* Bill Modal Styles */
