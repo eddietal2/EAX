@@ -16,6 +16,7 @@
 	let amountInput: HTMLInputElement | undefined;
 	let showMobileKeyboard = $state(false);
 	let isMobile = $state(false);
+	let mounted = $state(false);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -179,6 +180,7 @@
 		const mq = window.matchMedia('(max-width: 767px)');
 		isMobile = mq.matches;
 		mq.addEventListener('change', (e) => { isMobile = e.matches; });
+		mounted = true;
 	});
 
 	const convertedAmount = $derived(() => {
@@ -261,7 +263,8 @@
 	</div>
 
 	<!-- Converter Card + Rate Info wrapper -->
-		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
+	{#if mounted}
+		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto" in:fly={{ y: 60, duration: 600, easing: t => 1 - Math.pow(1 - t, 3) }}>
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- From Currency -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
@@ -488,7 +491,8 @@
 			</a>
 		</div>
 
-	</div>
+		</div>
+	{/if}
 	</div>
 </div>
 
