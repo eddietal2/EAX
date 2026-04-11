@@ -97,7 +97,7 @@
 	}
 </script>
 
-<div class="min-h-screen md:min-h-0 md:h-full bg-white dark:bg-gray-950 transition-colors duration-200 pb-20 md:pb-0 md:overflow-auto">
+<div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="flex items-center gap-3 mb-6">
 			<h1 class="md:hidden text-xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>

@@ -678,7 +678,7 @@
 	});
 </script>
 
-<div class="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
+<div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<!-- Sticky Header (Desktop) -->
 	{#if showStickyHeader}
 		<div class="sticky-rate-bar hidden md:block fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">

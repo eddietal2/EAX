@@ -14,11 +14,15 @@ html {
 	overscroll-behavior: none;
 	-ms-touch-action: manipulation;
 	touch-action: manipulation;
+	overflow: hidden;
+	height: 100%;
 }
 
 body {
 	background-color: white;
 	overscroll-behavior: none;
+	overflow: hidden;
+	height: 100%;
 }
 
 /* Prevent iOS double-tap zoom on all interactive elements */

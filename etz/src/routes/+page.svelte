@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy, tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { conversionHistory } from '$lib/stores/conversionHistory';
@@ -181,15 +181,6 @@
 		isMobile = mq.matches;
 		mq.addEventListener('change', (e) => { isMobile = e.matches; });
 		mounted = true;
-
-		// Lock body scroll on mobile for home page
-		document.body.style.overflow = 'hidden';
-	});
-
-	onDestroy(() => {
-		if (typeof document !== 'undefined') {
-			document.body.style.overflow = '';
-		}
 	});
 
 	const convertedAmount = $derived(() => {
