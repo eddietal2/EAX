@@ -362,6 +362,33 @@
 		{ value: 100, label: 'EGP 100', image: EGP_Bill_100 }
 	];
 
+	// Map of currency codes to their bill arrays
+	const billsByCode: Record<string, typeof usdBills> = {
+		USD: usdBills,
+		EUR: euroBills,
+		GBP: gbpBills,
+		KES: kesBills,
+		TZS: tshBills,
+		UGX: ugxBills,
+		RWF: rwfBills,
+		AED: aedBills,
+		CNY: cynBills,
+		INR: inrBills,
+		ETB: ethBills,
+		ZAR: zarBills,
+		ZMW: zmwBills,
+		SAR: sarBills,
+		CHF: chfBills,
+		CAD: cadBills,
+		AUD: audBills,
+		MWK: mwkBills,
+		MZN: mznBills,
+		BIF: bifBills,
+		CDF: cdfBills,
+		NGN: ngnBills,
+		EGP: egpBills
+	};
+
 	let openCode = $state('');
 	let selectedBill = $state<typeof usdBills[0] | null>(null);
 	let carouselHovered = $state(false);
@@ -443,6 +470,30 @@
 		startZoom = 1;
 		initialPanX = 0;
 		initialPanY = 0;
+	};
+
+	const navigateToPreviousBill = () => {
+		if (!selectedBill || !openCode) return;
+		const bills = billsByCode[openCode];
+		if (!bills) return;
+		
+		const currentIndex = bills.findIndex(b => b.image === selectedBill.image);
+		if (currentIndex === -1) return;
+		
+		const previousIndex = currentIndex === 0 ? bills.length - 1 : currentIndex - 1;
+		selectedBill = bills[previousIndex];
+	};
+
+	const navigateToNextBill = () => {
+		if (!selectedBill || !openCode) return;
+		const bills = billsByCode[openCode];
+		if (!bills) return;
+		
+		const currentIndex = bills.findIndex(b => b.image === selectedBill.image);
+		if (currentIndex === -1) return;
+		
+		const nextIndex = currentIndex === bills.length - 1 ? 0 : currentIndex + 1;
+		selectedBill = bills[nextIndex];
 	};
 
 	// Reset zoom/pan when bill modal is opened (selectedBill changes)
@@ -1620,6 +1671,18 @@
 
 			<!-- Bill image stage -->
 			<div class="bill-modal-stage">
+				<!-- Previous button -->
+				<button
+					type="button"
+					class="bill-nav-arrow bill-nav-arrow-prev"
+					onclick={navigateToPreviousBill}
+					aria-label="Previous bill"
+				>
+					<svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+					</svg>
+				</button>
+
 				<div
 					class="bill-image-container"
 					role="img"
@@ -1670,6 +1733,18 @@
 						></div>
 					{/if}
 				</div>
+
+				<!-- Next button -->
+				<button
+					type="button"
+					class="bill-nav-arrow bill-nav-arrow-next"
+					onclick={navigateToNextBill}
+					aria-label="Next bill"
+				>
+					<svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+					</svg>
+				</button>
 			</div>
 
 			<!-- Info bar -->
@@ -1952,6 +2027,60 @@
 		color: rgba(255, 255, 255, 0.2);
 		pointer-events: none;
 		letter-spacing: 0.025em;
+	}
+
+	.bill-nav-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(255, 255, 255, 0.12);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 0.5rem;
+		padding: 0.625rem;
+		color: rgba(255, 255, 255, 0.8);
+		cursor: pointer;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 10;
+	}
+
+	.bill-nav-arrow:hover {
+		background: rgba(255, 255, 255, 0.25);
+		border-color: rgba(255, 255, 255, 0.4);
+		color: white;
+	}
+
+	.bill-nav-arrow:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	.bill-nav-arrow-prev {
+		left: 1rem;
+	}
+
+	.bill-nav-arrow-next {
+		right: 1rem;
+	}
+
+	@media (max-width: 640px) {
+		.bill-nav-arrow {
+			padding: 0.5rem;
+		}
+
+		.bill-nav-arrow svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		.bill-nav-arrow-prev {
+			left: 0.5rem;
+		}
+
+		.bill-nav-arrow-next {
+			right: 0.5rem;
+		}
 	}
 
 	@keyframes fadeIn {
