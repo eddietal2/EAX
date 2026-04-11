@@ -15,6 +15,7 @@
 	let isSwapping = $state(false);
 	let amountInput: HTMLInputElement | undefined;
 	let showMobileKeyboard = $state(false);
+	let isMobile = $state(false);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -175,6 +176,9 @@
 		fromCurrency = $defaultFromCurrency;
 		toCurrency = $defaultToCurrency;
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
+		const mq = window.matchMedia('(max-width: 767px)');
+		isMobile = mq.matches;
+		mq.addEventListener('change', (e) => { isMobile = e.matches; });
 	});
 
 	const convertedAmount = $derived(() => {
@@ -295,9 +299,9 @@
 							use:currencyInput
 							type="text"
 							placeholder="0"
-							inputmode="none"
-							readonly
-							onfocus={() => { showMobileKeyboard = true; }}
+							inputmode={isMobile ? 'none' : 'decimal'}
+							readonly={isMobile}
+							onfocus={() => { if (isMobile) showMobileKeyboard = true; }}
 							style="font-size: 16px;"
 							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
