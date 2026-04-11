@@ -26,9 +26,51 @@
 	}
 
 	function stripToNumeric(value: string): string {
-		const cleaned = value.replace(/[^0-9.]/g, '');
+		const cleaned = value.replace(/[^0-9.+\-*/]/g, '');
 		const [intPart, ...rest] = cleaned.split('.');
 		return intPart + (rest.length ? '.' + rest.join('') : '');
+	}
+
+	function evaluateExpression(expression: string): string {
+		try {
+			const cleaned = expression.replace(/,/g, '').trim();
+			
+			if (!cleaned) return '';
+			
+			// If it ends with an operator, remove it for evaluation
+			let toEvaluate = cleaned;
+			if (/[+\-*/]$/.test(toEvaluate)) {
+				toEvaluate = toEvaluate.slice(0, -1).trim();
+			}
+			
+			if (!toEvaluate) return '';
+			
+			// Safely evaluate math expression
+			const result = Function('"use strict"; return (' + toEvaluate + ')')();
+			
+			if (typeof result === 'number' && isFinite(result)) {
+				return result.toString();
+			}
+			return cleaned;
+		} catch (e) {
+			return '';
+		}
+	}
+
+	function formatExpressionWithCommas(value: string): string {
+		if (!value) return '';
+		
+		// Split by operators while keeping them
+		const parts = value.split(/(?=[+\-*/])|(?<=[+\-*/])/);
+		
+		return parts.map(part => {
+			// If it's a number, format with commas
+			if (/^[\d.]+$/.test(part)) {
+				return formatWithCommas(part);
+			}
+			// Keep operators as-is
+			return part;
+		}).join('');
 	}
 
 	// Svelte action: handles formatting + caret preservation imperatively
@@ -37,26 +79,29 @@
 			const cursorPos = node.selectionStart ?? node.value.length;
 			const rawBefore = node.value;
 
-			// count digits before cursor in the raw (pre-format) value
-			const digitsBeforeCursor = rawBefore.slice(0, cursorPos).replace(/[^0-9.]/g, '').length;
+			// count digits before cursor (ignoring commas)
+			const digitsBeforeCursor = rawBefore.slice(0, cursorPos).replace(/[^0-9.+\-*/]/g, '').length;
 
-			// strip to clean number, update reactive state
-			const numeric = stripToNumeric(rawBefore.replace(/,/g, ''));
-			amount = numeric;
+			// strip to clean expression with operators
+			const expression = stripToNumeric(rawBefore.replace(/,/g, ''));
+			
+			// evaluate to get numeric result for conversion
+			const evaluated = evaluateExpression(expression);
+			amount = evaluated;
 
-			// wait for Svelte to finish re-rendering (it may reset node.value)
+			// wait for Svelte to finish re-rendering
 			await tick();
 
-			// format with commas and set DOM value AFTER Svelte's update
-			const formatted = formatWithCommas(numeric);
+			// format with commas while preserving operators
+			const formatted = formatExpressionWithCommas(expression);
 			node.value = formatted;
 
-			// restore cursor: walk through formatted string counting digits until we match
-			let digitsSeen = 0;
+			// restore cursor: count non-comma characters
+			let charsSeen = 0;
 			let newCursor = 0;
 			for (let i = 0; i < formatted.length; i++) {
-				if (formatted[i] !== ',') digitsSeen++;
-				if (digitsSeen === digitsBeforeCursor) {
+				if (formatted[i] !== ',') charsSeen++;
+				if (charsSeen === digitsBeforeCursor) {
 					newCursor = i + 1;
 					break;
 				}
