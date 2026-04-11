@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import { fly } from 'svelte/transition';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { conversionHistory } from '$lib/stores/conversionHistory';
 	import { toastStore } from '$lib/stores/toast';
@@ -13,6 +14,7 @@
 	let swapRotation = $state(0);
 	let isSwapping = $state(false);
 	let amountInput: HTMLInputElement | undefined;
+	let showMobileKeyboard = $state(false);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -200,6 +202,31 @@
 		}
 	}
 
+	function appendToInput(value: string) {
+		if (!amountInput) return;
+		const current = amountInput.value;
+		const newValue = current + value;
+		amountInput.value = newValue;
+		// Trigger the input event to format with commas
+		amountInput.dispatchEvent(new Event('input', { bubbles: true }));
+	}
+
+	function backspace() {
+		if (!amountInput) return;
+		const current = amountInput.value;
+		if (current.length > 0) {
+			amountInput.value = current.slice(0, -1);
+			amountInput.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+	}
+
+	function focusInput() {
+		if (amountInput) {
+			amountInput.focus();
+			showMobileKeyboard = true;
+		}
+	}
+
 	function saveConversion() {
 		const num = parseFloat(amount);
 		if (isNaN(num) || num <= 0) return;
@@ -268,8 +295,11 @@
 							use:currencyInput
 							type="text"
 							placeholder="0"
-							inputmode="decimal"
-							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 {!amount ? 'animate-pulse md:animate-none' : ''}"
+							inputmode="none"
+							readonly
+							onfocus={() => { showMobileKeyboard = true; }}
+							style="font-size: 16px;"
+							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
 						{#if amount}
 							<button
@@ -284,6 +314,69 @@
 						{/if}
 					</div>
 				</div>
+
+				<!-- Mobile Custom Keyboard -->
+				{#if showMobileKeyboard}
+					<div transition:fly={{ y: 300, duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }} class="md:hidden fixed bottom-20 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-2 space-y-2 z-50">
+						<!-- Close button -->
+						<div class="flex justify-end">
+							<button onclick={() => { showMobileKeyboard = false; }} class="px-3 py-1 text-base font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform">
+								Done
+							</button>
+						</div>
+
+						<!-- Number Pad Rows -->
+						<!-- Row 1: 1 2 3 -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each [1, 2, 3] as num}
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+									{num}
+								</button>
+							{/each}
+						</div>
+
+						<!-- Row 2: 4 5 6 -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each [4, 5, 6] as num}
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+									{num}
+								</button>
+							{/each}
+						</div>
+
+						<!-- Row 3: 7 8 9 -->
+						<div class="grid grid-cols-3 gap-2">
+							{#each [7, 8, 9] as num}
+								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+									{num}
+								</button>
+							{/each}
+						</div>
+
+						<!-- Row 4: . 0 ⌫ -->
+						<div class="grid grid-cols-3 gap-2">
+							<button onclick={() => appendToInput('.')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								.
+							</button>
+							<button onclick={() => appendToInput('0')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								0
+							</button>
+							<button onclick={backspace} class="py-3 text-base bg-red-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								⌫
+							</button>
+						</div>
+
+						<!-- Row 5: + - operators -->
+						<div class="grid grid-cols-2 gap-2">
+							<button onclick={() => appendToInput('+')} class="py-3 text-base bg-emerald-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								+
+							</button>
+							<button onclick={() => appendToInput('-')} class="py-3 text-base bg-emerald-500 text-white font-semibold rounded-lg active:scale-95 transition-transform">
+								−
+							</button>
+						</div>
+					</div>
+				{/if}
 			</div>
 			
 			<!-- Swap Button -->

@@ -12,11 +12,18 @@
 html {
 	background-color: white;
 	overscroll-behavior: none;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
 }
 
 body {
 	background-color: white;
 	overscroll-behavior: none;
+}
+
+/* Prevent iOS double-tap zoom on all interactive elements */
+button, input, select, textarea, a {
+	touch-action: manipulation;
 }
 
 html.dark,
