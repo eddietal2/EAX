@@ -8,6 +8,22 @@
 	--font-bebas-neue: 'Bebas Neue', ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Match html/body background to mobile tab bar so no gap shows when browser chrome hides */
+html {
+	background-color: white;
+	overscroll-behavior: none;
+}
+
+body {
+	background-color: white;
+	overscroll-behavior: none;
+}
+
+html.dark,
+html.dark body {
+	background-color: #030712; /* gray-950 */
+}
+
 nav,
 h1,
 h2,

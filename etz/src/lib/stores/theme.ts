@@ -34,9 +34,19 @@ function createThemeStore() {
 		// Add the appropriate class
 		if (resolvedTheme === 'dark') {
 			htmlElement.classList.add('dark');
+			document.body.style.backgroundColor = '#030712';
 		} else {
 			htmlElement.classList.add('light');
+			document.body.style.backgroundColor = '#ffffff';
 		}
+
+		// Update theme-color meta tags for mobile browser chrome
+		const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+		themeColorMetas.forEach(meta => meta.remove());
+		const metaTheme = document.createElement('meta');
+		metaTheme.name = 'theme-color';
+		metaTheme.content = resolvedTheme === 'dark' ? '#030712' : '#ffffff';
+		document.head.appendChild(metaTheme);
 
 		// Force a DOM repaint
 		void htmlElement.offsetHeight;

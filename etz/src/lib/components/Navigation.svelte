@@ -63,7 +63,7 @@
 </nav>
 
 <!-- Mobile Bottom Tab Bar -->
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 z-50" style="padding-bottom: max(0.25rem, env(safe-area-inset-bottom));">
+<nav class="md:hidden fixed left-0 right-0 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 z-50" style="bottom: -100px; padding-bottom: calc(100px + max(0.25rem, env(safe-area-inset-bottom)));">
 	<div class="flex items-center justify-between px-1">
 		{#each navItems as item}
 			<a

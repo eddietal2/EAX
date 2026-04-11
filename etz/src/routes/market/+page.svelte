@@ -446,23 +446,25 @@
 		if (desktopNav) {
 			const navHeight = desktopNav.getBoundingClientRect().height;
 			document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`);
-			document.documentElement.style.setProperty('--navbar-height-mobile', `${navHeight}px`);
 		}
 		
-		// Use IntersectionObserver to detect when header scrolls out of view
-		let observer: IntersectionObserver | undefined;
-		if (headerRef) {
-			observer = new IntersectionObserver(
-				([entry]) => {
-					showStickyHeader = !entry.isIntersecting;
-				},
-				{ threshold: 0 }
-			);
-			observer.observe(headerRef);
-		}
+		// Use scroll listener to detect when header scrolls out of view
+		// Uses document-relative positions (offsetTop) instead of viewport-relative (getBoundingClientRect)
+		// to avoid flickering when mobile browser chrome hides/shows and resizes the viewport
+		const handleScroll = () => {
+			if (headerRef) {
+				const headerBottom = headerRef.offsetTop + headerRef.offsetHeight;
+				showStickyHeader = window.scrollY > headerBottom;
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		// Also listen to resize to handle browser chrome show/hide
+		window.addEventListener('resize', handleScroll, { passive: true });
 		
 		return () => {
-			observer?.disconnect();
+			window.removeEventListener('scroll', handleScroll);
+			window.removeEventListener('resize', handleScroll);
 		};
 	});
 
@@ -1969,7 +1971,7 @@
 	}
 
 	.sticky-rate-bar-mobile {
-		top: var(--navbar-height-mobile, 56px);
+		top: 0;
 	}
 
 	/* Bill Modal Styles */
