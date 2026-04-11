@@ -14,9 +14,9 @@
 	<meta name="theme-color" content="#030712" media="(prefers-color-scheme: dark)" />
 </svelte:head>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950 md:flex md:flex-col">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950 md:h-screen md:flex md:flex-col">
 	<Navigation />
-	<main class="pb-20 md:pb-0">
+	<main class="pb-20 md:pb-0 md:flex-1 md:overflow-auto">
 		{@render children()}
 	</main>
 	<Toast />
