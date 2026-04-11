@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { conversionHistory } from '$lib/stores/conversionHistory';
@@ -181,6 +181,15 @@
 		isMobile = mq.matches;
 		mq.addEventListener('change', (e) => { isMobile = e.matches; });
 		mounted = true;
+
+		// Lock body scroll on mobile for home page
+		document.body.style.overflow = 'hidden';
+	});
+
+	onDestroy(() => {
+		if (typeof document !== 'undefined') {
+			document.body.style.overflow = '';
+		}
 	});
 
 	const convertedAmount = $derived(() => {
@@ -254,7 +263,7 @@
 </script>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">
-	<div class="flex-1 overflow-y-auto md:overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-20 md:pb-0">
+	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-20 md:pb-0">
 		<!-- Header -->
 	<div class="text-center mb-3 md:hidden">
 		<h1 class="text-3xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
