@@ -17,6 +17,8 @@
 	let showMobileKeyboard = $state(false);
 	let isMobile = $state(false);
 	let mounted = $state(false);
+	let swapButtonEl: HTMLDivElement | undefined;
+	let keyboardTop = $state(0);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -304,7 +306,7 @@
 							placeholder="0"
 							inputmode={isMobile ? 'none' : 'decimal'}
 							readonly={isMobile}
-							onfocus={() => { if (isMobile) showMobileKeyboard = true; }}
+							onfocus={() => { if (isMobile) { if (swapButtonEl) keyboardTop = swapButtonEl.getBoundingClientRect().bottom; showMobileKeyboard = true; } }}
 							style="font-size: 16px;"
 							class="min-w-0 w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
@@ -321,79 +323,10 @@
 						{/if}
 					</div>
 				</div>
-
-				<!-- Mobile Custom Keyboard -->
-				{#if showMobileKeyboard}
-					<div transition:fly={{ y: 300, duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }} class="md:hidden fixed bottom-20 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 p-2 space-y-2 z-50">
-						<!-- Header: converted value + Done -->
-						<div class="flex items-center justify-between">
-							<span class="px-3 py-1 text-base font-semibold text-gray-900 dark:text-white truncate flex items-center gap-1.5">
-								{#if convertedAmount()}
-									<FlagIcon code={toCurrency} size="sm" />
-									{convertedAmount()} {toCurrency}
-								{/if}
-							</span>
-							<button onclick={() => { showMobileKeyboard = false; }} class="px-3 py-1 text-base font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform shrink-0">
-								Done
-							</button>
-						</div>
-
-						<!-- Number Pad Rows -->
-						<!-- Row 1: 1 2 3 -->
-						<div class="grid grid-cols-3 gap-2">
-							{#each [1, 2, 3] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
-									{num}
-								</button>
-							{/each}
-						</div>
-
-						<!-- Row 2: 4 5 6 -->
-						<div class="grid grid-cols-3 gap-2">
-							{#each [4, 5, 6] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
-									{num}
-								</button>
-							{/each}
-						</div>
-
-						<!-- Row 3: 7 8 9 -->
-						<div class="grid grid-cols-3 gap-2">
-							{#each [7, 8, 9] as num}
-								<button onclick={() => appendToInput(num.toString())} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
-									{num}
-								</button>
-							{/each}
-						</div>
-
-						<!-- Row 4: . 0 ⌫ -->
-						<div class="grid grid-cols-3 gap-2">
-							<button onclick={() => appendToInput('.')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
-								.
-							</button>
-							<button onclick={() => appendToInput('0')} class="py-3 text-base bg-white/80 dark:bg-gray-700/80 text-gray-900 dark:text-white font-semibold rounded-lg active:scale-95 active:bg-gray-300 dark:active:bg-gray-600 transition-all duration-100">
-								0
-							</button>
-							<button onclick={backspace} class="py-3 text-base bg-red-500 text-white font-semibold rounded-lg active:scale-95 active:bg-red-600 transition-all duration-100">
-								⌫
-							</button>
-						</div>
-
-						<!-- Row 5: + - operators -->
-						<div class="grid grid-cols-2 gap-2">
-							<button onclick={() => appendToInput('+')} class="py-3 text-xl bg-emerald-500 text-white font-bold rounded-lg active:scale-95 active:bg-emerald-600 transition-all duration-100">
-								+
-							</button>
-							<button onclick={() => appendToInput('-')} class="py-3 text-xl bg-emerald-500 text-white font-bold rounded-lg active:scale-95 active:bg-emerald-600 transition-all duration-100">
-								−
-							</button>
-						</div>
-					</div>
-				{/if}
 			</div>
 			
 			<!-- Swap Button -->
-			<div class="flex items-center justify-center relative py-1 md:py-1">
+			<div bind:this={swapButtonEl} class="flex items-center justify-center relative py-1 md:py-1">
 				<div class="absolute inset-x-0 top-1/2 border-t border-gray-100"></div>
 				<button
 					onclick={swapCurrencies}
@@ -491,6 +424,74 @@
 			</a>
 		</div>
 
+		</div>
+	{/if}
+
+	<!-- Mobile Custom Keyboard -->
+	{#if showMobileKeyboard}
+		<div transition:fly={{ y: 300, duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }} class="md:hidden fixed left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 z-50 flex flex-col p-2 gap-1" style="top: {keyboardTop}px; bottom: 5rem;">
+			<!-- Header: converted value + Done -->
+			<div class="flex items-center justify-between shrink-0 px-2 py-1">
+				<span class="text-sm font-semibold text-gray-900 dark:text-white truncate flex items-center gap-1">
+					{#if convertedAmount()}
+						<FlagIcon code={toCurrency} size="sm" />
+						{convertedAmount()} {toCurrency}
+					{/if}
+				</span>
+				<button onclick={() => { showMobileKeyboard = false; }} class="px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform shrink-0">
+					Done
+				</button>
+			</div>
+
+			<!-- Row 1: 1 2 3 -->
+			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+				{#each [1, 2, 3] as num}
+					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+						{num}
+					</button>
+				{/each}
+			</div>
+
+			<!-- Row 2: 4 5 6 -->
+			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+				{#each [4, 5, 6] as num}
+					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+						{num}
+					</button>
+				{/each}
+			</div>
+
+			<!-- Row 3: 7 8 9 -->
+			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+				{#each [7, 8, 9] as num}
+					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+						{num}
+					</button>
+				{/each}
+			</div>
+
+			<!-- Row 4: . 0 ⌫ -->
+			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+				<button onclick={() => appendToInput('.')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+					.
+				</button>
+				<button onclick={() => appendToInput('0')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+					0
+				</button>
+				<button onclick={backspace} class="bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-2xl rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-red-500/50 dark:hover:shadow-red-500/30 flex items-center justify-center leading-none">
+					×
+				</button>
+			</div>
+
+			<!-- Row 5: + - operators -->
+			<div class="grid grid-cols-2 gap-1 flex-1 min-h-0">
+				<button onclick={() => appendToInput('+')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+					+
+				</button>
+				<button onclick={() => appendToInput('-')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+					−
+				</button>
+			</div>
 		</div>
 	{/if}
 	</div>
