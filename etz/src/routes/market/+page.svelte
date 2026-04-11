@@ -436,6 +436,7 @@
 	let sortMode = $state<'nameAsc' | 'nameDesc' | 'valueAsc' | 'valueDesc'>('nameAsc');
 	let sortDropdownOpen = $state(false);
 	let headerRef: HTMLElement | undefined;
+	let pageRef: HTMLElement | undefined;
 	let showStickyHeader = $state(false);
 	
 	onMount(() => {
@@ -448,23 +449,25 @@
 			document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`);
 		}
 		
-		// Use scroll listener to detect when header scrolls out of view
-		// Uses document-relative positions (offsetTop) instead of viewport-relative (getBoundingClientRect)
-		// to avoid flickering when mobile browser chrome hides/shows and resizes the viewport
+		// Listen to container scroll instead of window scroll
+		// The page uses h-full overflow-auto, so scroll events come from the container
 		const handleScroll = () => {
-			if (headerRef) {
-				const headerBottom = headerRef.offsetTop + headerRef.offsetHeight;
-				showStickyHeader = window.scrollY > headerBottom;
+			if (headerRef && pageRef) {
+				// Calculate when header has scrolled out of view
+				const headerRect = headerRef.getBoundingClientRect();
+				// Header is hidden when its bottom edge goes above the top of the viewport
+				showStickyHeader = headerRect.bottom < 0;
 			}
 		};
 
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		// Also listen to resize to handle browser chrome show/hide
-		window.addEventListener('resize', handleScroll, { passive: true });
+		if (pageRef) {
+			pageRef.addEventListener('scroll', handleScroll, { passive: true });
+		}
 		
 		return () => {
-			window.removeEventListener('scroll', handleScroll);
-			window.removeEventListener('resize', handleScroll);
+			if (pageRef) {
+				pageRef.removeEventListener('scroll', handleScroll);
+			}
 		};
 	});
 
@@ -573,7 +576,9 @@
 	};
 
 	const scrollToTop = () => {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		if (pageRef) {
+			pageRef.scrollTo({ top: 0, behavior: 'smooth' });
+		}
 	};
 
 	const getLiveRate = (code: string) => {
@@ -678,7 +683,7 @@
 	});
 </script>
 
-<div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+<div bind:this={pageRef} class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<!-- Sticky Header (Desktop) -->
 	{#if showStickyHeader}
 		<div class="sticky-rate-bar hidden md:block fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
