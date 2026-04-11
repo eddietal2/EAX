@@ -12,6 +12,7 @@
 	let toCurrency = $state('TZS');
 	let swapRotation = $state(0);
 	let isSwapping = $state(false);
+	let amountInput: HTMLInputElement | undefined;
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -147,6 +148,13 @@
 		setTimeout(() => { isSwapping = false; }, 400);
 	}
 
+	function clearAmount() {
+		amount = '';
+		if (amountInput) {
+			amountInput.value = '';
+		}
+	}
+
 	function saveConversion() {
 		const num = parseFloat(amount);
 		if (isNaN(num) || num <= 0) return;
@@ -209,14 +217,26 @@
 						<option value="NGN">NGN</option>
 						<option value="EGP">EGP</option>
 					</select>
-					<div class="flex-1 min-w-0">
+					<div class="flex-1 min-w-0 relative">
 						<input
+							bind:this={amountInput}
 							use:currencyInput
 							type="text"
 							placeholder="0"
 							inputmode="decimal"
-							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 {!amount ? 'animate-pulse md:animate-none' : ''}"
+							class="min-w-0 w-full text-xl md:text-2xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>
+						{#if amount}
+							<button
+								onclick={clearAmount}
+								aria-label="Clear input"
+								class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>
