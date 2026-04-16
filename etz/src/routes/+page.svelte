@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { conversionHistory } from '$lib/stores/conversionHistory';
 	import { toastStore } from '$lib/stores/toast';
@@ -316,7 +316,7 @@
 	{/if}
 
 	{#if mounted}
-		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto" in:fly={{ y: 60, duration: 600, easing: t => 1 - Math.pow(1 - t, 3) }}>
+		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto" in:fade={{ duration: 300 }}>
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- From Currency -->
 			<div class="p-3 md:p-3 dark:text-gray-300">

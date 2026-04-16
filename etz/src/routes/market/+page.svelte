@@ -424,6 +424,7 @@
 	let magnifyMouseY = $state(0);
 	let billImgWidth = $state(0);
 	let billImgHeight = $state(0);
+	let cachedBillRect: DOMRect | null = null;
 	let zoomLevel = $state(1);
 	let initialDistance = 0;
 	let startZoom = 1;
@@ -455,12 +456,17 @@
 		
 		// Listen to container scroll instead of window scroll
 		// The page uses h-full overflow-auto, so scroll events come from the container
+		let scrollTicking = false;
 		const handleScroll = () => {
-			if (headerRef && pageRef) {
-				// Calculate when header has scrolled out of view
-				const headerRect = headerRef.getBoundingClientRect();
-				// Header is hidden when its bottom edge goes above the top of the viewport
-				showStickyHeader = headerRect.bottom < 0;
+			if (!scrollTicking) {
+				scrollTicking = true;
+				requestAnimationFrame(() => {
+					if (headerRef && pageRef) {
+						const headerRect = headerRef.getBoundingClientRect();
+						showStickyHeader = headerRect.bottom < 0;
+					}
+					scrollTicking = false;
+				});
 			}
 		};
 
@@ -1859,9 +1865,6 @@
 					ontouchmove={(e) => {
 						e.preventDefault();
 						if (e.touches.length === 0) return;
-						const rect = e.currentTarget.getBoundingClientRect();
-						billImgWidth = rect.width;
-						billImgHeight = rect.height;
 						// Handle pinch zoom or pan
 						handlePinch(e);
 					}}
@@ -1870,14 +1873,13 @@
 						isTouching = false;
 						handlePinchEnd();
 					}}
-					onmouseenter={() => (billImageHovered = true)}
-					onmouseleave={() => { billImageHovered = false; }}
+					onmouseenter={(e) => { billImageHovered = true; cachedBillRect = e.currentTarget.getBoundingClientRect(); billImgWidth = cachedBillRect.width; billImgHeight = cachedBillRect.height; }}
+					onmouseleave={() => { billImageHovered = false; cachedBillRect = null; }}
 					onmousemove={(e) => {
-						const rect = e.currentTarget.getBoundingClientRect();
-						magnifyMouseX = e.clientX - rect.left;
-						magnifyMouseY = e.clientY - rect.top;
-						billImgWidth = rect.width;
-						billImgHeight = rect.height;
+						if (cachedBillRect) {
+							magnifyMouseX = e.clientX - cachedBillRect.left;
+							magnifyMouseY = e.clientY - cachedBillRect.top;
+						}
 					}}
 				>
 					<img 

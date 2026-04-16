@@ -5,13 +5,25 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="description" content="EAX - Fast and accurate currency exchange rates for East African currencies. Convert between TZS, USD, EUR, GBP, KES and more. Real-time rates with detailed exchange information." />
 		<title>EAX - Currency Exchange Rates</title>
-		<!-- Font preconnection and preload for performance -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" />
+		<!-- Self-hosted fonts for fast LCP -->
+		<link rel="preload" href="/fonts/BebasNeue-latin.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/SpaceGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 		<!-- Critical CSS for LCP element (h1) to render immediately -->
 		<style>
+			@font-face {
+				font-family: 'Bebas Neue';
+				font-style: normal;
+				font-weight: 400;
+				font-display: swap;
+				src: url('/fonts/BebasNeue-latin.woff2') format('woff2');
+			}
+			@font-face {
+				font-family: 'Space Grotesk';
+				font-style: normal;
+				font-weight: 400 800;
+				font-display: swap;
+				src: url('/fonts/SpaceGrotesk-latin.woff2') format('woff2');
+			}
 			h1 {
 				font-family: 'Bebas Neue', 'Courier New', monospace;
 				font-size: 1.875rem;
