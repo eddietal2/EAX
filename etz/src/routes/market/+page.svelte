@@ -691,6 +691,7 @@
 
 <svelte:head>
 	<title>Market Rates - EAX Currency Exchange</title>
+	<meta name="description" content="View all current market exchange rates with EAX. Compare rates for multiple currencies including TZS, USD, EUR, GBP, and KES. Real-time rate updates." />
 </svelte:head>
 
 <div bind:this={pageRef} class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">

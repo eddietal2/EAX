@@ -258,6 +258,7 @@
 
 <svelte:head>
 	<title>Home - EAX Currency Exchange</title>
+	<meta name="description" content="EAX home page. Quick currency conversion calculator for East African currencies. Check real-time exchange rates and convert between TZS, USD, EUR, and more." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">

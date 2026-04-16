@@ -102,6 +102,7 @@
 
 <svelte:head>
 	<title>History - EAX Currency Exchange</title>
+	<meta name="description" content="View your currency conversion history with EAX. Track all your recent exchanges and conversion rates to stay informed about market trends." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">

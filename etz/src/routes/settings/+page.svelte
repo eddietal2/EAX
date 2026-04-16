@@ -39,6 +39,7 @@
 
 <svelte:head>
 	<title>Settings - EAX Currency Exchange</title>
+	<meta name="description" content="Customize your EAX experience. Change your preferred languages, default currencies, and configure your conversion preferences." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
