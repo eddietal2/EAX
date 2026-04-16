@@ -1,14 +1,21 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { currencyOptions, defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
 	import { currentLanguage, languages, getTranslation } from '$lib/stores/i18n';
 	import { themeStore, type Theme } from '$lib/stores/theme';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
+	import Skeleton from '$lib/components/Skeleton.svelte';
 
 	let selectedFromCurrency = $state($defaultFromCurrency);
 	let selectedToCurrency = $state($defaultToCurrency);
 	let selectedLanguage = $state($currentLanguage);
 	let selectedTheme = $state<Theme>($themeStore);
 	let isChangingLanguage = $state(false);
+	let mounted = $state(false);
+
+	onMount(() => {
+		mounted = true;
+	});
 
 	function updateDefaultFromCurrency() {
 		defaultFromCurrency.set(selectedFromCurrency);
@@ -37,6 +44,20 @@
 		<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('settings.title')}</h1>
 	</div>
 	
+	{#if !mounted}
+		<!-- Skeleton Loading State -->
+		<div class="space-y-3">
+			{#each Array(4) as _, i (i)}
+				<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4 space-y-3">
+					<div>
+						<Skeleton width="w-32" height="h-4" />
+						<Skeleton width="w-48" height="h-3" class="mt-1" />
+					</div>
+					<Skeleton width="w-32" height="h-10" />
+				</div>
+			{/each}
+		</div>
+	{:else}
 	<div class="space-y-3">
 		<!-- Language Selection -->
 		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 p-4">
@@ -126,5 +147,6 @@
 		</div>
 		
 	</div>
+	{/if}
 	</div>
 </div>

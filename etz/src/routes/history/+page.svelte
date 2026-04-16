@@ -3,16 +3,19 @@
 	import { conversionHistory } from '$lib/stores/conversionHistory';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
+	import Skeleton from '$lib/components/Skeleton.svelte';
 
 	let editingId = $state<string | null>(null);
 	let editingName = $state('');
 	let inputElement = $state<HTMLInputElement | undefined>();
+	let mounted = $state(false);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
 
 	onMount(() => {
 		conversionHistory.loadFromStorage();
+		mounted = true;
 	});
 
 	function getCurrencyColor(currency: string): string {
@@ -105,7 +108,28 @@
 		</div>
 		<p class="text-gray-600 dark:text-gray-400 mb-6">{t('history.subtitle')}</p>
 		
-<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
+		{#if !mounted}
+			<!-- Skeleton Loading State -->
+			<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+				<div class="divide-y divide-gray-100 dark:divide-gray-800">
+					{#each Array(5) as _, i (i)}
+						<div class="p-4 space-y-3">
+							<div class="flex items-center justify-between mb-3">
+								<Skeleton width="w-32" height="h-3" />
+								<Skeleton width="w-24" height="h-4" />
+							</div>
+							<Skeleton width="w-full" height="h-4" class="mb-2" />
+							<div class="flex items-center justify-between gap-3">
+								<Skeleton width="w-20" height="h-8" />
+								<Skeleton width="flex-1" height="h-4" />
+								<Skeleton width="w-20" height="h-8" />
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
+		{:else}
+		<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<div class="divide-y divide-gray-100 dark:divide-gray-800">
 			{#if $conversionHistory.length === 0}
 				<div class="p-8 text-center">
@@ -172,5 +196,7 @@
 		</div>
 	</div>
 	
-	<p class="text-center text-sm text-gray-400 dark:text-gray-500 mt-6">Conversions are saved locally on your device</p>	</div>
+	<p class="text-center text-sm text-gray-400 dark:text-gray-500 mt-6">Conversions are saved locally on your device</p>	
+		{/if}
+	</div>
 </div>

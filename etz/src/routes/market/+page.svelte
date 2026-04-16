@@ -3,7 +3,7 @@
 	import { rates as liveRates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
-	import FlagIcon from '$lib/components/FlagIcon.svelte';
+	import Skeleton from '$lib/components/Skeleton.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
 	import USD_Bill_05 from '$lib/assets/bill-notes/USD/05_Bill.jpg';
@@ -146,6 +146,7 @@
 	import EGP_Bill_20 from '$lib/assets/bill-notes/EGP/20_Bill.png';
 	import EGP_Bill_50 from '$lib/assets/bill-notes/EGP/50_Bill.png';
 	import EGP_Bill_100 from '$lib/assets/bill-notes/EGP/100_Bill.png';
+	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	const rates = [
 		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1, description: 'The official currency of Tanzania since 1966, replacing the East African shilling. Named after the country, the shilling is issued by the Bank of Tanzania and features iconic landmarks like Mount Kilimanjaro and wildlife on its banknotes.' },
@@ -438,6 +439,7 @@
 	let headerRef: HTMLElement | undefined;
 	let pageRef: HTMLElement | undefined;
 	let showStickyHeader = $state(false);
+	let mounted = $state(false);
 	
 	onMount(() => {
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
@@ -465,7 +467,9 @@
 		if (pageRef) {
 			pageRef.addEventListener('scroll', handleScroll, { passive: true });
 		}
-		
+
+		mounted = true;
+
 		return () => {
 			if (pageRef) {
 				pageRef.removeEventListener('scroll', handleScroll);
@@ -736,7 +740,7 @@
 		</div>
 	{/if}
 
-	<div class="p-4 md:p-8 max-w-4xl mx-auto">
+	<div class="pt-8 md:pb-4 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<div class="flex items-center gap-3">
 				<h1 class="md:hidden text-xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
@@ -748,10 +752,11 @@
 				<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">{t('market.updating')}</span>
 			</div>
 		{/if}
+		</div>
 	</div>
 	
-	<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
-		<div class="p-4 border-b border-gray-100 dark:border-gray-800" bind:this={headerRef}>
+	<div class="max-w-4xl mx-auto p-4 md:p-8 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
+		<div class="p-4 border-b border-gray-100 dark:border-gray-800 -mx-4 md:-mx-8 px-4 md:px-8" bind:this={headerRef}>
 			<div class="flex flex-wrap items-center justify-start gap-3">
 				<span class="text-sm text-gray-500 dark:text-gray-400">{t('market.subtitle')}</span>
 				<div class="flex items-center gap-2">
@@ -792,6 +797,25 @@
 			</div>
 		</div>
 		
+		{#if !mounted}
+			<!-- Skeleton Loading State -->
+			<div class="divide-y divide-gray-100 dark:divide-gray-800">
+				{#each Array(8) as _, i (i)}
+					<div class="border-b border-gray-100 dark:border-gray-800 last:border-b-0 p-4 md:p-8 space-y-3">
+						<div class="flex items-center justify-between">
+							<div class="flex items-center gap-3 flex-1">
+								<Skeleton width="w-10" height="h-10" circle={true} />
+								<div class="flex-1 space-y-1">
+									<Skeleton width="w-20" height="h-4" />
+									<Skeleton width="w-32" height="h-3" />
+								</div>
+							</div>
+							<Skeleton width="w-16" height="h-5" />
+						</div>
+					</div>
+				{/each}
+			</div>
+		{:else}
 		<div class="divide-y divide-gray-100 dark:divide-gray-800" role="list">
 			{#each convertedRates as rate, index}
 				<div
@@ -800,7 +824,7 @@
 				>
 					<button
 						type="button"
-						class="w-full p-4 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+						class="w-full flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors p-4 md:p-8"
 						aria-expanded={openCode === rate.code}
 						onclick={() => { openCode = openCode === rate.code ? '' : rate.code; }}
 					>
@@ -1664,7 +1688,7 @@
 							{/if}
 						</div>
 					{/if}
-				</div>
+					</div>
 				{#if index === 1}
 					<div class="px-4 py-3 flex justify-center">
 						<a
@@ -1770,7 +1794,7 @@
 				{/if}
 			{/each}
 		</div>
-	</div>
+	{/if}
 	</div>
 
 	<!-- Bill Detail Modal -->

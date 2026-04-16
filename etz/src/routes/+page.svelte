@@ -7,6 +7,7 @@
 	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
+	import Skeleton from '$lib/components/Skeleton.svelte';
 
 	let amount = $state('');
 	let fromCurrency = $state('USD');
@@ -265,6 +266,50 @@
 	</div>
 
 	<!-- Converter Card + Rate Info wrapper -->
+	{#if !mounted}
+		<!-- Skeleton Loading State -->
+		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
+			<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+				<!-- From Currency Skeleton -->
+				<div class="p-3 space-y-3">
+					<Skeleton width="w-20" height="h-3" />
+					<div class="flex items-center gap-3">
+						<Skeleton width="w-10" height="h-10" circle={true} />
+						<Skeleton width="w-24" height="h-10" />
+						<Skeleton width="flex-1" height="h-10" />
+					</div>
+				</div>
+
+				<!-- Swap Button Skeleton -->
+				<div class="flex items-center justify-center py-2">
+					<Skeleton width="w-10" height="h-10" circle={true} />
+				</div>
+
+				<!-- To Currency Skeleton -->
+				<div class="p-3 space-y-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+					<Skeleton width="w-20" height="h-3" />
+					<div class="flex items-center gap-3">
+						<Skeleton width="w-10" height="h-10" circle={true} />
+						<Skeleton width="w-24" height="h-10" />
+						<Skeleton width="flex-1" height="h-10" />
+					</div>
+				</div>
+			</div>
+
+			<!-- Exchange Rate Skeleton -->
+			<div class="mt-2 p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+				<Skeleton width="w-32" height="h-3" class="mb-2" />
+				<Skeleton width="w-full" height="h-4" />
+			</div>
+
+			<!-- Buttons Skeleton -->
+			<div class="space-y-1.5 mt-2">
+				<Skeleton width="w-full" height="h-10" />
+				<Skeleton width="w-full" height="h-10" />
+			</div>
+		</div>
+	{/if}
+
 	{#if mounted}
 		<div class="md:w-[32%] md:min-w-[240px] md:mx-auto" in:fly={{ y: 60, duration: 600, easing: t => 1 - Math.pow(1 - t, 3) }}>
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
