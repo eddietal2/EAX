@@ -8,6 +8,19 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Bebas+Neue&display=swap" />
+		<!-- Critical CSS for LCP element (h1) to render immediately -->
+		<style>
+			h1 {
+				font-family: 'Bebas Neue', 'Courier New', monospace;
+				font-size: 1.875rem;
+				font-weight: 900;
+				letter-spacing: 0.05em;
+				color: #059669;
+			}
+			.dark h1 {
+				color: #34d399;
+			}
+		</style>
 		%sveltekit.head%
 		<script>
 			// Initialize theme before rendering to prevent flash
