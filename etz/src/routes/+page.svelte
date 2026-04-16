@@ -256,6 +256,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Home - EAX Currency Exchange</title>
+</svelte:head>
+
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">
 	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-20 md:pb-0">
 		<!-- Header -->

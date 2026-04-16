@@ -37,6 +37,10 @@
 	let t = $derived((key: string) => getTranslation(key, lang));
 </script>
 
+<svelte:head>
+	<title>Settings - EAX Currency Exchange</title>
+</svelte:head>
+
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 	<div class="flex items-center gap-3 mb-6">

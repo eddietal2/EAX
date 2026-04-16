@@ -689,6 +689,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Market Rates - EAX Currency Exchange</title>
+</svelte:head>
+
 <div bind:this={pageRef} class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<!-- Sticky Header (Desktop) -->
 	{#if showStickyHeader}
