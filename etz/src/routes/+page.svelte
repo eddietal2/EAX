@@ -13,7 +13,7 @@
 	let toCurrency = $state('TZS');
 	let swapRotation = $state(0);
 	let isSwapping = $state(false);
-	let amountInput: HTMLInputElement | undefined;
+	let amountInput = $state<HTMLInputElement | undefined>();
 	let showMobileKeyboard = $state(false);
 	let isMobile = $state(false);
 	let mounted = $state(false);
@@ -306,7 +306,7 @@
 							placeholder="0"
 							inputmode={isMobile ? 'none' : 'decimal'}
 							readonly={isMobile}
-							onfocus={() => { if (isMobile) { if (swapButtonEl) keyboardTop = swapButtonEl.getBoundingClientRect().bottom; showMobileKeyboard = true; } }}
+							onfocus={() => { if (isMobile) { setTimeout(() => { if (swapButtonEl) keyboardTop = swapButtonEl.getBoundingClientRect().bottom; }, 0); showMobileKeyboard = true; } }}
 							style="font-size: 16px;"
 							class="min-w-0 w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!amount ? 'animate-pulse md:animate-none' : ''}"
 						/>

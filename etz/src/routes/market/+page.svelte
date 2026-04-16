@@ -443,11 +443,13 @@
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 		
 		// Measure actual navbar height and set CSS variable
-		const desktopNav = document.querySelector('nav');
-		if (desktopNav) {
-			const navHeight = desktopNav.getBoundingClientRect().height;
-			document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`);
-		}
+		setTimeout(() => {
+			const desktopNav = document.querySelector('nav');
+			if (desktopNav) {
+				const navHeight = desktopNav.getBoundingClientRect().height;
+				document.documentElement.style.setProperty('--navbar-height', `${navHeight}px`);
+			}
+		}, 0);
 		
 		// Listen to container scroll instead of window scroll
 		// The page uses h-full overflow-auto, so scroll events come from the container
