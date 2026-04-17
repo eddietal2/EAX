@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { onMount, tick } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { rates, getStaticRates, fetchExchangeRates, initRatePolling, lastUpdated, isLoading, fetchError } from '$lib/stores/exchangeRates';
@@ -20,6 +20,7 @@
 	let mounted = $state(false);
 	let swapButtonEl: HTMLDivElement | undefined;
 	let keyboardTop = $state(0);
+	let inputHasValue = $state(false);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -102,6 +103,7 @@
 			// format with commas while preserving operators
 			const formatted = formatExpressionWithCommas(expression);
 			node.value = formatted;
+			inputHasValue = formatted.length > 0;
 
 			// restore cursor: count non-comma characters
 			let charsSeen = 0;
@@ -206,6 +208,7 @@
 
 	function clearAmount() {
 		amount = '';
+		inputHasValue = false;
 		if (amountInput) {
 			amountInput.value = '';
 		}
@@ -213,20 +216,41 @@
 
 	function appendToInput(value: string) {
 		if (!amountInput) return;
+		const start = amountInput.selectionStart ?? amountInput.value.length;
+		const end = amountInput.selectionEnd ?? amountInput.value.length;
 		const current = amountInput.value;
-		const newValue = current + value;
-		amountInput.value = newValue;
-		// Trigger the input event to format with commas
+		// Enforce 120-char limit (excluding commas)
+		const afterStripped = (current.slice(0, start) + value + current.slice(end)).replace(/,/g, '');
+		if (afterStripped.length > 120) return;
+		amountInput.value = current.slice(0, start) + value + current.slice(end);
+		amountInput.setSelectionRange(start + value.length, start + value.length);
 		amountInput.dispatchEvent(new Event('input', { bubbles: true }));
 	}
 
 	function backspace() {
 		if (!amountInput) return;
+		const start = amountInput.selectionStart ?? amountInput.value.length;
+		const end = amountInput.selectionEnd ?? amountInput.value.length;
 		const current = amountInput.value;
-		if (current.length > 0) {
-			amountInput.value = current.slice(0, -1);
-			amountInput.dispatchEvent(new Event('input', { bubbles: true }));
+		if (start !== end) {
+			// Delete selection
+			amountInput.value = current.slice(0, start) + current.slice(end);
+			amountInput.setSelectionRange(start, start);
+		} else if (start > 0) {
+			// Delete char before cursor
+			amountInput.value = current.slice(0, start - 1) + current.slice(start);
+			amountInput.setSelectionRange(start - 1, start - 1);
 		}
+		amountInput.dispatchEvent(new Event('input', { bubbles: true }));
+	}
+
+	function moveCursor(direction: 'left' | 'right') {
+		if (!amountInput) return;
+		const pos = amountInput.selectionStart ?? 0;
+		const len = amountInput.value.length;
+		const newPos = direction === 'left' ? Math.max(0, pos - 1) : Math.min(len, pos + 1);
+		amountInput.setSelectionRange(newPos, newPos);
+		amountInput.focus();
 	}
 
 	function focusInput() {
@@ -355,12 +379,11 @@
 							type="text"
 							placeholder="0"
 							inputmode={isMobile ? 'none' : 'decimal'}
-							readonly={isMobile}
 							onfocus={() => { if (isMobile) { setTimeout(() => { if (swapButtonEl) keyboardTop = swapButtonEl.getBoundingClientRect().bottom; }, 0); showMobileKeyboard = true; } }}
 							style="font-size: 16px;"
-							class="min-w-0 w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!amount ? 'animate-pulse md:animate-none' : ''}"
+							class="min-w-0 w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
 						/>
-						{#if amount}
+						{#if inputHasValue}
 							<button
 								onclick={clearAmount}
 								aria-label="Clear input"
@@ -533,13 +556,19 @@
 				</button>
 			</div>
 
-			<!-- Row 5: + - operators -->
-			<div class="grid grid-cols-2 gap-1 flex-1 min-h-0">
+			<!-- Row 5: ← + - → -->
+			<div class="grid grid-cols-4 gap-1 flex-1 min-h-0">
+				<button onclick={() => moveCursor('left')} aria-label="Move cursor left" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
+					←
+				</button>
 				<button onclick={() => appendToInput('+')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
 					+
 				</button>
 				<button onclick={() => appendToInput('-')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
 					−
+				</button>
+				<button onclick={() => moveCursor('right')} aria-label="Move cursor right" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
+					→
 				</button>
 			</div>
 		</div>
