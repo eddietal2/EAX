@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { tick } from 'svelte';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		fromCurrency: string;
@@ -19,6 +20,7 @@
 		isLoading?: boolean;
 		lastUpdated?: number;
 		fetchError?: string;
+		actions?: Snippet;
 	}
 
 	let {
@@ -38,7 +40,8 @@
 		rates = {},
 		isLoading = false,
 		lastUpdated,
-		fetchError
+		fetchError,
+		actions
 	}: Props = $props();
 
 	const currencies = [
@@ -254,7 +257,9 @@
 		</div>
 	{/if}
 
-	<slot name="actions" />
+	{#if actions}
+		{@render actions()}
+	{/if}
 </div>
 
 <style>

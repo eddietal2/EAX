@@ -1,7 +1,7 @@
-import App from '$lib/Popup.svelte';
+import './app.css';
+import { mount } from 'svelte';
+import App from './Popup.svelte';
 
-const app = new App({
+mount(App, {
 	target: document.getElementById('app')!
 });
-
-export default app;
