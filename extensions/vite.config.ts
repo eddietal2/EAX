@@ -7,6 +7,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [svelte()],
+  resolve: {
+    alias: {
+      $lib: resolve(__dirname, 'src/lib')
+    }
+  },
   build: {
     rollupOptions: {
       input: {
