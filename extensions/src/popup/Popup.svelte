@@ -15,7 +15,6 @@
 
 	onMount(async () => {
 		try {
-			// Fetch rates for all currencies
 			for (const currency of currencies) {
 				const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${currency}`);
 				const data = await response.json();
@@ -29,16 +28,6 @@
 			isLoading = false;
 		}
 	});
-
-	function getConvertedAmount() {
-		const num = parseFloat(amount.replace(/,/g, ''));
-		if (isNaN(num) || num <= 0) {
-			return '0.00';
-		}
-
-		const rate = rates[fromCurrency]?.[toCurrency] ?? 1;
-		return (num * rate).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
-	}
 
 	function handleSwap() {
 		// Swap is handled by ConverterCard
@@ -80,7 +69,6 @@
 			bind:toCurrency
 			bind:amount
 			bind:inputHasValue
-			convertedAmount={getConvertedAmount}
 			mounted={true}
 			isMobile={false}
 			{isLoading}

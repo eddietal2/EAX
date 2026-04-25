@@ -7,7 +7,7 @@
 		toCurrency: string;
 		amount: string;
 		inputHasValue: boolean;
-		convertedAmount: () => string;
+		convertedAmount?: () => string;
 		mounted: boolean;
 		isMobile?: boolean;
 		onSwap: () => void;
@@ -49,6 +49,14 @@
 		'ETB', 'ZAR', 'ZMW', 'SAR', 'CHF', 'CAD', 'AUD', 'MWK', 'MZN', 'BIF', 'CDF', 'NGN', 'EGP'
 	];
 
+	let internalConvertedAmount = $derived.by(() => {
+		if (!amount || amount.trim() === '') return '0.00';
+		const num = parseFloat(amount.replace(/,/g, ''));
+		if (isNaN(num) || num <= 0) return '0.00';
+		const rate = rates[fromCurrency]?.[toCurrency] ?? 1;
+		return (num * rate).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+	});
+
 	let swapRotation = $state(0);
 	let isSwapping = $state(false);
 	let amountInput = $state<HTMLInputElement | undefined>();
@@ -58,6 +66,39 @@
 		const cleaned = value.replace(/[^0-9.+\-*/]/g, '');
 		const [intPart, ...rest] = cleaned.split('.');
 		return intPart + (rest.length ? '.' + rest.join('') : '');
+	}
+
+	// Safe arithmetic parser — no eval/Function (blocked by extension CSP)
+	function safeCalc(expr: string): number {
+		let pos = 0;
+		const skip = () => { while (pos < expr.length && expr[pos] === ' ') pos++; };
+		function parseNum(): number {
+			skip();
+			let s = '';
+			while (pos < expr.length && /[\d.]/.test(expr[pos])) s += expr[pos++];
+			return s ? parseFloat(s) : NaN;
+		}
+		function parseTerm(): number {
+			let left = parseNum(); skip();
+			while (pos < expr.length && (expr[pos] === '*' || expr[pos] === '/')) {
+				const op = expr[pos++]; skip();
+				const right = parseNum();
+				left = op === '*' ? left * right : left / right; skip();
+			}
+			return left;
+		}
+		function parseExpr(): number {
+			skip();
+			let negate = false;
+			if (pos < expr.length && expr[pos] === '-') { negate = true; pos++; }
+			let left = parseTerm(); if (negate) left = -left; skip();
+			while (pos < expr.length && (expr[pos] === '+' || expr[pos] === '-')) {
+				const op = expr[pos++]; skip();
+				left = op === '+' ? left + parseTerm() : left - parseTerm(); skip();
+			}
+			return left;
+		}
+		return parseExpr();
 	}
 
 	function evaluateExpression(expression: string): string {
@@ -73,7 +114,7 @@
 			
 			if (!toEvaluate) return '';
 			
-			const result = Function('"use strict"; return (' + toEvaluate + ')')();
+			const result = safeCalc(toEvaluate);
 			
 			if (typeof result === 'number' && isFinite(result)) {
 				return result.toString();
@@ -228,7 +269,7 @@
 				</select>
 				<div class="flex-1 min-w-0">
 					<p class="text-xl font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums truncate">
-						{convertedAmount() || '0.00'}
+					{convertedAmount?.() ?? internalConvertedAmount}
 					</p>
 				</div>
 			</div>
