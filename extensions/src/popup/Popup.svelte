@@ -70,7 +70,7 @@
 
 <div class="popup-container">
 	<div class="header">
-		<img src="../../icons/icon128.png" alt="EAX" class="logo" />
+		<img src="/icons/icon128.png" alt="EAX" class="logo" />
 		<p>Fast Currency Converter</p>
 	</div>
 
@@ -102,7 +102,7 @@
 		min-height: 540px;
 		margin: 0;
 		padding: 0;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #222 0%, #111 100%);
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 		color-scheme: light dark;
 	}
