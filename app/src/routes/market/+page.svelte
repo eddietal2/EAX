@@ -754,7 +754,7 @@
 	<div class="pt-8 md:pb-4 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<div class="flex items-center gap-3">
-				<h1 class="md:hidden text-xl font-black tracking-wider text-emerald-600 dark:text-emerald-400" style="font-family: var(--font-bebas-neue, 'Bebas Neue', sans-serif);">EAX</h1>
+				<img src="/icons/icon48.png" alt="EAX" class="md:hidden w-8 h-8 rounded-lg" />
 				<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
 			</div>
 		{#if $isLoading}

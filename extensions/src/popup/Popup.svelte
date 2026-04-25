@@ -70,7 +70,7 @@
 
 <div class="popup-container">
 	<div class="header">
-		<h1>EAX</h1>
+		<img src="../../icons/icon128.png" alt="EAX" class="logo" />
 		<p>Fast Currency Converter</p>
 	</div>
 
@@ -126,11 +126,12 @@
 		color: white;
 	}
 
-	.header h1 {
-		font-size: 32px;
-		font-weight: 900;
-		margin: 0;
-		letter-spacing: 2px;
+	.logo {
+		width: 72px;
+		height: 72px;
+		border-radius: 16px;
+		margin: 0 auto;
+		display: block;
 	}
 
 	.header p {
