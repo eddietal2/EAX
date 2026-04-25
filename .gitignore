@@ -1,0 +1,15 @@
+# Dependencies
+app/node_modules
+extensions/node_modules
+
+# Build outputs
+extensions/dist
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
