@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import type { Snippet } from 'svelte';
+	import FlagIcon from './FlagIcon.svelte';
 
 	interface Props {
 		fromCurrency: string;
@@ -202,16 +203,19 @@
 		<div class="p-3 dark:text-gray-300">
 			<label for="from-currency" class="block text-xs text-gray-500 dark:text-gray-400 mb-2">{t('home.fromLabel')}</label>
 			<div class="flex items-center gap-3">
-				<select
-					id="from-currency"
-					bind:value={fromCurrency}
-					onchange={() => onFromCurrencyChange?.(fromCurrency)}
-					class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
-				>
-					{#each currencies as currency}
-						<option value={currency}>{currency}</option>
-					{/each}
-				</select>
+				<div class="flex items-center gap-2 shrink-0">
+					<FlagIcon code={fromCurrency} size="md" />
+					<select
+						id="from-currency"
+						bind:value={fromCurrency}
+						onchange={() => onFromCurrencyChange?.(fromCurrency)}
+						class="bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+					>
+						{#each currencies as currency}
+							<option value={currency}>{currency}</option>
+						{/each}
+					</select>
+				</div>
 				<div class="flex-1 min-w-0 relative">
 					<input
 						bind:this={amountInput}
@@ -257,16 +261,19 @@
 		<div class="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
 			<label for="to-currency" class="block text-xs text-gray-500 dark:text-gray-400 mb-2">{t('home.toLabel')}</label>
 			<div class="flex items-center gap-3">
-				<select
-					id="to-currency"
-					bind:value={toCurrency}
-					onchange={() => onToCurrencyChange?.(toCurrency)}
-					class="shrink-0 bg-white dark:bg-gray-700 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
-				>
-					{#each currencies as currency}
-						<option value={currency}>{currency}</option>
-					{/each}
-				</select>
+				<div class="flex items-center gap-2 shrink-0">
+					<FlagIcon code={toCurrency} size="md" />
+					<select
+						id="to-currency"
+						bind:value={toCurrency}
+						onchange={() => onToCurrencyChange?.(toCurrency)}
+						class="bg-white dark:bg-gray-700 border-0 rounded-lg px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+					>
+						{#each currencies as currency}
+							<option value={currency}>{currency}</option>
+						{/each}
+					</select>
+				</div>
 				<div class="flex-1 min-w-0">
 					<p class="text-xl font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums truncate">
 					{convertedAmount?.() ?? internalConvertedAmount}
