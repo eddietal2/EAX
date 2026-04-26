@@ -199,12 +199,8 @@
 	});
 
 	function swapCurrencies() {
-		isSwapping = true;
-		swapRotation += 180;
-		const temp = fromCurrency;
-		fromCurrency = toCurrency;
-		toCurrency = temp;
-		setTimeout(() => { isSwapping = false; }, 400);
+		// ConverterCard already swaps fromCurrency/toCurrency via $bindable.
+		// Intentionally empty to avoid double-swapping.
 	}
 
 	function clearAmount() {
@@ -257,6 +253,10 @@
 	function focusInput() {
 		if (amountInput) {
 			amountInput.focus();
+			if (swapButtonEl) {
+				const rect = swapButtonEl.getBoundingClientRect();
+				keyboardTop = rect.bottom;
+			}
 			showMobileKeyboard = true;
 		}
 	}
