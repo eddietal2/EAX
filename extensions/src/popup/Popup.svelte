@@ -2,8 +2,11 @@
 	import { onMount } from 'svelte';
 	import ConverterCard from '../lib/ConverterCard.svelte';
 
-	let fromCurrency = $state('USD');
-	let toCurrency = $state('TZS');
+	let fromCurrency = $state(localStorage.getItem('eax-from') ?? 'USD');
+	let toCurrency = $state(localStorage.getItem('eax-to') ?? 'TZS');
+
+	$effect(() => { localStorage.setItem('eax-from', fromCurrency); });
+	$effect(() => { localStorage.setItem('eax-to', toCurrency); });
 	let amount = $state('');
 	let inputHasValue = $state(false);
 	let rates: Record<string, Record<string, number>> = $state({});
