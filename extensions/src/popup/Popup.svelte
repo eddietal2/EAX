@@ -127,7 +127,7 @@
 
 	<div class="footer-link">
 		<a 
-			href="https://eax.vercel.app" 
+			href="https://exchange-tz.vercel.app/" 
 			target="_blank" 
 			rel="noopener noreferrer"
 		>
