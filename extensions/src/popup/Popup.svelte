@@ -124,6 +124,16 @@
 			{t}
 		/>
 	</div>
+
+	<div class="footer-link">
+		<a 
+			href="https://eax.vercel.app" 
+			target="_blank" 
+			rel="noopener noreferrer"
+		>
+			Visit full app →
+		</a>
+	</div>
 </div>
 
 <style>
@@ -215,5 +225,36 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+	}
+
+	.footer-link {
+		text-align: center;
+		margin-top: 16px;
+		padding-top: 12px;
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	}
+
+	:global(html.dark) .footer-link {
+		border-top-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.footer-link a {
+		font-size: 12px;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	:global(html.dark) .footer-link a {
+		color: #9ca3af;
+	}
+	:global(html.dark) .footer-link a:hover {
+		color: #10b981;
+	}
+
+	:global(html:not(.dark)) .footer-link a {
+		color: #6b7280;
+	}
+	:global(html:not(.dark)) .footer-link a:hover {
+		color: #059669;
 	}
 </style>
