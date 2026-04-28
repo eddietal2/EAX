@@ -146,7 +146,12 @@ export async function fetchExchangeRates() {
 		return dynamic;
 	} catch (error) {
 		const message = error instanceof Error ? error.message : 'Unknown fetch error';
-		fetchError.set(message);
+		// Check if we're offline
+		if (typeof window !== 'undefined' && !navigator.onLine) {
+			fetchError.set('📡 Offline — using cached rates');
+		} else {
+			fetchError.set(message);
+		}
 		// Fall back to most recent rates (which started as initial rates, then updated with each successful fetch)
 		return staticRates;
 	} finally {

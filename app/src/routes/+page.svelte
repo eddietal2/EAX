@@ -22,6 +22,7 @@
 	let swapButtonEl: HTMLDivElement | undefined;
 	let keyboardTop = $state(0);
 	let inputHasValue = $state(false);
+	let isOnline = $state(typeof window !== 'undefined' ? navigator.onLine : true);
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -186,7 +187,19 @@
 		const mq = window.matchMedia('(max-width: 767px)');
 		isMobile = mq.matches;
 		mq.addEventListener('change', (e) => { isMobile = e.matches; });
+		
+		// Track online/offline status
+		const handleOnline = () => { isOnline = true; };
+		const handleOffline = () => { isOnline = false; };
+		window.addEventListener('online', handleOnline);
+		window.addEventListener('offline', handleOffline);
+		
 		mounted = true;
+
+		return () => {
+			window.removeEventListener('online', handleOnline);
+			window.removeEventListener('offline', handleOffline);
+		};
 	});
 
 	const convertedAmount = $derived(() => {
@@ -292,8 +305,15 @@
 	<div class="text-center mb-3 md:hidden">
 		<img src="/icons/icon128.png" alt="EAX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
 		<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">East African Exchange</p>
-		<p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Quick currency conversions</p>
+		<!-- <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Quick currency conversions</p> -->
 	</div>
+
+	<!-- Offline Indicator -->
+	{#if !isOnline}
+		<div class="mb-3 px-3 py-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700 rounded-lg text-sm text-amber-800 dark:text-amber-200 text-center font-medium">
+			Offline — using cached rates
+		</div>
+	{/if}
 
 	<!-- Converter Card + Rate Info wrapper -->
 	<ConverterCard
