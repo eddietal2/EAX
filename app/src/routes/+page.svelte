@@ -408,13 +408,16 @@
 				</button>
 			</div>
 
-			<!-- Row 5: ← + - → -->
-			<div class="grid grid-cols-4 gap-1 flex-1 min-h-0">
+			<!-- Row 5: ← + * - → -->
+			<div class="grid grid-cols-5 gap-1 flex-1 min-h-0">
 				<button onclick={() => moveCursor('left')} aria-label="Move cursor left" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
 					←
 				</button>
 				<button onclick={() => appendToInput('+')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
 					+
+				</button>
+				<button onclick={() => appendToInput('*')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+					×
 				</button>
 				<button onclick={() => appendToInput('-')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
 					−
