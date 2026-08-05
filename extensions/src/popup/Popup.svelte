@@ -7,8 +7,11 @@
 
 	$effect(() => { localStorage.setItem('eax-from', fromCurrency); });
 	$effect(() => { localStorage.setItem('eax-to', toCurrency); });
-	let amount = $state('');
-	let inputHasValue = $state(false);
+	let amount = $state(localStorage.getItem('eax-amount') ?? '');
+	let inputHasValue = $state(localStorage.getItem('eax-input-has-value') === 'true');
+
+	$effect(() => { localStorage.setItem('eax-amount', amount); });
+	$effect(() => { localStorage.setItem('eax-input-has-value', String(inputHasValue)); });
 	let rates: Record<string, Record<string, number>> = $state({});
 	let isLoading = $state(true);
 	let fetchError = $state('');
@@ -125,14 +128,21 @@
 		/>
 	</div>
 
-	<div class="footer-link">
-		<a 
-			href="https://exchange-tz.vercel.app/" 
-			target="_blank" 
+	<div class="footer-actions">
+		<a
+			class="footer-btn footer-btn-primary"
+			href="https://exchange-tz.vercel.app/"
+			target="_blank"
 			rel="noopener noreferrer"
 		>
-			Visit full app →
+			View Full App
 		</a>
+		<button
+			class="footer-btn footer-btn-secondary"
+			onclick={() => window.close()}
+		>
+			Close
+		</button>
 	</div>
 </div>
 
@@ -227,34 +237,64 @@
 		flex-direction: column;
 	}
 
-	.footer-link {
-		text-align: center;
+	.footer-actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
 		margin-top: 16px;
 		padding-top: 12px;
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
-	:global(html.dark) .footer-link {
+	:global(html.dark) .footer-actions {
 		border-top-color: rgba(255, 255, 255, 0.1);
 	}
 
-	.footer-link a {
-		font-size: 12px;
+	.footer-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		padding: 10px 12px;
+		border-radius: 8px;
+		font-size: 13px;
+		font-weight: 600;
 		text-decoration: none;
-		transition: color 0.2s;
+		cursor: pointer;
+		border: none;
+		transition: background 0.2s, color 0.2s;
+		box-sizing: border-box;
 	}
 
-	:global(html.dark) .footer-link a {
-		color: #9ca3af;
+	.footer-btn-primary {
+		background: #059669;
+		color: #ffffff;
 	}
-	:global(html.dark) .footer-link a:hover {
-		color: #10b981;
+	.footer-btn-primary:hover {
+		background: #047857;
 	}
 
-	:global(html:not(.dark)) .footer-link a {
-		color: #6b7280;
+	:global(html.dark) .footer-btn-primary {
+		background: #10b981;
+		color: #064e3b;
 	}
-	:global(html:not(.dark)) .footer-link a:hover {
-		color: #059669;
+	:global(html.dark) .footer-btn-primary:hover {
+		background: #34d399;
+	}
+
+	.footer-btn-secondary {
+		background: rgba(0, 0, 0, 0.06);
+		color: #4b5563;
+	}
+	.footer-btn-secondary:hover {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	:global(html.dark) .footer-btn-secondary {
+		background: rgba(255, 255, 255, 0.08);
+		color: #e5e7eb;
+	}
+	:global(html.dark) .footer-btn-secondary:hover {
+		background: rgba(255, 255, 255, 0.14);
 	}
 </style>

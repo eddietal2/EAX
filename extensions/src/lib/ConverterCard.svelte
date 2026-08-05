@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import type { Snippet } from 'svelte';
 	import FlagIcon from './FlagIcon.svelte';
 
@@ -195,6 +195,13 @@
 		setTimeout(() => { isSwapping = false; }, 400);
 		onSwap();
 	}
+
+	// Restore the displayed input value when reopening the popup with a saved amount
+	onMount(() => {
+		if (amount && amountInput) {
+			amountInput.value = formatExpressionWithCommas(amount);
+		}
+	});
 </script>
 
 <div class="converter-card">
