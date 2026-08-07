@@ -93,7 +93,7 @@
 <div class="popup-container" class:dark-bg={isDark}>
 	<div class="header">
 		<div class="header-bar">
-			<img src="/icons/icon128.png" alt="EAX" class="logo" />
+			<img src="/icons/SimbaGreenLogo48x48.png" alt="SimbaFX" class="logo" />
 			<div class="header-actions">
 				<div class="lang-select-wrap">
 					<span class="lang-globe" aria-hidden="true">🌐</span>
