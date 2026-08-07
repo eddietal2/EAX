@@ -190,6 +190,24 @@
 		<span class="referral-cta">{t('popup.nalaCta')}</span>
 		<span class="referral-ad">AD</span>
 	</a>
+
+	<!-- Ad slot: impression-based banner ad hosted in a remote iframe (Manifest V3 compliant).
+		    TODO: replace srcdoc with src="https://yourdomain.com/ext-ad-frame" (300x50). -->
+	<div class="ad-slot">
+		<span class="ad-slot-label">{t('popup.sponsored')}</span>
+		<div class="ad-slot-frame">
+			<iframe
+				class="ad-iframe"
+				srcdoc="<div style='display:flex;align-items:center;justify-content:center;height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;color:#9ca3af;'>Ad space 300 × 50</div>"
+				title={t('popup.sponsored')}
+				width="300"
+				height="50"
+				frameborder="0"
+				scrolling="no"
+				loading="lazy"
+			></iframe>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -456,5 +474,45 @@
 	:global(html.dark) .referral-ad {
 		color: #9ca3af;
 		background: rgba(255, 255, 255, 0.15);
+	}
+
+	.ad-slot {
+		margin-top: 10px;
+	}
+
+	.ad-slot-label {
+		display: block;
+		text-align: center;
+		font-size: 9px;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+		color: #6b7280;
+		margin-bottom: 4px;
+	}
+
+	:global(html.dark) .ad-slot-label {
+		color: #9ca3af;
+	}
+
+	.ad-slot-frame {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 4px;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.5);
+	}
+
+	:global(html.dark) .ad-slot-frame {
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	.ad-iframe {
+		width: 100%;
+		max-width: 300px;
+		height: 50px;
+		border: 0;
+		display: block;
 	}
 </style>
