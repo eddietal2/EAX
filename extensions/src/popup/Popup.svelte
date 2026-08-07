@@ -272,12 +272,6 @@
 		flex-shrink: 0;
 	}
 
-	.subtitle {
-		font-size: 12px;
-		margin: 10px 0 0 0;
-		opacity: 0.75;
-	}
-
 	.theme-toggle {
 		background: none;
 		border: none;
@@ -326,7 +320,7 @@
 
 	.footer-actions {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: 1.6fr 1fr;
 		gap: 8px;
 		margin-top: 16px;
 		padding-top: 12px;
@@ -346,6 +340,7 @@
 		border-radius: 8px;
 		font-size: 13px;
 		font-weight: 600;
+		white-space: nowrap;
 		text-decoration: none;
 		cursor: pointer;
 		border: none;
