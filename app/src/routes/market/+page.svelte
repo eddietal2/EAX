@@ -696,8 +696,8 @@
 </script>
 
 <svelte:head>
-	<title>Market Rates - EAX Currency Exchange</title>
-	<meta name="description" content="View all current market exchange rates with EAX. Compare rates for multiple currencies including TZS, USD, EUR, GBP, and KES. Real-time rate updates." />
+	<title>Market Rates - SimbaFX Currency Exchange</title>
+	<meta name="description" content="View all current market exchange rates with SimbaFX. Compare rates for multiple currencies including TZS, USD, EUR, GBP, and KES. Real-time rate updates." />
 </svelte:head>
 
 <div bind:this={pageRef} class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
@@ -754,7 +754,7 @@
 	<div class="pt-8 md:pb-4 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<div class="flex items-center gap-3">
-				<img src="/icons/icon48.png" alt="EAX" class="md:hidden w-8 h-8 rounded-lg" />
+				<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
 				<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
 			</div>
 		{#if $isLoading}

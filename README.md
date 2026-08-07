@@ -1,10 +1,10 @@
-# EAX - East African Exchange
+# SimbaFX - East African Exchange
 
 A simple, fast currency converter for Tanzanian and Kenyan shillings.
 
 ## What is this?
 
-Need to know how much USD 98,000 TSH is? Use this app to convert currencies in real time. Whether you're dealing with Tanzanian Shillings (TZS), Kenyan Shillings (KES), or other major currencies, EAX gives you quick and accurate conversions.
+Need to know how much USD 98,000 TSH is? Use this app to convert currencies in real time. Whether you're dealing with Tanzanian Shillings (TZS), Kenyan Shillings (KES), or other major currencies, SimbaFX gives you quick and accurate conversions.
 
 ## Features
 

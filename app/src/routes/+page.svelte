@@ -295,15 +295,15 @@
 </script>
 
 <svelte:head>
-	<title>Home - EAX Currency Exchange</title>
-	<meta name="description" content="EAX home page. Quick currency conversion calculator for East African currencies. Check real-time exchange rates and convert between TZS, USD, EUR, and more." />
+	<title>Home - SimbaFX Currency Exchange</title>
+	<meta name="description" content="SimbaFX home page. Quick currency conversion calculator for East African currencies. Check real-time exchange rates and convert between TZS, USD, EUR, and more." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">
 	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-20 md:pb-0">
 		<!-- Header -->
 	<div class="text-center mb-3 md:hidden">
-		<img src="/icons/icon128.png" alt="EAX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
+		<img src="/icons/icon128.png" alt="SimbaFX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
 		<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">East African Exchange</p>
 		<!-- <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Quick currency conversions</p> -->
 	</div>

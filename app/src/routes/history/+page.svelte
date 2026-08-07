@@ -101,14 +101,14 @@
 </script>
 
 <svelte:head>
-	<title>History - EAX Currency Exchange</title>
-	<meta name="description" content="View your currency conversion history with EAX. Track all your recent exchanges and conversion rates to stay informed about market trends." />
+	<title>History - SimbaFX Currency Exchange</title>
+	<meta name="description" content="View your currency conversion history with SimbaFX. Track all your recent exchanges and conversion rates to stay informed about market trends." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="flex items-center gap-3 mb-6">
-			<img src="/icons/icon48.png" alt="EAX" class="md:hidden w-8 h-8 rounded-lg" />
+			<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
 			<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('history.title')}</h1>
 		</div>
 		<p class="text-gray-600 dark:text-gray-400 mb-6">{t('history.subtitle')}</p>

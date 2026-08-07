@@ -38,14 +38,14 @@
 </script>
 
 <svelte:head>
-	<title>Settings - EAX Currency Exchange</title>
-	<meta name="description" content="Customize your EAX experience. Change your preferred languages, default currencies, and configure your conversion preferences." />
+	<title>Settings - SimbaFX Currency Exchange</title>
+	<meta name="description" content="Customize your SimbaFX experience. Change your preferred languages, default currencies, and configure your conversion preferences." />
 </svelte:head>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 	<div class="flex items-center gap-3 mb-6">
-		<img src="/icons/icon48.png" alt="EAX" class="md:hidden w-8 h-8 rounded-lg" />
+		<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
 		<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('settings.title')}</h1>
 	</div>
 	

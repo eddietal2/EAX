@@ -1,6 +1,6 @@
 {
-  "name": "EAX Currency Exchange",
-  "short_name": "EAX",
+  "name": "SimbaFX Currency Exchange",
+  "short_name": "SimbaFX",
   "description": "Offline-capable currency converter for East African currencies",
   "start_url": "/",
   "display": "standalone",
