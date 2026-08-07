@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Início",
+    "market": "Mercado",
+    "history": "Histórico",
+    "settings": "Configurações",
+    "appLogo": "BAO",
+    "appSubtitle": "Bolsa da África Oriental"
+  },
+  "home": {
+    "title": "Conversor de Moedas",
+    "fromLabel": "De",
+    "toLabel": "Para",
+    "fromPlaceholder": "Digite o valor",
+    "swapButton": "Trocar",
+    "exchangeRate": "Taxa de Câmbio",
+    "saveButton": "Salvar no Histórico",
+    "viewHistoryButton": "Visualizar Histórico"
+  },
+  "history": {
+    "title": "Histórico de Conversões",
+    "subtitle": "Seu histórico de conversões",
+    "empty": "Nenhuma conversão salva ainda",
+    "emptySuggestion": "Vá para Home e salve uma conversão para começar",
+    "addName": "+ Adicionar nome",
+    "deleteButton": "Deletar",
+    "today": "Hoje",
+    "yesterday": "Ontem"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "languageDescription": "Escolha seu idioma preferido",
+    "themeLabel": "Modo Claro/Escuro",
+    "theme": "Tema",
+    "themeDescription": "Escolha seu esquema de cores preferido",
+    "themeLight": "Claro",
+    "themeDark": "Escuro",
+    "themeSystem": "Sistema",
+    "defaultFromCurrency": "Moeda Padrão De",
+    "defaultFromDescription": "Selecione a moeda que deseja converter de",
+    "defaultToCurrency": "Moeda Padrão Para",
+    "defaultToDescription": "Selecione a moeda que deseja converter para"
+  },
+  "market": {
+    "title": "Taxas de Mercado",
+    "subtitle": "Quantos",
+    "subtitleSuffix": "por 1",
+    "updating": "Atualizando..."
+  },
+  "messages": {
+    "saved": "Conversão salva no histórico!",
+    "deleted": "Conversão deletada",
+    "loading": "Carregando taxas de câmbio...",
+    "error": "Erro ao carregar taxas de câmbio"
+  },
+  "popup": {
+    "subtitle": "Conversor de moedas rápido",
+    "viewFullApp": "Ver aplicativo completo",
+    "close": "Fechar",
+    "toggleTheme": "Alternar tema",
+    "switchToLight": "Mudar para modo claro",
+    "switchToDark": "Mudar para modo escuro",
+    "clearInput": "Limpar entrada",
+    "swapCurrencies": "Trocar moedas",
+    "updated": "Atualizado"
+  }
+}

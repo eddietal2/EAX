@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Tuis",
+    "market": "Mark",
+    "history": "Geskiedenis",
+    "settings": "Instellings",
+    "appLogo": "OAU",
+    "appSubtitle": "Oosafrika-uitruil"
+  },
+  "home": {
+    "title": "Geldeenheidsomskakkelaar",
+    "fromLabel": "Van",
+    "toLabel": "Na",
+    "fromPlaceholder": "Voer bedrag in",
+    "swapButton": "Ruil",
+    "exchangeRate": "Wisselkoers",
+    "saveButton": "Stoor in Geskiedenis",
+    "viewHistoryButton": "Sien Geskiedenis"
+  },
+  "history": {
+    "title": "Omskakkelingsgeskiedenis",
+    "subtitle": "Jou omskakkelingsgeskiedenis",
+    "empty": "Geen omskakkelings gestoor nie",
+    "emptySuggestion": "Gaan na Tuis en stoor 'n omskakkel om te begin",
+    "addName": "+ Voeg naam by",
+    "deleteButton": "Wis",
+    "today": "Vandag",
+    "yesterday": "Gister"
+  },
+  "settings": {
+    "title": "Instellings",
+    "language": "Taal",
+    "languageDescription": "Kies jou voorkeur taal",
+    "themeLabel": "Lig/Donker-modus",
+    "theme": "Tema",
+    "themeDescription": "Kies jou voorkeur kleurskema",
+    "themeLight": "Lig",
+    "themeDark": "Donker",
+    "themeSystem": "Stelsel",
+    "defaultFromCurrency": "Standaard Geldeenheid Van",
+    "defaultFromDescription": "Kies die geldeenheid wat jy wil omskakel van",
+    "defaultToCurrency": "Standaard Geldeenheid Na",
+    "defaultToDescription": "Kies die geldeenheid wat jy wil omskakel na"
+  },
+  "market": {
+    "title": "Markkoerse",
+    "subtitle": "Hoeveel",
+    "subtitleSuffix": "per 1",
+    "updating": "Besig om op te dateer..."
+  },
+  "messages": {
+    "saved": "Omskakkling gestoor in geskiedenis!",
+    "deleted": "Omskakkling gewis",
+    "loading": "Wisselkoerse word gelaai...",
+    "error": "Fout by laai van wisselkoerse"
+  },
+  "popup": {
+    "subtitle": "Vinnige Geldeenheid-omskakelaar",
+    "viewFullApp": "Bekyk die Volledige Toep",
+    "close": "Maak toe",
+    "toggleTheme": "Wissel tema",
+    "switchToLight": "Skakel oor na ligte modus",
+    "switchToDark": "Skakel oor na donker modus",
+    "clearInput": "Vee invoer uit",
+    "swapCurrencies": "Ruil geldeenhede",
+    "updated": "Opgedateer"
+  }
+}

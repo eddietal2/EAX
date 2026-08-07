@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ConverterCard from '../lib/ConverterCard.svelte';
+	import { currentLanguage, languages, getTranslation } from '../lib/i18n';
 
 	let fromCurrency = $state(localStorage.getItem('eax-from') ?? 'USD');
 	let toCurrency = $state(localStorage.getItem('eax-to') ?? 'TZS');
@@ -18,6 +19,22 @@
 	let lastUpdated = $state<number | undefined>();
 
 	const currencies = ['USD', 'EUR', 'GBP', 'TZS', 'KES', 'UGX', 'RWF', 'AED', 'CNY', 'INR', 'ETB', 'ZAR', 'ZMW', 'SAR', 'CHF', 'CAD', 'AUD'];
+
+	// --- Language selection (mirrors app/src/lib/stores/i18n.ts) ---
+	let selectedLanguage = $state($currentLanguage);
+
+	function handleLanguageChange() {
+		currentLanguage.set(selectedLanguage);
+	}
+
+	let t = $derived((key: string) => getTranslation(key, $currentLanguage));
+
+	// Keep <html lang/dir> in sync (Arabic is RTL)
+	$effect(() => {
+		const lang = $currentLanguage;
+		document.documentElement.lang = lang;
+		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+	});
 
 	// Dark mode: read saved pref or fall back to OS preference
 	const osPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
@@ -49,7 +66,7 @@
 			lastUpdated = Date.now();
 		} catch (error) {
 			console.error('Failed to fetch rates:', error);
-			fetchError = 'Failed to load exchange rates';
+			fetchError = getTranslation('messages.error');
 		} finally {
 			isLoading = false;
 		}
@@ -71,61 +88,72 @@
 	function handleToCurrencyChange(currency: string) {
 		toCurrency = currency;
 	}
-
-	function t(key: string): string {
-		const translations: Record<string, string> = {
-			'home.fromLabel': 'From',
-			'home.toLabel': 'To',
-			'home.exchangeRate': 'Exchange Rate',
-			'messages.loading': 'Loading'
-		};
-		return translations[key] || key;
-	}
 </script>
 
 <div class="popup-container" class:dark-bg={isDark}>
 	<div class="header">
-		<button
-			class="theme-toggle"
-			onclick={() => isDark = !isDark}
-			aria-label="Toggle {isDark ? 'light' : 'dark'} mode"
-			title="{isDark ? 'Switch to light mode' : 'Switch to dark mode'}"
-		>
-			{#if isDark}
-				<!-- Sun icon -->
-				<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-					<circle cx="12" cy="12" r="5"/>
-					<path stroke-linecap="round" stroke-linejoin="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-				</svg>
-			{:else}
-				<!-- Moon icon -->
-				<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-				</svg>
-			{/if}
-		</button>
-		<img src="/icons/icon128.png" alt="EAX" class="logo" />
-		<p>Fast Currency Converter</p>
+		<div class="header-bar">
+			<img src="/icons/icon128.png" alt="EAX" class="logo" />
+			<div class="header-actions">
+				<div class="lang-select-wrap">
+					<span class="lang-globe" aria-hidden="true">🌐</span>
+					<select
+						class="lang-select"
+						bind:value={selectedLanguage}
+						onchange={handleLanguageChange}
+						aria-label={t('settings.language')}
+					>
+						{#each languages as lang}
+							<option value={lang.code}>{lang.flag} {lang.nativeName}</option>
+						{/each}
+					</select>
+				</div>
+				<button
+					class="theme-toggle"
+					onclick={() => isDark = !isDark}
+					aria-label={t(isDark ? 'popup.switchToLight' : 'popup.switchToDark')}
+					title={t(isDark ? 'popup.switchToLight' : 'popup.switchToDark')}
+				>
+					{#if isDark}
+						<!-- Sun icon -->
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<circle cx="12" cy="12" r="5"/>
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+						</svg>
+					{:else}
+						<!-- Moon icon -->
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+						</svg>
+					{/if}
+				</button>
+			</div>
+		</div>
+		<!-- <p class="subtitle">{t('popup.subtitle')}</p> -->
 	</div>
 
 	<div class="converter-wrapper">
-		<ConverterCard
-			bind:fromCurrency
-			bind:toCurrency
-			bind:amount
-			bind:inputHasValue
-			mounted={true}
-			isMobile={false}
-			{isLoading}
-			{lastUpdated}
-			{fetchError}
-			{rates}
-			onSwap={handleSwap}
-			onClear={handleClear}
-			onFromCurrencyChange={handleFromCurrencyChange}
-			onToCurrencyChange={handleToCurrencyChange}
-			{t}
-		/>
+		{#if fetchError}
+			<div class="fetch-error">{fetchError}</div>
+		{:else}
+			<ConverterCard
+				bind:fromCurrency
+				bind:toCurrency
+				bind:amount
+				bind:inputHasValue
+				mounted={true}
+				isMobile={false}
+				{isLoading}
+				{lastUpdated}
+				{fetchError}
+				{rates}
+				onSwap={handleSwap}
+				onClear={handleClear}
+				onFromCurrencyChange={handleFromCurrencyChange}
+				onToCurrencyChange={handleToCurrencyChange}
+				{t}
+			/>
+		{/if}
 	</div>
 
 	<div class="footer-actions">
@@ -135,13 +163,13 @@
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			View Full App
+			{t('popup.viewFullApp')}
 		</a>
 		<button
 			class="footer-btn footer-btn-secondary"
 			onclick={() => window.close()}
 		>
-			Close
+			{t('popup.close')}
 		</button>
 	</div>
 </div>
@@ -176,9 +204,8 @@
 	}
 
 	.header {
-		position: relative;
 		text-align: center;
-		margin-bottom: 24px;
+		margin-bottom: 20px;
 	}
 
 	/* Header text color */
@@ -189,24 +216,69 @@
 		color: #064e3b;
 	}
 
-	.logo {
-		width: 72px;
-		height: 72px;
-		border-radius: 16px;
-		margin: 0 auto;
-		display: block;
+	.header-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
 	}
 
-	.header p {
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.lang-select-wrap {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 4px 6px;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.5);
+		transition: background 0.2s;
+	}
+
+	:global(html.dark) .lang-select-wrap {
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	.lang-globe {
+		font-size: 14px;
+		line-height: 1;
+		pointer-events: none;
+	}
+
+	.lang-select {
+		background: transparent;
+		border: none;
+		color: inherit;
 		font-size: 12px;
-		margin: 5px 0 0 0;
+		font-weight: 600;
+		max-width: 120px;
+		outline: none;
+		cursor: pointer;
+	}
+
+	.lang-select option {
+		color: #333;
+		background: #fff;
+	}
+
+	.logo {
+		width: 36px;
+		height: 36px;
+		border-radius: 8px;
+		flex-shrink: 0;
+	}
+
+	.subtitle {
+		font-size: 12px;
+		margin: 10px 0 0 0;
 		opacity: 0.75;
 	}
 
 	.theme-toggle {
-		position: absolute;
-		top: 0;
-		right: 0;
 		background: none;
 		border: none;
 		cursor: pointer;
@@ -235,6 +307,21 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
+	}
+
+	.fetch-error {
+		padding: 12px;
+		border-radius: 8px;
+		text-align: center;
+		font-size: 13px;
+		font-weight: 500;
+		background: rgba(239, 68, 68, 0.12);
+		color: #dc2626;
+	}
+
+	:global(html.dark) .fetch-error {
+		background: rgba(239, 68, 68, 0.18);
+		color: #fca5a5;
 	}
 
 	.footer-actions {

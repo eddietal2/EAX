@@ -237,7 +237,7 @@
 					{#if inputHasValue}
 						<button
 							onclick={onClear}
-							aria-label="Clear input"
+							aria-label={t('popup.clearInput')}
 							class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -254,7 +254,7 @@
 			<div class="absolute inset-x-0 top-1/2 border-t border-gray-100"></div>
 			<button
 				onclick={handleSwap}
-				aria-label="Swap currencies"
+				aria-label={t('popup.swapCurrencies')}
 				class="relative w-8 h-8 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
 				style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
 			>
@@ -308,7 +308,7 @@
 
 	{#if lastUpdated}
 		<div class="mt-1 text-center text-xs text-gray-500 dark:text-gray-400">
-			Updated {new Date(lastUpdated).toLocaleString()}
+			{t('popup.updated')} {new Date(lastUpdated).toLocaleString()}
 		</div>
 	{/if}
 

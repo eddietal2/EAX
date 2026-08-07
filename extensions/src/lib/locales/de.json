@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "market": "Markt",
+    "history": "Verlauf",
+    "settings": "Einstellungen",
+    "appLogo": "OAB",
+    "appSubtitle": "Ostafrikanische Börse"
+  },
+  "home": {
+    "title": "Währungsumrechner",
+    "fromLabel": "Von",
+    "toLabel": "Nach",
+    "fromPlaceholder": "Betrag eingeben",
+    "swapButton": "Tauschen",
+    "exchangeRate": "Wechselkurs",
+    "saveButton": "Im Verlauf speichern",
+    "viewHistoryButton": "Verlauf anzeigen"
+  },
+  "history": {
+    "title": "Umrechnungsverlauf",
+    "subtitle": "Ihr Umrechnungsverlauf",
+    "empty": "Keine Umrechnungen gespeichert",
+    "emptySuggestion": "Gehen Sie zur Startseite und speichern Sie eine Umrechnung, um zu beginnen",
+    "addName": "+ Namen hinzufügen",
+    "deleteButton": "Löschen",
+    "today": "Heute",
+    "yesterday": "Gestern"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageDescription": "Wählen Sie Ihre bevorzugte Sprache",
+    "themeLabel": "Hell/Dunkel-Modus",
+    "theme": "Design",
+    "themeDescription": "Wählen Sie Ihr bevorzugtes Farbschema",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
+    "themeSystem": "System",
+    "defaultFromCurrency": "Standardwährung Von",
+    "defaultFromDescription": "Wählen Sie die Währung aus, von der Sie umrechnen möchten",
+    "defaultToCurrency": "Standardwährung Nach",
+    "defaultToDescription": "Wählen Sie die Währung aus, in die Sie umrechnen möchten"
+  },
+  "market": {
+    "title": "Marktkurse",
+    "subtitle": "Wie viele",
+    "subtitleSuffix": "pro 1",
+    "updating": "Wird aktualisiert..."
+  },
+  "messages": {
+    "saved": "Umrechnung im Verlauf gespeichert!",
+    "deleted": "Umrechnung gelöscht",
+    "loading": "Wechselkurse werden geladen...",
+    "error": "Fehler beim Laden der Wechselkurse"
+  },
+  "popup": {
+    "subtitle": "Schneller Währungsrechner",
+    "viewFullApp": "Vollständige App ansehen",
+    "close": "Schließen",
+    "toggleTheme": "Design umschalten",
+    "switchToLight": "Zum hellen Modus wechseln",
+    "switchToDark": "Zum dunklen Modus wechseln",
+    "clearInput": "Eingabe löschen",
+    "swapCurrencies": "Währungen tauschen",
+    "updated": "Aktualisiert"
+  }
+}

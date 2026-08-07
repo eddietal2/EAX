@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Nyumbani",
+    "market": "Soko",
+    "history": "Historia",
+    "settings": "Mipangilio",
+    "appLogo": "UAM",
+    "appSubtitle": "Ubadilishaji wa Afrika Mashariki"
+  },
+  "home": {
+    "title": "Kichanganishi cha Sarafu",
+    "fromLabel": "Kutoka",
+    "toLabel": "Kwenda",
+    "fromPlaceholder": "Ingiza kiasi",
+    "swapButton": "Badili",
+    "exchangeRate": "Kiwango cha Ubadilishaji",
+    "saveButton": "Hifadhi katika Historia",
+    "viewHistoryButton": "Angalia Historia"
+  },
+  "history": {
+    "title": "Historia ya Ubadilishaji",
+    "subtitle": "Historia yako ya ubadilishaji",
+    "empty": "Hakuna ubadilishaji uliohifadhiwa bado",
+    "emptySuggestion": "Nenda kwenye Nyumbani na hifadhi ubadilishaji ili kuanza",
+    "addName": "+ Ongeza jina",
+    "deleteButton": "Futa",
+    "today": "Leo",
+    "yesterday": "Jana"
+  },
+  "settings": {
+    "title": "Mipangilio",
+    "language": "Lugha",
+    "languageDescription": "Chagua lugha yako inayopendekezwa",
+    "themeLabel": "Hali ya Jivu/Giza",
+    "theme": "Mandhari",
+    "themeDescription": "Chagua muundo wa rangi unaopendekezwa",
+    "themeLight": "Mwanga",
+    "themeDark": "Giza",
+    "themeSystem": "Mfumo",
+    "defaultFromCurrency": "Sarafu Chaguo la Nchi ya Asili",
+    "defaultFromDescription": "Chagua sarafu unataka kuanzia nayo",
+    "defaultToCurrency": "Sarafu Chaguo la Nchi ya Lengwa",
+    "defaultToDescription": "Chagua sarafu unataka kuhitimia nayo"
+  },
+  "market": {
+    "title": "Viwango vya Soko",
+    "subtitle": "Kwa kiasi gani",
+    "subtitleSuffix": "kwa kila 1",
+    "updating": "Inaendesha..."
+  },
+  "messages": {
+    "saved": "Ubadilishaji umehifadhiwa katika historia!",
+    "deleted": "Ubadilishaji umefutwa",
+    "loading": "Inapakua kiwango cha ubadilishaji...",
+    "error": "Hitilafu katika kupakua kiwango cha ubadilishaji"
+  },
+  "popup": {
+    "subtitle": "Kibadilisha Sarafu cha Haraka",
+    "viewFullApp": "Angalia Programu Kamili",
+    "close": "Funga",
+    "toggleTheme": "Badilisha mandhari",
+    "switchToLight": "Badilisha hadi hali ya mwanga",
+    "switchToDark": "Badilisha hadi hali ya giza",
+    "clearInput": "Futa ingizo",
+    "swapCurrencies": "Badilishana sarafu",
+    "updated": "Imesasishwa"
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>EAX - Extension Popup Preview</title>
+	<style>
+		/* Preview-only styling. This file is NOT part of the extension build
+		   (vite.config.ts only bundles src/popup/popup.html), so it has zero
+		   effect on the built extension UI. */
+		html,
+		body {
+			width: 100% !important;
+			min-height: 100vh !important;
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
+		/* Center the 360px popup shell on the page */
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: auto;
+		}
+
+		#app {
+			width: 360px;
+			min-height: 540px;
+			flex-shrink: 0;
+		}
+
+		/* The popup uses min-height:100vh internally; cap it so it renders as
+		   a 540px popup instead of stretching to the full viewport height. */
+		#app .popup-container {
+			min-height: 540px !important;
+		}
+	</style>
+</head>
+<body>
+	<div id="app"></div>
+	<script type="module" src="/src/popup/popup.ts"></script>
+</body>
+</html>

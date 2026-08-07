@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "EAX - Currency Converter",
+  "name": "EAX - East African Exchange Currency Converter",
   "version": "1.0.0",
-  "description": "Fast East African currency conversions.",
+  "description": "Fast East African currency conversions, made quick and easy.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "market": "Marché",
+    "history": "Historique",
+    "settings": "Paramètres",
+    "appLogo": "BAE",
+    "appSubtitle": "Bourse d'Afrique de l'Est"
+  },
+  "home": {
+    "title": "Convertisseur de Devises",
+    "fromLabel": "De",
+    "toLabel": "Vers",
+    "fromPlaceholder": "Entrez le montant",
+    "swapButton": "Inverser",
+    "exchangeRate": "Taux de Change",
+    "saveButton": "Enregistrer l'Historique",
+    "viewHistoryButton": "Voir l'Historique"
+  },
+  "history": {
+    "title": "Historique des Conversions",
+    "subtitle": "Votre historique de conversions",
+    "empty": "Aucune conversion enregistrée pour le moment",
+    "emptySuggestion": "Allez à l'accueil et enregistrez une conversion pour commencer",
+    "addName": "+ Ajouter un nom",
+    "deleteButton": "Supprimer",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "languageDescription": "Choisissez votre langue préférée",
+    "themeLabel": "Mode Clair/Sombre",
+    "theme": "Thème",
+    "themeDescription": "Choisissez votre palette de couleurs préférée",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeSystem": "Système",
+    "defaultFromCurrency": "Devise Par Défaut DE",
+    "defaultFromDescription": "Sélectionnez la devise de départ",
+    "defaultToCurrency": "Devise Par Défaut VERS",
+    "defaultToDescription": "Sélectionnez la devise d'arrivée"
+  },
+  "market": {
+    "title": "Taux de Marché",
+    "subtitle": "Combien de",
+    "subtitleSuffix": "par 1",
+    "updating": "Mise à jour..."
+  },
+  "messages": {
+    "saved": "Conversion enregistrée dans l'historique!",
+    "deleted": "Conversion supprimée",
+    "loading": "Chargement des taux de change...",
+    "error": "Erreur lors du chargement des taux de change"
+  },
+  "popup": {
+    "subtitle": "Convertisseur de devises rapide",
+    "viewFullApp": "Voir l'application complète",
+    "close": "Fermer",
+    "toggleTheme": "Basculer le thème",
+    "switchToLight": "Passer en mode clair",
+    "switchToDark": "Passer en mode sombre",
+    "clearInput": "Effacer la saisie",
+    "swapCurrencies": "Échanger les devises",
+    "updated": "Mis à jour"
+  }
+}

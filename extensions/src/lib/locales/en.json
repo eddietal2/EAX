@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Home",
+    "market": "Market",
+    "history": "History",
+    "settings": "Settings",
+    "appLogo": "EAX",
+    "appSubtitle": "East African Exchange"
+  },
+  "home": {
+    "title": "Currency Converter",
+    "fromLabel": "From",
+    "toLabel": "To",
+    "fromPlaceholder": "Enter amount",
+    "swapButton": "Swap",
+    "exchangeRate": "Exchange Rate",
+    "saveButton": "Save to History",
+    "viewHistoryButton": "View History"
+  },
+  "history": {
+    "title": "Conversion History",
+    "subtitle": "Your conversion history",
+    "empty": "No conversions saved yet",
+    "emptySuggestion": "Go to Home and save a conversion to get started",
+    "addName": "+ Add a name",
+    "deleteButton": "Delete",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageDescription": "Choose your preferred language",
+    "themeLabel": "Light/Dark Mode",
+    "theme": "Theme",
+    "themeDescription": "Choose your preferred color scheme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "defaultFromCurrency": "Default FROM Currency",
+    "defaultFromDescription": "Select the currency you want to convert from",
+    "defaultToCurrency": "Default TO Currency",
+    "defaultToDescription": "Select the currency you want to convert to"
+  },
+  "market": {
+    "title": "Market Rates",
+    "subtitle": "How many",
+    "subtitleSuffix": "per 1",
+    "updating": "Updating..."
+  },
+  "messages": {
+    "saved": "Conversion saved to history!",
+    "deleted": "Conversion deleted",
+    "loading": "Loading exchange rates...",
+    "error": "Error loading exchange rates"
+  },
+  "popup": {
+    "subtitle": "Fast Currency Converter",
+    "viewFullApp": "View Full App",
+    "close": "Close",
+    "toggleTheme": "Toggle theme",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode",
+    "clearInput": "Clear input",
+    "swapCurrencies": "Swap currencies",
+    "updated": "Updated"
+  }
+}
