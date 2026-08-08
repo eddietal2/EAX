@@ -156,29 +156,18 @@
 	<!-- Skeleton Loading State -->
 	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
-			<!-- From Currency Skeleton -->
+			<!-- Currency Selectors Skeleton -->
 			<div class="p-3 space-y-3">
-				<div class="flex items-center gap-3">
-					<Skeleton width="w-20" height="h-3" />
+				<div class="flex items-center gap-2">
+					<Skeleton width="w-16" height="h-3" />
 					<Skeleton width="w-10" height="h-10" circle={true} />
-					<Skeleton width="w-24" height="h-10" />
+					<Skeleton width="w-20" height="h-10" />
+					<Skeleton width="w-7" height="h-7" circle={true} />
+					<Skeleton width="w-12" height="h-3" />
+					<Skeleton width="w-10" height="h-10" circle={true} />
+					<Skeleton width="w-20" height="h-10" />
 				</div>
 				<Skeleton width="w-full" height="h-10" />
-			</div>
-
-			<!-- Swap Button Skeleton -->
-			<div class="flex items-center justify-center py-2">
-				<Skeleton width="w-10" height="h-10" circle={true} />
-			</div>
-
-			<!-- To Currency Skeleton -->
-			<div class="p-3 space-y-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
-				<Skeleton width="w-20" height="h-3" />
-				<div class="flex items-center gap-3">
-					<Skeleton width="w-10" height="h-10" circle={true} />
-					<Skeleton width="w-24" height="h-10" />
-					<Skeleton width="flex-1" height="h-10" />
-				</div>
 			</div>
 		</div>
 
@@ -199,21 +188,51 @@
 {#if mounted}
 	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
-			<!-- From Currency -->
+			<!-- Currency Selectors Row -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
-				<div class="flex items-center gap-3 md:gap-2 mb-2 md:mb-1">
+				<div class="flex items-center gap-2 md:gap-1.5 mb-2 md:mb-1 flex-wrap">
 					<label for="from-currency" class="text-xs md:text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.fromLabel')}</label>
 					<FlagIcon code={fromCurrency} size="md" />
 					<select
 						id="from-currency"
 						bind:value={fromCurrency}
 						onchange={() => onFromCurrencyChange?.(fromCurrency)}
-						class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+						class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-2 md:px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
 					>
 						{#each currencies as currency}
 							<option value={currency}>{currency}</option>
 						{/each}
 					</select>
+
+					<!-- Swap Button (horizontal ↔) -->
+					<div bind:this={swapButtonEl} class="shrink-0 flex items-center justify-center">
+						<button
+							onclick={handleSwap}
+							aria-label="Swap currencies"
+							class="w-7 h-7 md:w-7 md:h-7 bg-emerald-500 text-white rounded-full shadow flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
+							style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+							</svg>
+						</button>
+					</div>
+
+					<label for="to-currency" class="text-xs md:text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.toLabel')}</label>
+					<FlagIcon code={toCurrency} size="md" />
+					<select
+						id="to-currency"
+						bind:value={toCurrency}
+						onchange={() => onToCurrencyChange?.(toCurrency)}
+						class="shrink-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-2 md:px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+					>
+						{#each currencies as currency}
+							<option value={currency}>{currency}</option>
+						{/each}
+					</select>
+					<span class="text-lg md:text-base font-semibold text-emerald-700 dark:text-emerald-300 tabular-nums truncate ml-auto bg-emerald-50 dark:bg-emerald-900/30 rounded-lg px-2.5 py-1">
+						{convertedAmount() || '0.00'}
+					</span>
 				</div>
 				<div class="relative">
 					<slot name="input">
@@ -225,7 +244,7 @@
 							inputmode={isMobile ? 'none' : 'decimal'}
 							onfocus={onInputFocus}
 							style="font-size: 16px;"
-							class="w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
+							class="w-full text-2xl md:text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
 						/>
 					</slot>
 					{#if inputHasValue}
@@ -239,44 +258,6 @@
 							</svg>
 						</button>
 					{/if}
-				</div>
-			</div>
-
-			<!-- Swap Button -->
-			<div bind:this={swapButtonEl} class="flex items-center justify-center relative py-1 md:py-1">
-				<div class="absolute inset-x-0 top-1/2 border-t border-gray-100"></div>
-				<button
-					onclick={handleSwap}
-					aria-label="Swap currencies"
-					class="relative w-8 h-8 md:w-8 md:h-8 bg-emerald-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
-					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
-				>
-					<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-						<path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-					</svg>
-				</button>
-			</div>
-
-			<!-- To Currency -->
-			<div class="p-3 md:p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
-				<label for="to-currency" class="block text-xs md:text-xs text-gray-500 dark:text-gray-400 mb-2 md:mb-1">{t('home.toLabel')}</label>
-				<div class="flex items-center gap-3 md:gap-2">
-					<FlagIcon code={toCurrency} size="md" />
-					<select
-						id="to-currency"
-						bind:value={toCurrency}
-						onchange={() => onToCurrencyChange?.(toCurrency)}
-						class="shrink-0 bg-white dark:bg-gray-700 border-0 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
-					>
-						{#each currencies as currency}
-							<option value={currency}>{currency}</option>
-						{/each}
-					</select>
-					<div class="flex-1 min-w-0">
-						<p class="text-xl md:text-lg font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums truncate">
-							{convertedAmount() || '0.00'}
-						</p>
-					</div>
 				</div>
 			</div>
 		</div>
