@@ -5,6 +5,8 @@
 	import { currencyOptions, defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
 	import FlagIcon from './FlagIcon.svelte';
 
+	// Dev reset: to re-trigger the onboarding dialog, run this in the browser console:
+	//   localStorage.removeItem('simbafx-onboarded'); location.reload();
 	const onboardedKey = 'simbafx-onboarded';
 
 	// Currencies displayed alphabetically by code

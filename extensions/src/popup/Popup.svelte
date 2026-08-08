@@ -59,7 +59,10 @@
 	});
 
 	// --- Onboarding ---
-	const onboardedKey = 'eax-onboarded';
+	// Dev reset: right-click the extension icon → "Inspect Popup", then run:
+	//   localStorage.removeItem('simbafx-onboarded');
+	// Close and reopen the popup to see the onboarding panel again.
+	const onboardedKey = 'simbafx-onboarded';
 	let onboarded = $state(false);
 	let onboardingError = $state('');
 
