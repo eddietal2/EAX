@@ -27,8 +27,8 @@
 <!-- Desktop Top Navigation -->
 <nav class="relative hidden md:flex items-center justify-center px-6 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
 	<a href="/" class="absolute left-6 flex items-center gap-3">
-		<img src="/icons/icon64.png" alt="SimbaFX" class="w-9 h-9 rounded-lg" />
-		<span class="text-sm font-medium text-gray-700 dark:text-white">{getTranslation('nav.appSubtitle', lang)}</span>
+		<img src="/icons/icon48.png" alt="SimbaFX" class="w-9 h-9 rounded-lg" />
+		<!-- <img src="/icons/SimbaTextLogoWhite.png" alt="SimbaFX" class="h-9 rounded-lg" /> -->
 	</a>
 	<div class="flex items-center gap-8">
 		{#each navItems as item}

@@ -158,12 +158,12 @@
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
 			<!-- From Currency Skeleton -->
 			<div class="p-3 space-y-3">
-				<Skeleton width="w-20" height="h-3" />
 				<div class="flex items-center gap-3">
+					<Skeleton width="w-20" height="h-3" />
 					<Skeleton width="w-10" height="h-10" circle={true} />
 					<Skeleton width="w-24" height="h-10" />
-					<Skeleton width="flex-1" height="h-10" />
 				</div>
+				<Skeleton width="w-full" height="h-10" />
 			</div>
 
 			<!-- Swap Button Skeleton -->
@@ -201,8 +201,8 @@
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- From Currency -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
-				<label for="from-currency" class="block text-xs md:text-xs text-gray-500 dark:text-gray-400 mb-2 md:mb-1">{t('home.fromLabel')}</label>
-				<div class="flex items-center gap-3 md:gap-2">
+				<div class="flex items-center gap-3 md:gap-2 mb-2 md:mb-1">
+					<label for="from-currency" class="text-xs md:text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.fromLabel')}</label>
 					<FlagIcon code={fromCurrency} size="md" />
 					<select
 						id="from-currency"
@@ -214,31 +214,31 @@
 							<option value={currency}>{currency}</option>
 						{/each}
 					</select>
-					<div class="flex-1 min-w-0 relative">
-						<slot name="input">
-							<input
-								bind:this={amountInput}
-								use:currencyInput
-								type="text"
-								placeholder="0"
-								inputmode={isMobile ? 'none' : 'decimal'}
-								onfocus={onInputFocus}
-								style="font-size: 16px;"
-								class="min-w-0 w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
-							/>
-						</slot>
-						{#if inputHasValue}
-							<button
-								onclick={onClear}
-								aria-label="Clear input"
-								class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-									<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-								</svg>
-							</button>
-						{/if}
-					</div>
+				</div>
+				<div class="relative">
+					<slot name="input">
+						<input
+							bind:this={amountInput}
+							use:currencyInput
+							type="text"
+							placeholder="0"
+							inputmode={isMobile ? 'none' : 'decimal'}
+							onfocus={onInputFocus}
+							style="font-size: 16px;"
+							class="w-full text-xl md:text-lg font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
+						/>
+					</slot>
+					{#if inputHasValue}
+						<button
+							onclick={onClear}
+							aria-label="Clear input"
+							class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+					{/if}
 				</div>
 			</div>
 
