@@ -18,6 +18,8 @@
 	let lang = $derived($currentLanguage);
 	let currentTheme = $derived($themeStore);
 
+	const isChrome = $state(typeof navigator !== 'undefined' && /Chrome/.test(navigator.userAgent) && !/Edg|OPR/.test(navigator.userAgent));
+
 	function toggleTheme() {
 		const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
 		themeStore.setTheme(nextTheme);
@@ -42,24 +44,43 @@
 			</a>
 		{/each}
 	</div>
-	<!-- Theme Toggle Button -->
-	<button
-		onclick={toggleTheme}
-		class="absolute right-6 p-2 rounded-lg text-gray-600 hover:text-emerald-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-emerald-400 transition-colors"
-		title="Toggle theme"
-	>
-		{#if currentTheme === 'light'}
-			<!-- Sun icon -->
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1m-16 0H1m15.364 1.636l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-			</svg>
-		{:else}
-			<!-- Moon icon -->
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-			</svg>
+	<!-- Right action buttons -->
+	<div class="absolute right-6 flex items-center gap-2">
+		<!-- Download Extension Button (Chrome only) -->
+		{#if isChrome}
+			<a
+				href="https://chromewebstore.google.com/detail/simbafx/..."
+				target="_blank"
+				rel="noopener noreferrer"
+				class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-600 hover:text-emerald-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-emerald-400 transition-colors border border-gray-200 dark:border-gray-700"
+				title="Download Chrome Extension"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+				</svg>
+				Download Chrome Extension
+			</a>
 		{/if}
-	</button>
+
+		<!-- Theme Toggle Button -->
+		<button
+			onclick={toggleTheme}
+			class="p-2 rounded-lg text-gray-600 hover:text-emerald-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-emerald-400 transition-colors"
+			title="Toggle theme"
+		>
+			{#if currentTheme === 'light'}
+				<!-- Sun icon -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1m-16 0H1m15.364 1.636l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+				</svg>
+			{:else}
+				<!-- Moon icon -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+				</svg>
+			{/if}
+		</button>
+	</div>
 </nav>
 
 <!-- Mobile Bottom Tab Bar -->

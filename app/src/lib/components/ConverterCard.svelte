@@ -154,7 +154,7 @@
 
 {#if !mounted}
 	<!-- Skeleton Loading State -->
-	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
+	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto md:bg-gray-50 md:dark:bg-gray-800/30 md:rounded-2xl md:p-4">
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
 			<!-- Currency Selectors Skeleton -->
 			<div class="p-3 space-y-3">
@@ -186,7 +186,7 @@
 {/if}
 
 {#if mounted}
-	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto">
+	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto md:bg-gray-50 md:dark:bg-gray-800/30 md:rounded-2xl md:p-4">
 		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- Currency Selectors Row -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
