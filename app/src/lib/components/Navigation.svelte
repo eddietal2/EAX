@@ -27,16 +27,19 @@
 </script>
 
 <!-- Desktop Top Navigation -->
-<nav class="relative hidden md:flex items-center justify-center px-20 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
-	<a href="/" class="absolute left-100 flex items-center gap-3">
+<nav class="relative hidden md:grid grid-cols-3 items-center px-4 md:px-8 lg:px-16 py-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+	<!-- Logo (left column) -->
+	<a href="/" class="flex items-center gap-3 justify-self-start">
 		<img src="/icons/icon48.png" alt="SimbaFX" class="w-9 h-9 rounded-lg" />
 		<!-- <img src="/icons/SimbaTextLogoWhite.png" alt="SimbaFX" class="h-9 rounded-lg" /> -->
 	</a>
-	<div class="flex items-center gap-5">
+
+	<!-- Nav items (center column) -->
+	<div class="flex items-center justify-center gap-3 md:gap-5">
 		{#each navItems as item}
 			<a
 				href={item.href}
-				class="text-sm font-medium transition-colors {isActive(item.href, $page.url.pathname)
+				class="text-sm font-medium whitespace-nowrap transition-colors {isActive(item.href, $page.url.pathname)
 					? 'text-emerald-600'
 					: 'text-gray-600 hover:text-emerald-600 dark:text-gray-400 dark:hover:text-emerald-400'}"
 			>
@@ -44,8 +47,9 @@
 			</a>
 		{/each}
 	</div>
-	<!-- Right action buttons -->
-	<div class="absolute right-100 flex items-center gap-2">
+
+	<!-- Right action buttons (right column) -->
+	<div class="flex items-center justify-end gap-2">
 		<!-- Download Extension Button (Chrome only) -->
 		{#if isChrome}
 			<a
@@ -58,7 +62,8 @@
 				<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
 				</svg>
-				Chrome Extension
+				<span class="hidden xl:inline">Chrome Extension</span>
+				<span class="xl:hidden">Extension</span>
 			</a>
 		{/if}
 
