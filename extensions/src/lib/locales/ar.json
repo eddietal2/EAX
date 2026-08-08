@@ -66,5 +66,11 @@
     "updated": "تم التحديث",
     "nalaCta": "أرسل الأموال الآن، مع نالا",
     "sponsored": "إعلان ممول"
+  },
+  "onboarding": {
+    "title": "مرحباً بك في SimbaFX",
+    "subtitle": "لنخصّص محوّل العملات الخاص بك",
+    "getStarted": "ابدأ",
+    "sameCurrencyError": "يجب أن تختلف عملة \"من\" عن عملة \"إلى\"."
   }
 }

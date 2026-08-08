@@ -66,5 +66,11 @@
     "updated": "Opgedateer",
     "nalaCta": "Stuur nou geld, met Nala",
     "sponsored": "Geborg"
+  },
+  "onboarding": {
+    "title": "Welkom by SimbaFX",
+    "subtitle": "Kom ons pas jou geldeenheid-omskakelaar aan",
+    "getStarted": "Begin",
+    "sameCurrencyError": "VAN en NA geldeenhede moet verskil."
   }
 }

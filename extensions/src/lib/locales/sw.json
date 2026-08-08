@@ -66,5 +66,11 @@
     "updated": "Imesasishwa",
     "nalaCta": "Tuma Pesa Sasa, na Nala",
     "sponsored": "Inafadhiliwa"
+  },
+  "onboarding": {
+    "title": "Karibu SimbaFX",
+    "subtitle": "Wacha tubinafsishe kigeuzi chako cha sarafu",
+    "getStarted": "Anza",
+    "sameCurrencyError": "Sarafu za KUTOKA na KWENDA lazima zihitilafiane."
   }
 }

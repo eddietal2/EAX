@@ -66,5 +66,11 @@
     "updated": "अपडेट किया गया",
     "nalaCta": "अभी पैसे भेजें, Nala के साथ",
     "sponsored": "प्रायोजित"
+  },
+  "onboarding": {
+    "title": "SimbaFX में आपका स्वागत है",
+    "subtitle": "आइए आपके मुद्रा परिवर्तक को अनुकूलित करें",
+    "getStarted": "आरंभ करें",
+    "sameCurrencyError": "FROM और TO मुद्रा अलग होनी चाहिए।"
   }
 }

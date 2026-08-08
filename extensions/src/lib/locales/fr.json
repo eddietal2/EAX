@@ -66,5 +66,11 @@
     "updated": "Mis à jour",
     "nalaCta": "Envoyez de l'argent maintenant, avec Nala",
     "sponsored": "Sponsorisé"
+  },
+  "onboarding": {
+    "title": "Bienvenue sur SimbaFX",
+    "subtitle": "Personnalisons votre convertisseur de devises",
+    "getStarted": "Commencer",
+    "sameCurrencyError": "Les devises DE et VERS doivent être différentes."
   }
 }

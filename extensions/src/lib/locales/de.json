@@ -66,5 +66,11 @@
     "updated": "Aktualisiert",
     "nalaCta": "Geld jetzt senden, mit Nala",
     "sponsored": "Gesponsert"
+  },
+  "onboarding": {
+    "title": "Willkommen bei SimbaFX",
+    "subtitle": "Lassen Sie uns Ihren Währungsumrechner anpassen",
+    "getStarted": "Loslegen",
+    "sameCurrencyError": "Die Währungen VON und NACH müssen unterschiedlich sein."
   }
 }

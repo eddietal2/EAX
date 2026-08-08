@@ -66,5 +66,11 @@
     "updated": "Updated",
     "nalaCta": "Send Money Now, with Nala",
     "sponsored": "Sponsored"
+  },
+  "onboarding": {
+    "title": "Welcome to SimbaFX",
+    "subtitle": "Let's customize your currency converter",
+    "getStarted": "Get Started",
+    "sameCurrencyError": "FROM and TO currencies must be different."
   }
 }
