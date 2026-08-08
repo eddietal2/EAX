@@ -56,5 +56,12 @@
   "popup": {
     "nalaCta": "立即汇款，使用 Nala",
     "sponsored": "赞助"
+  },
+  "onboarding": {
+    "title": "欢迎使用 SimbaFX",
+    "subtitle": "让我们自定义您的货币转换器",
+    "getStarted": "开始使用",
+    "skip": "暂时跳过",
+    "sameCurrencyError": "FROM 和 TO 货币必须不同。"
   }
 }

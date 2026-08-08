@@ -2,6 +2,7 @@
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.png';
 	import Navigation from '$lib/components/Navigation.svelte';
+	import OnboardingDialog from '$lib/components/OnboardingDialog.svelte';
 	import Toast from '$lib/components/Toast.svelte';
 
 	let { children } = $props();
@@ -20,5 +21,6 @@
 		{@render children()}
 	</main>
 	<Toast />
+	<OnboardingDialog />
 </div>
 
