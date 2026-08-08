@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import ConverterCard from '../lib/ConverterCard.svelte';
 	import { currentLanguage, languages, getTranslation } from '../lib/i18n';
+	import icon48 from '/icons/icon48.png';
 
 	let fromCurrency = $state(localStorage.getItem('eax-from') ?? 'USD');
 	let toCurrency = $state(localStorage.getItem('eax-to') ?? 'TZS');
@@ -93,7 +94,7 @@
 <div class="popup-container" class:dark-bg={isDark}>
 	<div class="header">
 		<div class="header-bar">
-			<img src="/icons/SimbaGreenLogo48x48.png" alt="SimbaFX" class="logo" />
+			<img src={icon48} alt="SimbaFX" class="logo" />
 			<div class="header-actions">
 				<div class="lang-select-wrap">
 					<span class="lang-globe" aria-hidden="true">🌐</span>

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "EAX - Currency Converter",
+  "name": "SimbaFX - Currency Converter",
   "version": "1.0.0",
   "description": "Fast East African currency conversions.",
   "action": {
