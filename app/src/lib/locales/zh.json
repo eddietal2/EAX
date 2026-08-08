@@ -52,5 +52,9 @@
     "deleted": "兑换已删除",
     "loading": "加载汇率中...",
     "error": "加载汇率出错"
+  },
+  "popup": {
+    "nalaCta": "立即汇款，使用 Nala",
+    "sponsored": "赞助"
   }
 }

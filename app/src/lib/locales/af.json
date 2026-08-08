@@ -52,5 +52,9 @@
     "deleted": "Omskakkling gewis",
     "loading": "Wisselkoerse word gelaai...",
     "error": "Fout by laai van wisselkoerse"
+  },
+  "popup": {
+    "nalaCta": "Stuur nou geld, met Nala",
+    "sponsored": "Geborg"
   }
 }

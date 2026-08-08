@@ -53,5 +53,9 @@
     "deleted": "Conversion supprimée",
     "loading": "Chargement des taux de change...",
     "error": "Erreur lors du chargement des taux de change"
+  },
+  "popup": {
+    "nalaCta": "Envoyez de l'argent maintenant, avec Nala",
+    "sponsored": "Sponsorisé"
   }
 }

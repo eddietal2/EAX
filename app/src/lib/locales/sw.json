@@ -53,5 +53,9 @@
     "deleted": "Ubadilishaji umefutwa",
     "loading": "Inapakua kiwango cha ubadilishaji...",
     "error": "Hitilafu katika kupakua kiwango cha ubadilishaji"
+  },
+  "popup": {
+    "nalaCta": "Tuma Pesa Sasa, na Nala",
+    "sponsored": "Inafadhiliwa"
   }
 }

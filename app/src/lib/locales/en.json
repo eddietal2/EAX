@@ -53,5 +53,9 @@
     "deleted": "Conversion deleted",
     "loading": "Loading exchange rates...",
     "error": "Error loading exchange rates"
+  },
+  "popup": {
+    "nalaCta": "Send Money Now, with Nala",
+    "sponsored": "Sponsored"
   }
 }

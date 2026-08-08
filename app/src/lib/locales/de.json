@@ -53,5 +53,9 @@
     "deleted": "Umrechnung gelöscht",
     "loading": "Wechselkurse werden geladen...",
     "error": "Fehler beim Laden der Wechselkurse"
+  },
+  "popup": {
+    "nalaCta": "Geld jetzt senden, mit Nala",
+    "sponsored": "Gesponsert"
   }
 }

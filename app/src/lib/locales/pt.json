@@ -52,5 +52,9 @@
     "deleted": "Conversão deletada",
     "loading": "Carregando taxas de câmbio...",
     "error": "Erro ao carregar taxas de câmbio"
+  },
+  "popup": {
+    "nalaCta": "Envie dinheiro agora, com a Nala",
+    "sponsored": "Patrocinado"
   }
 }

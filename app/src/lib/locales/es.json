@@ -51,5 +51,9 @@
     "deleted": "Conversión eliminada",
     "loading": "Cargando tipos de cambio...",
     "error": "Error al cargar los tipos de cambio"
+  },
+  "popup": {
+    "nalaCta": "Envía dinero ahora, con Nala",
+    "sponsored": "Patrocinado"
   }
 }
