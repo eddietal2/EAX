@@ -13,6 +13,18 @@
 	let isChangingLanguage = $state(false);
 	let mounted = $state(false);
 
+	// Keep selections in sync with the shared stores so the onboarding dialog's
+	// language and TO/FROM currency choices map through to this page too.
+	$effect(() => {
+		selectedFromCurrency = $defaultFromCurrency;
+	});
+	$effect(() => {
+		selectedToCurrency = $defaultToCurrency;
+	});
+	$effect(() => {
+		selectedLanguage = $currentLanguage;
+	});
+
 	onMount(() => {
 		mounted = true;
 	});

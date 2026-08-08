@@ -27,6 +27,14 @@
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
 
+	// Keep the converter in sync with the saved default currencies so the
+	// onboarding dialog (and settings page) selections map straight through
+	// to the ConverterCard, even on the first visit.
+	$effect(() => {
+		fromCurrency = $defaultFromCurrency;
+		toCurrency = $defaultToCurrency;
+	});
+
 	function formatWithCommas(value: string): string {
 		if (!value) return '';
 		const parts = value.split('.');
@@ -181,8 +189,6 @@
 	};
 
 	onMount(() => {
-		fromCurrency = $defaultFromCurrency;
-		toCurrency = $defaultToCurrency;
 		initRatePolling(8 * 60 * 60 * 1000); // 3x/day (90/mo)
 		const mq = window.matchMedia('(max-width: 767px)');
 		isMobile = mq.matches;
