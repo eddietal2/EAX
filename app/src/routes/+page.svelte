@@ -413,7 +413,8 @@
 	<!-- Mobile Full-Screen Calculator -->
 	{#if showMobileKeyboard}
 		<div
-			transition:fly={{ y: '100%', duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }}
+			in:fly={{ y: '100%', duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }}
+			out:fly={{ y: '100%', duration: 350, easing: t => 1 - Math.pow(1 - t, 3) }}
 			class="md:hidden fixed inset-0 z-50 flex flex-col bg-white dark:bg-gray-950 overflow-hidden"
 		>
 			<!-- Header: title + Done -->
