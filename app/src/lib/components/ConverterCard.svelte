@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
-	import { rates, getStaticRates, isLoading, fetchError, lastUpdated } from '$lib/stores/exchangeRates';
+	import { rates, getStaticRates, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import FlagIcon from './FlagIcon.svelte';
 	import Skeleton from './Skeleton.svelte';
 
@@ -278,14 +278,13 @@
 				<span class="text-xs md:text-xs">1 {fromCurrency} = {( $rates[fromCurrency]?.[toCurrency] ?? getStaticRates()[fromCurrency]?.[toCurrency] ?? 1 ).toLocaleString(undefined, { maximumFractionDigits: 4 })} {toCurrency}</span>
 				<FlagIcon code={toCurrency} size="sm" />
 			</p>
-		</div>
-
-		<div class="mt-1 md:mt-1 text-center text-xs md:text-xs text-gray-500 dark:text-gray-400">
-			{#if $lastUpdated}
-				Updated {new Date($lastUpdated).toLocaleString()}
-			{/if}
 			{#if $fetchError}
-				• Failed to refresh: {$fetchError}
+				<div class="mt-2 flex items-start gap-1.5 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 px-2 py-1.5">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 shrink-0 mt-px" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+					</svg>
+					<p class="text-[11px] leading-snug text-amber-800 dark:text-amber-200">{$fetchError}</p>
+				</div>
 			{/if}
 		</div>
 
