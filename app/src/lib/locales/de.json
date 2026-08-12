@@ -15,7 +15,12 @@
     "swapButton": "Tauschen",
     "exchangeRate": "Wechselkurs",
     "saveButton": "Im Verlauf speichern",
-    "viewHistoryButton": "Verlauf anzeigen"
+    "viewHistoryButton": "Verlauf anzeigen",
+    "calculatorTitle": "Währungsrechner",
+    "typedLabel": "Eingegebener Betrag",
+    "convertedLabel": "Umgerechnet",
+    "done": "Fertig",
+    "close": "Schließen"
   },
   "history": {
     "title": "Umrechnungsverlauf",

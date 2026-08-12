@@ -15,7 +15,12 @@
     "swapButton": "Badili",
     "exchangeRate": "Kiwango cha Ubadilishaji",
     "saveButton": "Hifadhi katika Historia",
-    "viewHistoryButton": "Angalia Historia"
+    "viewHistoryButton": "Angalia Historia",
+    "calculatorTitle": "Kikokotoo cha Sarafu",
+    "typedLabel": "Uliingiza",
+    "convertedLabel": "Umebadilishwa",
+    "done": "Imekamilika",
+    "close": "Funga"
   },
   "history": {
     "title": "Historia ya Ubadilishaji",

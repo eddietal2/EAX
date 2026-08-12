@@ -15,7 +15,12 @@
     "swapButton": "交换",
     "exchangeRate": "汇率",
     "saveButton": "保存到历史",
-    "viewHistoryButton": "查看历史"
+    "viewHistoryButton": "查看历史",
+    "calculatorTitle": "货币计算器",
+    "typedLabel": "您输入的金额",
+    "convertedLabel": "换算结果",
+    "done": "完成",
+    "close": "关闭"
   },
   "history": {
     "title": "兑换历史",

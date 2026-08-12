@@ -15,7 +15,12 @@
     "swapButton": "Swap",
     "exchangeRate": "Exchange Rate",
     "saveButton": "Save to History",
-    "viewHistoryButton": "View History"
+    "viewHistoryButton": "View History",
+    "calculatorTitle": "Currency Calculator",
+    "typedLabel": "You entered",
+    "convertedLabel": "Converted",
+    "done": "Done",
+    "close": "Close"
   },
   "history": {
     "title": "Conversion History",

@@ -15,7 +15,12 @@
     "swapButton": "تبديل",
     "exchangeRate": "سعر الصرف",
     "saveButton": "حفظ في السجل",
-    "viewHistoryButton": "عرض السجل"
+    "viewHistoryButton": "عرض السجل",
+    "calculatorTitle": "حاسبة العملات",
+    "typedLabel": "القيمة التي أدخلتها",
+    "convertedLabel": "المحول",
+    "done": "تم",
+    "close": "إغلاق"
   },
   "history": {
     "title": "سجل التحويلات",

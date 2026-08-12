@@ -15,7 +15,12 @@
     "swapButton": "Trocar",
     "exchangeRate": "Taxa de Câmbio",
     "saveButton": "Salvar no Histórico",
-    "viewHistoryButton": "Visualizar Histórico"
+    "viewHistoryButton": "Visualizar Histórico",
+    "calculatorTitle": "Calculadora de Moedas",
+    "typedLabel": "Você digitou",
+    "convertedLabel": "Convertido",
+    "done": "Concluído",
+    "close": "Fechar"
   },
   "history": {
     "title": "Histórico de Conversões",

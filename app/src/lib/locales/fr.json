@@ -15,7 +15,12 @@
     "swapButton": "Inverser",
     "exchangeRate": "Taux de Change",
     "saveButton": "Enregistrer l'Historique",
-    "viewHistoryButton": "Voir l'Historique"
+    "viewHistoryButton": "Voir l'Historique",
+    "calculatorTitle": "Calculateur de Devises",
+    "typedLabel": "Vous avez saisi",
+    "convertedLabel": "Converti",
+    "done": "Terminé",
+    "close": "Fermer"
   },
   "history": {
     "title": "Historique des Conversions",

@@ -15,7 +15,12 @@
     "swapButton": "स्वैप करें",
     "exchangeRate": "विनिमय दर",
     "saveButton": "इतिहास में सहेजें",
-    "viewHistoryButton": "इतिहास देखें"
+    "viewHistoryButton": "इतिहास देखें",
+    "calculatorTitle": "मुद्रा कैलकुलेटर",
+    "typedLabel": "आपने दर्ज किया",
+    "convertedLabel": "परिवर्तित",
+    "done": "हो गया",
+    "close": "बंद करें"
   },
   "history": {
     "title": "रूपांतरण इतिहास",

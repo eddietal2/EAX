@@ -19,10 +19,14 @@
 	let showMobileKeyboard = $state(false);
 	let isMobile = $state(false);
 	let mounted = $state(false);
-	let swapButtonEl: HTMLDivElement | undefined;
-	let keyboardTop = $state(0);
 	let inputHasValue = $state(false);
+	let typedDisplay = $state('');
 	let isOnline = $state(typeof window !== 'undefined' ? navigator.onLine : true);
+
+	const currencies = [
+		'AED', 'AUD', 'BIF', 'CAD', 'CDF', 'CHF', 'CNY', 'EGP', 'ETB', 'EUR',
+		'GBP', 'INR', 'KES', 'MWK', 'MZN', 'NGN', 'RWF', 'SAR', 'TZS', 'UGX', 'USD', 'ZAR', 'ZMW'
+	];
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -33,6 +37,17 @@
 	$effect(() => {
 		fromCurrency = $defaultFromCurrency;
 		toCurrency = $defaultToCurrency;
+	});
+
+	// Keep the full-screen calculator's typed value in sync with the input element.
+	$effect(() => {
+		if (!amountInput) return;
+		const syncTypedDisplay = () => {
+			typedDisplay = formatExpressionWithCommas(stripToNumeric(amountInput?.value ?? ''));
+		};
+		amountInput.addEventListener('input', syncTypedDisplay);
+		syncTypedDisplay();
+		return () => amountInput?.removeEventListener('input', syncTypedDisplay);
 	});
 
 	function formatWithCommas(value: string): string {
@@ -222,9 +237,17 @@
 		// Intentionally empty to avoid double-swapping.
 	}
 
+	// Swap used by the full-screen mobile calculator overlay.
+	function swapOverlayCurrencies() {
+		const temp = fromCurrency;
+		fromCurrency = toCurrency;
+		toCurrency = temp;
+	}
+
 	function clearAmount() {
 		amount = '';
 		inputHasValue = false;
+		typedDisplay = '';
 		if (amountInput) {
 			amountInput.value = '';
 		}
@@ -272,10 +295,6 @@
 	function focusInput() {
 		if (amountInput) {
 			amountInput.focus();
-			if (swapButtonEl) {
-				const rect = swapButtonEl.getBoundingClientRect();
-				keyboardTop = rect.bottom;
-			}
 			showMobileKeyboard = true;
 		}
 	}
@@ -309,9 +328,7 @@
 	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-20 md:pb-0">
 		<!-- Header -->
 	<div class="text-center mb-3 md:hidden">
-		<img src="/icons/icon128.png" alt="SimbaFX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
-		<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">East African Exchange</p>
-		<!-- <p class="text-gray-500 dark:text-gray-400 text-xs mt-0.5">Quick currency conversions</p> -->
+		<img src="/icons/icon48.png" alt="SimbaFX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
 	</div>
 
 	<!-- Offline Indicator -->
@@ -327,7 +344,6 @@
 		bind:toCurrency
 		bind:amount
 		bind:amountInput
-		bind:swapButtonEl
 		{inputHasValue}
 		{convertedAmount}
 		{mounted}
@@ -394,78 +410,150 @@
 		</svelte:fragment>
 	</ConverterCard>
 
-	<!-- Mobile Custom Keyboard -->
+	<!-- Mobile Full-Screen Calculator -->
 	{#if showMobileKeyboard}
-		<div transition:fly={{ y: 300, duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }} class="md:hidden fixed left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 z-50 flex flex-col p-2 gap-1" style="top: {keyboardTop}px; bottom: 5rem;">
-			<!-- Header: converted value + Done -->
-			<div class="flex items-center justify-between shrink-0 px-2 py-1">
-				<span class="text-sm font-semibold text-gray-900 dark:text-white truncate flex items-center gap-1">
-					{#if convertedAmount()}
-						<FlagIcon code={toCurrency} size="sm" />
-						{convertedAmount()} {toCurrency}
-					{/if}
+		<div
+			transition:fly={{ y: '100%', duration: 300, easing: t => 1 - Math.pow(1 - t, 3) }}
+			class="md:hidden fixed inset-0 z-50 flex flex-col bg-white dark:bg-gray-950 overflow-hidden"
+		>
+			<!-- Header: title + Done -->
+			<div class="flex items-center justify-between shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+				<span class="text-sm font-semibold text-gray-900 dark:text-white">{t('home.calculatorTitle')}</span>
+				<button
+					onclick={() => { showMobileKeyboard = false; }}
+					class="px-3 py-1.5 text-sm font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform shrink-0"
+				>
+					{t('home.done')}
+				</button>
+			</div>
+
+			<!-- Currency selectors -->
+			<div class="shrink-0 px-4 pt-3 flex items-center gap-2">
+				<div class="flex items-center gap-1.5 flex-1 min-w-0">
+					<label for="calc-from-currency" class="text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.fromLabel')}</label>
+					<FlagIcon code={fromCurrency} size="md" />
+					<select
+						id="calc-from-currency"
+						bind:value={fromCurrency}
+						class="flex-1 min-w-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+					>
+						{#each currencies as currency}
+							<option value={currency}>{currency}</option>
+						{/each}
+					</select>
+				</div>
+
+				<div class="shrink-0 flex items-center justify-center">
+					<button
+						onclick={swapOverlayCurrencies}
+						aria-label="Swap currencies"
+						class="w-7 h-7 bg-emerald-500 text-white rounded-full shadow flex items-center justify-center hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+						</svg>
+					</button>
+				</div>
+
+				<div class="flex items-center gap-1.5 flex-1 min-w-0">
+					<label for="calc-to-currency" class="text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.toLabel')}</label>
+					<FlagIcon code={toCurrency} size="md" />
+					<select
+						id="calc-to-currency"
+						bind:value={toCurrency}
+						class="flex-1 min-w-0 bg-gray-100 dark:bg-gray-800 border-0 rounded-lg px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-emerald-500"
+					>
+						{#each currencies as currency}
+							<option value={currency}>{currency}</option>
+						{/each}
+					</select>
+				</div>
+			</div>
+
+			<!-- Converted value -->
+			<div class="shrink-0 px-4 pt-4 text-right">
+				<p class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">{t('home.convertedLabel')}</p>
+				<span class="inline-flex items-center gap-1.5 text-2xl font-semibold text-emerald-600 dark:text-emerald-400 tabular-nums break-all leading-tight">
+					<FlagIcon code={toCurrency} size="sm" />
+					{convertedAmount() || '0.00'} {toCurrency}
 				</span>
-				<button onclick={() => { showMobileKeyboard = false; }} class="px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 rounded-lg active:scale-95 transition-transform shrink-0">
-					Done
-				</button>
 			</div>
 
-			<!-- Row 1: 1 2 3 -->
-			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
-				{#each [1, 2, 3] as num}
-					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
-						{num}
+			<!-- Typed value -->
+			<div class="shrink-0 px-4 pt-2 pb-3 text-right border-b border-gray-200 dark:border-gray-800">
+				<p class="text-[11px] uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1">{t('home.typedLabel')}</p>
+				<span class="block text-3xl font-bold text-gray-900 dark:text-white tabular-nums break-all leading-tight">{typedDisplay || '0'}</span>
+			</div>
+
+			<!-- Keypad -->
+			<div class="flex-1 min-h-0 flex flex-col gap-1 p-2">
+				<!-- Row 1: 1 2 3 -->
+				<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+					{#each [1, 2, 3] as num}
+						<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+							{num}
+						</button>
+					{/each}
+				</div>
+
+				<!-- Row 2: 4 5 6 -->
+				<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+					{#each [4, 5, 6] as num}
+						<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+							{num}
+						</button>
+					{/each}
+				</div>
+
+				<!-- Row 3: 7 8 9 -->
+				<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+					{#each [7, 8, 9] as num}
+						<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+							{num}
+						</button>
+					{/each}
+				</div>
+
+				<!-- Row 4: . 0 ⌫ -->
+				<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+					<button onclick={() => appendToInput('.')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+						.
 					</button>
-				{/each}
-			</div>
-
-			<!-- Row 2: 4 5 6 -->
-			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
-				{#each [4, 5, 6] as num}
-					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
-						{num}
+					<button onclick={() => appendToInput('0')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
+						0
 					</button>
-				{/each}
-			</div>
-
-			<!-- Row 3: 7 8 9 -->
-			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
-				{#each [7, 8, 9] as num}
-					<button onclick={() => appendToInput(num.toString())} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
-						{num}
+					<button onclick={backspace} class="bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-2xl rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-red-500/50 dark:hover:shadow-red-500/30 flex items-center justify-center leading-none">
+						×
 					</button>
-				{/each}
+				</div>
+
+				<!-- Row 5: ← + * - → -->
+				<div class="grid grid-cols-5 gap-1 flex-1 min-h-0">
+					<button onclick={() => moveCursor('left')} aria-label="Move cursor left" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
+						←
+					</button>
+					<button onclick={() => appendToInput('+')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+						+
+					</button>
+					<button onclick={() => appendToInput('*')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+						×
+					</button>
+					<button onclick={() => appendToInput('-')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
+						−
+					</button>
+					<button onclick={() => moveCursor('right')} aria-label="Move cursor right" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
+						→
+					</button>
+				</div>
 			</div>
 
-			<!-- Row 4: . 0 ⌫ -->
-			<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
-				<button onclick={() => appendToInput('.')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
-					.
-				</button>
-				<button onclick={() => appendToInput('0')} class="text-3xl font-bold bg-gradient-to-br from-white/95 to-white/85 dark:from-gray-700/95 dark:to-gray-700/85 text-gray-900 dark:text-white rounded-lg active:scale-95 active:shadow-inner hover:shadow-md dark:hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-150 shadow-sm hover:from-white hover:to-white/90 dark:hover:from-gray-600/95 dark:hover:to-gray-700/85">
-					0
-				</button>
-				<button onclick={backspace} class="bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold text-2xl rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-red-500/50 dark:hover:shadow-red-500/30 flex items-center justify-center leading-none">
-					×
-				</button>
-			</div>
-
-			<!-- Row 5: ← + * - → -->
-			<div class="grid grid-cols-5 gap-1 flex-1 min-h-0">
-				<button onclick={() => moveCursor('left')} aria-label="Move cursor left" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
-					←
-				</button>
-				<button onclick={() => appendToInput('+')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
-					+
-				</button>
-				<button onclick={() => appendToInput('*')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
-					×
-				</button>
-				<button onclick={() => appendToInput('-')} class="text-3xl font-bold bg-gradient-to-br from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm hover:shadow-lg hover:shadow-emerald-500/50 dark:hover:shadow-emerald-500/30">
-					−
-				</button>
-				<button onclick={() => moveCursor('right')} aria-label="Move cursor right" class="text-xl font-bold bg-gradient-to-br from-gray-200/95 to-gray-300/85 dark:from-gray-600/95 dark:to-gray-700/85 text-gray-700 dark:text-gray-200 rounded-lg active:scale-95 active:shadow-inner transition-all duration-150 shadow-sm flex items-center justify-center">
-					→
+			<!-- Close button -->
+			<div class="shrink-0 p-3 border-t border-gray-200 dark:border-gray-800">
+				<button
+					onclick={() => { showMobileKeyboard = false; }}
+					class="w-full py-3 text-sm font-semibold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-[0.98] transition-all"
+				>
+					{t('home.close')}
 				</button>
 			</div>
 		</div>

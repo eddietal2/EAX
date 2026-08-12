@@ -13,7 +13,12 @@
     "swapButton": "Intercambiar",
     "exchangeRate": "Tipo de Cambio",
     "saveButton": "Guardar en el Historial",
-    "viewHistoryButton": "Ver Historial"
+    "viewHistoryButton": "Ver Historial",
+    "calculatorTitle": "Calculadora de Divisas",
+    "typedLabel": "Monto ingresado",
+    "convertedLabel": "Convertido",
+    "done": "Listo",
+    "close": "Cerrar"
   },
   "history": {
     "title": "Historial de Conversiones",

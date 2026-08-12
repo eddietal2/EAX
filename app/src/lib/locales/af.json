@@ -15,7 +15,12 @@
     "swapButton": "Ruil",
     "exchangeRate": "Wisselkoers",
     "saveButton": "Stoor in Geskiedenis",
-    "viewHistoryButton": "Sien Geskiedenis"
+    "viewHistoryButton": "Sien Geskiedenis",
+    "calculatorTitle": "Geldeenheidrekenaar",
+    "typedLabel": "Bedrag wat jy ingesleutel het",
+    "convertedLabel": "Omgeskakel",
+    "done": "Klaar",
+    "close": "Maak toe"
   },
   "history": {
     "title": "Omskakkelingsgeskiedenis",
