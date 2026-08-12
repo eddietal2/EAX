@@ -236,6 +236,21 @@
 				</div>
 				<div class="relative">
 					<slot name="input">
+						<!-- Mobile: entered value + subtle tap affordance -->
+						<button
+							type="button"
+							onclick={onInputFocus}
+							aria-label="Open calculator"
+							class="md:hidden w-full flex items-center justify-end gap-1.5 py-1 cursor-pointer group"
+						>
+							<span class="text-2xl font-semibold tabular-nums text-gray-900 dark:text-white {!inputHasValue ? 'text-gray-300 dark:text-gray-600' : ''}">
+								{formatExpressionWithCommas(stripToNumeric(amount)) || '0'}
+							</span>
+							<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0 text-emerald-600/60 dark:text-emerald-400/60 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+							</svg>
+						</button>
+						<!-- Desktop: currency input -->
 						<input
 							bind:this={amountInput}
 							use:currencyInput
@@ -244,14 +259,14 @@
 							inputmode={isMobile ? 'none' : 'decimal'}
 							onfocus={onInputFocus}
 							style="font-size: 16px;"
-							class="w-full text-2xl md:text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
+							class="hidden md:block w-full text-2xl md:text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
 						/>
 					</slot>
 					{#if inputHasValue}
 						<button
 							onclick={onClear}
 							aria-label="Clear input"
-							class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+							class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
