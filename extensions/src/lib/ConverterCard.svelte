@@ -202,6 +202,26 @@
 			amountInput.value = formatExpressionWithCommas(amount);
 		}
 	});
+
+	// Keep the visible input in sync with `amount` when it changes outside of
+	// typing (e.g. the Clear Input button sets amount to ''). The currencyInput
+	// action owns the DOM value + cursor while the field is being edited, so
+	// skip syncing while it has focus to avoid stomping the caret.
+	$effect(() => {
+		const el = amountInput;
+		if (!el || document.activeElement === el) return;
+		const desired = formatExpressionWithCommas(amount);
+		if (el.value !== desired) el.value = desired;
+	});
+
+	// Clear handler: onClear only updates Svelte state (which removes the X
+	// button via inputHasValue), so also clear the input's DOM value directly
+	// here. This runs deterministically on click, independent of effect timing
+	// or which element currently has focus.
+	function handleClearClick() {
+		if (amountInput) amountInput.value = '';
+		onClear();
+	}
 </script>
 
 <div class="converter-card">
@@ -236,7 +256,7 @@
 					/>
 					{#if inputHasValue}
 						<button
-							onclick={onClear}
+							onclick={handleClearClick}
 							aria-label={t('popup.clearInput')}
 							class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
 						>
