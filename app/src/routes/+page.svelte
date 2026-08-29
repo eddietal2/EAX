@@ -573,4 +573,5 @@
 		display: block;
 		flex-shrink: 0;
 	}
+
 </style>

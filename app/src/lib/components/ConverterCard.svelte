@@ -201,8 +201,22 @@
 {/if}
 
 {#if mounted}
-	<div class="md:w-[32%] md:min-w-[240px] md:mx-auto md:bg-gray-50 md:dark:bg-gray-800/30 md:rounded-2xl md:p-4">
-		<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
+	<div class="relative md:w-[32%] md:min-w-[240px] md:mx-auto md:bg-gray-50 md:dark:bg-gray-800/30 md:rounded-2xl md:p-4">
+		<!-- Gemini-style animated green "Spark Gradient" behind the converter card -->
+		<div class="spark-gradient" aria-hidden="true">
+			<div class="blob blob-1"></div>
+			<div class="blob blob-2"></div>
+			<div class="blob blob-3"></div>
+			<div class="blob blob-4"></div>
+			<div class="blob blob-5"></div>
+		</div>
+		<div class="sparkles" aria-hidden="true">
+			<span class="sparkle sparkle-1"></span>
+			<span class="sparkle sparkle-2"></span>
+			<span class="sparkle sparkle-3"></span>
+			<span class="sparkle sparkle-4"></span>
+		</div>
+		<div class="relative bg-white/75 dark:bg-gray-900/70 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- Currency Selectors Row -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
 				<div class="flex items-center gap-2 md:gap-1.5 mb-2 md:mb-1 flex-wrap">
@@ -318,12 +332,181 @@
 			{/if}
 		</div>
 
-		<slot name="actions" />
+		<div class="relative">
+			<slot name="actions" />
+		</div>
 	</div>
 {/if}
 
 <style>
 	button[aria-label="Swap currencies"] {
 		transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+	}
+
+	/* ── Gemini-style animated green "Spark Gradient" behind the converter ──
+	   A contained glow layer sits behind the card (slightly oversized so it
+	   peeks around the rounded edges, like Gemini's "New Chat" input glow).
+	   Heavy container blur merges the blobs into a seamless aurora. */
+	.spark-gradient {
+		/* Light-mode pastel greens (SimbaFX: green & white) */
+		--blob-1: #10b981; /* emerald-500 */
+		--blob-2: #34d399; /* emerald-400 */
+		--blob-3: #14b8a6; /* teal-500 */
+		--blob-4: #4ade80; /* green-400 */
+		--blob-5: #a3e635; /* lime-400 */
+		position: absolute;
+		inset: -48px;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		/* One blur pass over the whole mesh → seamless fluid glow */
+		filter: blur(60px);
+	}
+
+	:global(html.dark) .spark-gradient {
+		/* Dark-mode vivid greens */
+		--blob-1: #059669; /* emerald-600 */
+		--blob-2: #10b981; /* emerald-500 */
+		--blob-3: #14b8a6; /* teal-500 */
+		--blob-4: #22c55e; /* green-500 */
+		--blob-5: #84cc16; /* lime-500 */
+	}
+
+	.spark-gradient .blob {
+		position: absolute;
+		border-radius: 50%;
+		opacity: 0.7;
+		will-change: transform, filter;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate;
+		/* Smoothly blend overlapping colors into a mesh */
+		mix-blend-mode: screen;
+	}
+
+	/* `screen` washes out on light backgrounds → use `multiply` tint instead */
+	:global(html:not(.dark)) .spark-gradient .blob {
+		mix-blend-mode: multiply;
+		opacity: 0.65;
+	}
+
+	:global(html.dark) .spark-gradient .blob {
+		opacity: 0.85;
+	}
+
+	.spark-gradient .blob-1 {
+		width: 264px;
+		height: 264px;
+		top: 12%;
+		left: 12%;
+		background: radial-gradient(circle at center, var(--blob-1) 0%, transparent 70%);
+		animation: drift-1 8s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-2 {
+		width: 288px;
+		height: 288px;
+		top: 6%;
+		right: 8%;
+		background: radial-gradient(circle at center, var(--blob-2) 0%, transparent 70%);
+		animation: drift-2 10s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-3 {
+		width: 312px;
+		height: 312px;
+		bottom: -10%;
+		left: 18%;
+		background: radial-gradient(circle at center, var(--blob-3) 0%, transparent 70%);
+		animation: drift-3 9s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-4 {
+		width: 264px;
+		height: 264px;
+		bottom: 0%;
+		right: 12%;
+		background: radial-gradient(circle at center, var(--blob-4) 0%, transparent 70%);
+		animation: drift-4 11s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-5 {
+		width: 240px;
+		height: 240px;
+		top: 36%;
+		left: 32%;
+		background: radial-gradient(circle at center, var(--blob-5) 0%, transparent 70%);
+		animation: drift-5 12s ease-in-out infinite alternate;
+	}
+
+	@keyframes drift-1 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(40px, -30px) scale(1.15); filter: hue-rotate(60deg); }
+	}
+
+	@keyframes drift-2 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(-40px, 35px) scale(1.1); filter: hue-rotate(-60deg); }
+	}
+
+	@keyframes drift-3 {
+		0%, 100% { transform: translate(0px, 0px) scale(0.95); filter: hue-rotate(0deg); }
+		50% { transform: translate(-35px, -40px) scale(1.2); filter: hue-rotate(40deg); }
+	}
+
+	@keyframes drift-4 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(-30px, -25px) scale(1.2); filter: hue-rotate(-40deg); }
+	}
+
+	@keyframes drift-5 {
+		0%, 100% { transform: translate(0px, 0px) scale(0.9); filter: hue-rotate(0deg); }
+		50% { transform: translate(35px, 25px) scale(1.25); filter: hue-rotate(80deg); }
+	}
+
+	/* Twinkling "spark" accents — outside the blurred mesh so they stay crisp */
+	.sparkles {
+		--spark-color: rgba(16, 185, 129, 0.9); /* emerald-500 tint in light mode */
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	:global(html.dark) .sparkles {
+		--spark-color: rgba(255, 255, 255, 0.9);
+	}
+
+	.sparkles .sparkle {
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: var(--spark-color);
+		box-shadow: 0 0 8px 2px var(--spark-color);
+		will-change: opacity, transform;
+		animation: twinkle 4.5s ease-in-out infinite;
+	}
+
+	.sparkles .sparkle-1 { top: 16%; left: 18%; }
+	.sparkles .sparkle-2 { top: 30%; right: 14%; animation-delay: 1.1s; }
+	.sparkles .sparkle-3 { bottom: 26%; left: 14%; animation-delay: 2.3s; }
+	.sparkles .sparkle-4 { bottom: 16%; right: 22%; animation-delay: 3.4s; }
+
+	@keyframes twinkle {
+		0%, 100% { opacity: 0; transform: scale(0.5); }
+		50% { opacity: 1; transform: scale(1.15); }
+	}
+
+	/* Respect reduced-motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.spark-gradient .blob,
+		.sparkles .sparkle {
+			animation: none;
+		}
+		.sparkles .sparkle {
+			opacity: 0.7;
+		}
 	}
 </style>
