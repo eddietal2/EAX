@@ -228,8 +228,8 @@
 	<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 		<!-- From Currency -->
 		<div class="p-3 dark:text-gray-300">
-			<label for="from-currency" class="block text-xs text-gray-500 dark:text-gray-400 mb-2">{t('home.fromLabel')}</label>
 			<div class="flex items-center gap-3">
+				<label for="from-currency" class="text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.fromLabel')}</label>
 				<div class="flex items-center gap-2 shrink-0">
 					<FlagIcon code={fromCurrency} size="md" />
 					<select
@@ -243,29 +243,29 @@
 						{/each}
 					</select>
 				</div>
-				<div class="flex-1 min-w-0 relative">
-					<input
-						bind:this={amountInput}
-						use:currencyInput
-						type="text"
-						placeholder="0"
-						inputmode={isMobile ? 'none' : 'decimal'}
-						onfocus={onInputFocus}
-						style="font-size: 16px;"
-						class="min-w-0 w-full text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse' : ''}"
-					/>
-					{#if inputHasValue}
-						<button
-							onclick={handleClearClick}
-							aria-label={t('popup.clearInput')}
-							class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
-						>
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-							</svg>
-						</button>
-					{/if}
-				</div>
+			</div>
+			<div class="flex-1 min-w-0 relative mt-2">
+				<input
+					bind:this={amountInput}
+					use:currencyInput
+					type="text"
+					placeholder="0"
+					inputmode={isMobile ? 'none' : 'decimal'}
+					onfocus={onInputFocus}
+					style="font-size: 16px;"
+					class="min-w-0 w-full text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 pr-12 cursor-pointer md:cursor-default {!inputHasValue ? 'animate-pulse' : ''}"
+				/>
+				{#if inputHasValue}
+					<button
+						onclick={handleClearClick}
+						aria-label={t('popup.clearInput')}
+						class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-400 hover:text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-300 transition-colors"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+						</svg>
+					</button>
+				{/if}
 			</div>
 		</div>
 
