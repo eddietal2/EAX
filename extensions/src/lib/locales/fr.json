@@ -62,6 +62,7 @@
     "back": "Retour",
     "contactSubtitle": "Nous serions ravis de vous entendre",
     "contactNameLabel": "Votre nom",
+    "contactEmailLabel": "Votre e-mail",
     "contactMessageLabel": "Message",
     "contactSend": "Envoyer le message",
     "contactSending": "Envoi…",

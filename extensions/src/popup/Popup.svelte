@@ -190,21 +190,24 @@
 	// endpoint, which sends them via Nodemailer (SMTP credentials live in app/.env).
 	const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://simbafx.vercel.app';
 	const contactNameMax = 60;
+	const contactEmailMax = 254;
 	const contactMessageMax = 1000;
 	let contactName = $state('');
+	let contactEmail = $state('');
 	let contactMessage = $state('');
 	let contactStatus = $state<'idle' | 'sending' | 'success' | 'error'>('idle');
 
 	async function handleSendEmail() {
 		const name = contactName.trim();
+		const email = contactEmail.trim();
 		const message = contactMessage.trim();
-		if (!name || !message) return;
+		if (!name || !email || !message) return;
 		contactStatus = 'sending';
 		try {
 			const response = await fetch(`${CONTACT_API_URL}/api/contact`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, message })
+				body: JSON.stringify({ name, email, message })
 			});
 			const data = await response.json().catch(() => ({}));
 			if (!response.ok || !data.success) {
@@ -212,6 +215,7 @@
 			}
 			contactStatus = 'success';
 			contactName = '';
+			contactEmail = '';
 			contactMessage = '';
 		} catch (error) {
 			console.error('Failed to send contact email:', error);
@@ -462,8 +466,26 @@
 								id="contact-name"
 								type="text"
 								maxlength={contactNameMax}
+								required
 								bind:value={contactName}
 								placeholder={t('popup.contactNameLabel')}
+								class="contact-input"
+							/>
+						</div>
+
+						<div class="contact-field">
+							<div class="contact-field-head">
+								<label for="contact-email" class="contact-label">{t('popup.contactEmailLabel')}</label>
+								<span class="contact-count">{contactEmail.length}/{contactEmailMax}</span>
+							</div>
+							<input
+								id="contact-email"
+								type="email"
+								inputmode="email"
+								maxlength={contactEmailMax}
+								required
+								bind:value={contactEmail}
+								placeholder={t('popup.contactEmailLabel')}
 								class="contact-input"
 							/>
 						</div>
@@ -477,6 +499,7 @@
 								id="contact-message"
 								maxlength={contactMessageMax}
 								rows="5"
+								required
 								bind:value={contactMessage}
 								placeholder={t('popup.contactMessageLabel')}
 								class="contact-textarea"
@@ -1005,7 +1028,7 @@
 	.contact-textarea {
 		min-height: 96px;
 		line-height: 1.4;
-		resize: none;
+		resize: vertical;
 	}
 
 	:global(html.dark) .contact-input,

@@ -62,6 +62,7 @@
     "back": "返回",
     "contactSubtitle": "我们很乐意听取您的意见",
     "contactNameLabel": "您的姓名",
+    "contactEmailLabel": "您的邮箱",
     "contactMessageLabel": "消息",
     "contactSend": "发送消息",
     "contactSending": "发送中…",

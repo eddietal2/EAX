@@ -62,6 +62,7 @@
     "back": "Back",
     "contactSubtitle": "We'd love to hear from you",
     "contactNameLabel": "Your Name",
+    "contactEmailLabel": "Your Email",
     "contactMessageLabel": "Message",
     "contactSend": "Send Message",
     "contactSending": "Sending…",

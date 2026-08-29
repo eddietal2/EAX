@@ -62,6 +62,7 @@
     "back": "Atrás",
     "contactSubtitle": "Nos encantaría saber de ti",
     "contactNameLabel": "Tu nombre",
+    "contactEmailLabel": "Tu correo",
     "contactMessageLabel": "Mensaje",
     "contactSend": "Enviar mensaje",
     "contactSending": "Enviando…",
