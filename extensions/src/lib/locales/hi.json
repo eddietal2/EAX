@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "तेज़ मुद्रा परिवर्तक",
-    "viewFullApp": "पूरा ऐप देखें",
+    "viewFullApp": "वेबसाइट देखें",
     "close": "बंद करें",
+    "contactUs": "संपर्क करें",
     "toggleTheme": "थीम बदलें",
     "switchToLight": "हल्के मोड पर स्विच करें",
     "switchToDark": "गहरे मोड पर स्विच करें",

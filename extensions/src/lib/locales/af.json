@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "Vinnige Geldeenheid-omskakelaar",
-    "viewFullApp": "Bekyk die Toep",
+    "viewFullApp": "Bekyk die webwerf",
     "close": "Maak toe",
+    "contactUs": "Kontak ons",
     "toggleTheme": "Wissel tema",
     "switchToLight": "Skakel oor na ligte modus",
     "switchToDark": "Skakel oor na donker modus",

@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "Convertidor de divisas rápido",
-    "viewFullApp": "Ver la aplicación",
+    "viewFullApp": "Ver sitio web",
     "close": "Cerrar",
+    "contactUs": "Contáctanos",
     "toggleTheme": "Cambiar tema",
     "switchToLight": "Cambiar al modo claro",
     "switchToDark": "Cambiar al modo oscuro",

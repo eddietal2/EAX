@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "快速货币转换器",
-    "viewFullApp": "查看完整应用",
+    "viewFullApp": "查看网站",
     "close": "关闭",
+    "contactUs": "联系我们",
     "toggleTheme": "切换主题",
     "switchToLight": "切换到浅色模式",
     "switchToDark": "切换到深色模式",

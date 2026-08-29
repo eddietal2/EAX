@@ -252,7 +252,7 @@
 					<!-- <p class="subtitle">{t('popup.subtitle')}</p> -->
 				</div>
 
-				<div class="converter-wrapper">
+				<div class="converter-wrapper mb-10">
 					{#if fetchError}
 						<div class="fetch-error">{fetchError}</div>
 					{:else}
@@ -279,13 +279,19 @@
 
 				<div class="footer-actions">
 					<a
-						class="footer-btn footer-btn-primary"
+						class="footer-btn footer-btn-secondary"
 						href="https://exchange-tz.vercel.app/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
 						{t('popup.viewFullApp')}
 					</a>
+					<button
+						class="footer-btn footer-btn-secondary"
+						type="button"
+					>
+						{t('popup.contactUs')}
+					</button>
 					<button
 						class="footer-btn footer-btn-secondary"
 						onclick={() => window.close()}
@@ -815,7 +821,7 @@
 
 	.footer-actions {
 		display: grid;
-		grid-template-columns: 1.6fr 1fr;
+		grid-template-columns: repeat(3, 1fr);
 		gap: 8px;
 		margin-top: 16px;
 		padding-top: 12px;
@@ -841,22 +847,6 @@
 		border: none;
 		transition: background 0.2s, color 0.2s;
 		box-sizing: border-box;
-	}
-
-	.footer-btn-primary {
-		background: #059669;
-		color: #ffffff;
-	}
-	.footer-btn-primary:hover {
-		background: #047857;
-	}
-
-	:global(html.dark) .footer-btn-primary {
-		background: #10b981;
-		color: #064e3b;
-	}
-	:global(html.dark) .footer-btn-primary:hover {
-		background: #34d399;
 	}
 
 	.footer-btn-secondary {

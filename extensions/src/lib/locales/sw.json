@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "Kibadilisha Sarafu cha Haraka",
-    "viewFullApp": "Angalia Programu",
+    "viewFullApp": "Angalia Tovuti",
     "close": "Funga",
+    "contactUs": "Wasiliana nasi",
     "toggleTheme": "Badilisha mandhari",
     "switchToLight": "Badilisha hadi hali ya mwanga",
     "switchToDark": "Badilisha hadi hali ya giza",

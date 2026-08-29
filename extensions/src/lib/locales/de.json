@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "Schneller Währungsrechner",
-    "viewFullApp": "Vollständige App",
+    "viewFullApp": "Website ansehen",
     "close": "Schließen",
+    "contactUs": "Kontakt",
     "toggleTheme": "Design umschalten",
     "switchToLight": "Zum hellen Modus wechseln",
     "switchToDark": "Zum dunklen Modus wechseln",

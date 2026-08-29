@@ -56,8 +56,9 @@
   },
   "popup": {
     "subtitle": "محول عملات سريع",
-    "viewFullApp": "عرض التطبيق الكامل",
+    "viewFullApp": "عرض الموقع",
     "close": "إغلاق",
+    "contactUs": "اتصل بنا",
     "toggleTheme": "تبديل المظهر",
     "switchToLight": "التبديل إلى الوضع الفاتح",
     "switchToDark": "التبديل إلى الوضع الداكن",
