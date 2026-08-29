@@ -129,6 +129,20 @@
 </script>
 
 <div class="popup-container" class:dark-bg={isDark}>
+	<!-- Gemini-inspired animated "Spark Gradient" background -->
+	<div class="spark-gradient" aria-hidden="true">
+		<div class="blob blob-1"></div>
+		<div class="blob blob-2"></div>
+		<div class="blob blob-3"></div>
+		<div class="blob blob-4"></div>
+		<div class="blob blob-5"></div>
+	</div>
+	<div class="sparkles" aria-hidden="true">
+		<span class="sparkle sparkle-1"></span>
+		<span class="sparkle sparkle-2"></span>
+		<span class="sparkle sparkle-3"></span>
+		<span class="sparkle sparkle-4"></span>
+	</div>
 	<div class="slide-viewport">
 		<div class="slide-track" class:slid={onboarded}>
 			<!-- ===== Onboarding Panel ===== -->
@@ -331,10 +345,176 @@
 		box-sizing: border-box;
 	}
 
+	/* ── Gemini-inspired "Spark Gradient" animated background ── */
+	.spark-gradient {
+		/* Light-mode pastel greens (SimbaFX: green & white) */
+		--blob-1: #10b981; /* emerald-500 */
+		--blob-2: #34d399; /* emerald-400 */
+		--blob-3: #14b8a6; /* teal-500 */
+		--blob-4: #4ade80; /* green-400 */
+		--blob-5: #a3e635; /* lime-400 */
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		/* One blur pass over the whole mesh → seamless fluid aurora */
+		filter: blur(80px);
+	}
+
+	:global(html.dark) .spark-gradient {
+		/* Dark-mode vivid greens */
+		--blob-1: #059669; /* emerald-600 */
+		--blob-2: #10b981; /* emerald-500 */
+		--blob-3: #14b8a6; /* teal-500 */
+		--blob-4: #22c55e; /* green-500 */
+		--blob-5: #84cc16; /* lime-500 */
+	}
+
+	.spark-gradient .blob {
+		position: absolute;
+		border-radius: 50%;
+		opacity: 0.6;
+		will-change: transform, filter;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+		animation-direction: alternate;
+		/* Smoothly blend overlapping colors into a mesh */
+		mix-blend-mode: screen;
+	}
+
+	/* On light backgrounds `screen` washes out, so tint with `multiply` instead */
+	:global(html:not(.dark)) .spark-gradient .blob {
+		mix-blend-mode: multiply;
+		opacity: 0.55;
+	}
+
+	:global(html.dark) .spark-gradient .blob {
+		opacity: 0.75;
+	}
+
+	.spark-gradient .blob-1 {
+		width: 320px;
+		height: 320px;
+		top: -70px;
+		left: -80px;
+		background: radial-gradient(circle at center, var(--blob-1) 0%, transparent 70%);
+		animation: drift-1 8s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-2 {
+		width: 300px;
+		height: 300px;
+		top: -40px;
+		right: -90px;
+		background: radial-gradient(circle at center, var(--blob-2) 0%, transparent 70%);
+		animation: drift-2 10s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-3 {
+		width: 340px;
+		height: 340px;
+		bottom: -90px;
+		left: -80px;
+		background: radial-gradient(circle at center, var(--blob-3) 0%, transparent 70%);
+		animation: drift-3 9s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-4 {
+		width: 280px;
+		height: 280px;
+		bottom: -70px;
+		right: -70px;
+		background: radial-gradient(circle at center, var(--blob-4) 0%, transparent 70%);
+		animation: drift-4 11s ease-in-out infinite alternate;
+	}
+
+	.spark-gradient .blob-5 {
+		width: 300px;
+		height: 300px;
+		top: 40%;
+		left: 30%;
+		background: radial-gradient(circle at center, var(--blob-5) 0%, transparent 70%);
+		animation: drift-5 12s ease-in-out infinite alternate;
+	}
+
+	@keyframes drift-1 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(80px, -50px) scale(1.15); filter: hue-rotate(60deg); }
+	}
+
+	@keyframes drift-2 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(-70px, 80px) scale(1.1); filter: hue-rotate(-60deg); }
+	}
+
+	@keyframes drift-3 {
+		0%, 100% { transform: translate(0px, 0px) scale(0.95); filter: hue-rotate(0deg); }
+		50% { transform: translate(-60px, -70px) scale(1.2); filter: hue-rotate(40deg); }
+	}
+
+	@keyframes drift-4 {
+		0%, 100% { transform: translate(0px, 0px) scale(1); filter: hue-rotate(0deg); }
+		50% { transform: translate(-50px, -40px) scale(1.2); filter: hue-rotate(-40deg); }
+	}
+
+	@keyframes drift-5 {
+		0%, 100% { transform: translate(0px, 0px) scale(0.9); filter: hue-rotate(0deg); }
+		50% { transform: translate(70px, 40px) scale(1.25); filter: hue-rotate(80deg); }
+	}
+
+	/* Twinkling "spark" accents — kept OUTSIDE the blurred mesh so they stay crisp */
+	.sparkles {
+		--spark-color: rgba(16, 185, 129, 0.9); /* emerald-500 tint in light mode */
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+	:global(html.dark) .sparkles {
+		--spark-color: rgba(255, 255, 255, 0.9);
+	}
+
+	.sparkles .sparkle {
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: var(--spark-color);
+		box-shadow: 0 0 8px 2px var(--spark-color);
+		will-change: opacity, transform;
+		animation: twinkle 4.5s ease-in-out infinite;
+	}
+
+	.sparkles .sparkle-1 { top: 18%; left: 22%; }
+	.sparkles .sparkle-2 { top: 32%; right: 16%; animation-delay: 1.1s; }
+	.sparkles .sparkle-3 { bottom: 28%; left: 15%; animation-delay: 2.3s; }
+	.sparkles .sparkle-4 { bottom: 18%; right: 26%; animation-delay: 3.4s; }
+
+	@keyframes twinkle {
+		0%, 100% { opacity: 0; transform: scale(0.5); }
+		50% { opacity: 1; transform: scale(1.15); }
+	}
+
+	/* Respect reduced-motion preferences */
+	@media (prefers-reduced-motion: reduce) {
+		.spark-gradient .blob,
+		.sparkles .sparkle {
+			animation: none;
+		}
+		.sparkles .sparkle {
+			opacity: 0.7;
+		}
+	}
+
 	/* ── Slide viewport ── */
 	.slide-viewport {
 		flex: 1;
 		overflow: hidden;
+		position: relative;
+		z-index: 1;
 	}
 
 	.slide-track {
