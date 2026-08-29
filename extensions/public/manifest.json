@@ -13,7 +13,8 @@
   },
   "permissions": [],
   "host_permissions": [
-    "https://api.exchangerate-api.com/*"
+    "https://api.exchangerate-api.com/*",
+    "https://api.exchangerate.host/*"
   ],
   "icons": {
     "16": "icons/icon16.png",

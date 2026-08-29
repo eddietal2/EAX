@@ -95,17 +95,74 @@
 		activeSlide = 1;
 	}
 
-	onMount(async () => {
-		try {
-			for (const currency of currencies) {
-				const response = await fetch(`https://api.exchangerate-api.com/v4/latest/${currency}`);
-				const data = await response.json();
-				rates[currency] = data.rates;
+	// API key from extensions/.env (VITE_EXCHANGERATE_API_KEY). It must be prefixed with
+	// VITE_ so Vite exposes it to client code via import.meta.env, baked in at build time.
+	const API_KEY = import.meta.env.VITE_EXCHANGERATE_API_KEY;
+	const RATES_CACHE_KEY = 'simbafx-rates';
+	const RATES_CACHE_TS_KEY = 'simbafx-rates-ts';
+	const RATES_STALE_MS = 24 * 60 * 60 * 1000; // refetch at most once per day
+
+	// Build the full from→to matrix from a single set of USD-relative rates.
+	function buildMatrixFromUsd(usdRates: Record<string, number>) {
+		const matrix: Record<string, Record<string, number>> = {};
+		for (const from of currencies) {
+			matrix[from] = {};
+			for (const to of currencies) {
+				matrix[from][to] = from === to ? 1 : (1 / (usdRates[from] ?? 1)) * (usdRates[to] ?? 1);
 			}
+		}
+		return matrix;
+	}
+
+	onMount(async () => {
+		// Start from cache so the popup renders instantly without burning API quota.
+		let cached: Record<string, Record<string, number>> | null = null;
+		try {
+			const raw = localStorage.getItem(RATES_CACHE_KEY);
+			cached = raw ? JSON.parse(raw) : null;
+		} catch { /* ignore malformed cache */ }
+		if (cached) {
+			rates = cached;
+		}
+		const lastTs = Number(localStorage.getItem(RATES_CACHE_TS_KEY)) || 0;
+		if (cached && Date.now() - lastTs < RATES_STALE_MS) {
+			isLoading = false;
+			return;
+		}
+		try {
+			if (API_KEY) {
+				// exchangerate.host /live returns quotes for ALL currencies relative to
+				// `source` in a single call: { USDKES: 151, USDTZS: 2650, ... }.
+				const response = await fetch(
+					`https://api.exchangerate.host/live?access_key=${API_KEY}&source=USD`
+				);
+				const data = await response.json();
+				if (!data.success) {
+					throw new Error(data.error?.info ?? 'Exchange rate API error');
+				}
+				const usdRates: Record<string, number> = { USD: 1 };
+				for (const [key, value] of Object.entries(data.quotes ?? {})) {
+					usdRates[key.slice(3)] = value as number; // strip 'USD' prefix
+				}
+				rates = buildMatrixFromUsd(usdRates);
+			} else {
+				// No key configured → fall back to the free v4 endpoint (no key required).
+				const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+				const data = await response.json();
+				const usdRates: Record<string, number> = { USD: 1, ...(data.conversion_rates ?? data.rates) };
+				rates = buildMatrixFromUsd(usdRates);
+			}
+			try {
+				localStorage.setItem(RATES_CACHE_KEY, JSON.stringify(rates));
+				localStorage.setItem(RATES_CACHE_TS_KEY, String(Date.now()));
+			} catch { /* ignore quota errors */ }
 			lastUpdated = Date.now();
 		} catch (error) {
 			console.error('Failed to fetch rates:', error);
-			fetchError = getTranslation('messages.error');
+			// Only surface the error if we have nothing to show.
+			if (!cached) {
+				fetchError = getTranslation('messages.error');
+			}
 		} finally {
 			isLoading = false;
 		}
