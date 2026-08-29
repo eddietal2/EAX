@@ -378,7 +378,7 @@
 				target="_blank"
 				rel="noopener noreferrer"
 				aria-label={t('popup.nalaCta')}
-				class="mt-2 flex items-center justify-center gap-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 px-3 py-2 opacity-80 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+				class="mt-12 flex items-center justify-center gap-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 px-3 py-2 opacity-80 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
 			>
 				<svg class="nala-logo" viewBox="0 0 73 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 					<path d="M6.96825 12.6333C7.01146 12.5615 7.08347 12.5039 7.19869 12.4752C7.40033 12.4321 7.48674 12.2596 7.52995 12.0871C7.58756 11.8141 7.74599 11.5985 7.91882 11.4116C7.91882 11.3973 7.93322 11.3973 7.94762 11.3973C7.08347 9.42815 7.11228 9.85936 6.79542 7.71774C6.6658 6.84098 6.53618 5.9211 6.1185 5.15933C5.05271 3.17585 4.05894 3.26208 3.79969 3.37707C3.61245 3.4633 3.48283 3.96636 3.52604 4.23945C4.20296 9.9312 5.90247 11.0523 6.96825 12.6333Z" fill="#00A2DC"/>
