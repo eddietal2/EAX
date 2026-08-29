@@ -63,7 +63,8 @@
 	//   localStorage.removeItem('simbafx-onboarded');
 	// Close and reopen the popup to see the onboarding panel again.
 	const onboardedKey = 'simbafx-onboarded';
-	let onboarded = $state(false);
+	// Active "page" in the slide-track: 0 = onboarding, 1 = converter, 2 = contact us
+	let activeSlide = $state(0);
 	let onboardingError = $state('');
 
 	// Selections for the onboarding panel
@@ -77,7 +78,7 @@
 	onMount(() => {
 		// If already onboarded, skip straight to the converter
 		if (localStorage.getItem(onboardedKey) === 'true') {
-			onboarded = true;
+			activeSlide = 1;
 		}
 	});
 
@@ -91,7 +92,7 @@
 		toCurrency = onboardingTo;
 		currentLanguage.set(onboardingLanguage);
 		localStorage.setItem(onboardedKey, 'true');
-		onboarded = true;
+		activeSlide = 1;
 	}
 
 	onMount(async () => {
@@ -126,6 +127,21 @@
 	function handleToCurrencyChange(currency: string) {
 		toCurrency = currency;
 	}
+
+	// --- Contact Us page ---
+	const contactEmail = 'support@simbafx.com'; // TODO: replace with real contact email
+	const contactNameMax = 60;
+	const contactMessageMax = 1000;
+	let contactName = $state('');
+	let contactMessage = $state('');
+
+	function handleSendEmail() {
+		const subject = contactName.trim()
+			? `Message from ${contactName.trim()}`
+			: 'SimbaFX Contact';
+		const url = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(contactMessage.trim())}`;
+		window.location.href = url;
+	}
 </script>
 
 <div class="popup-container" class:dark-bg={isDark}>
@@ -144,7 +160,7 @@
 		<span class="sparkle sparkle-4"></span>
 	</div>
 	<div class="slide-viewport">
-		<div class="slide-track" class:slid={onboarded}>
+		<div class="slide-track" style="transform: translateX(-{activeSlide * 33.333}%);">
 			<!-- ===== Onboarding Panel ===== -->
 			<div class="slide-panel onboarding-panel">
 				<div class="onboarding-card">
@@ -289,6 +305,7 @@
 					<button
 						class="footer-btn footer-btn-secondary"
 						type="button"
+						onclick={() => activeSlide = 2}
 					>
 						{t('popup.contactUs')}
 					</button>
@@ -334,6 +351,69 @@
 						></iframe>
 					</div>
 					<span class="ad-slot-label">{t('popup.sponsored')}</span>
+				</div>
+			</div>
+
+			<!-- ===== Contact Us Panel ===== -->
+			<div class="slide-panel contact-panel">
+				<div class="contact-header">
+					<button
+						class="contact-back"
+						onclick={() => activeSlide = 1}
+						aria-label={t('popup.back')}
+						title={t('popup.back')}
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="contact-back-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<h2 class="contact-title">{t('popup.contactUs')}</h2>
+				</div>
+				<div class="contact-card">
+					<img src={icon48} alt="SimbaFX" class="contact-logo" />
+					<p class="contact-subtitle">{t('popup.contactSubtitle')}</p>
+
+					<form
+						class="contact-form"
+						onsubmit={(e) => { e.preventDefault(); handleSendEmail(); }}
+					>
+						<div class="contact-field">
+							<div class="contact-field-head">
+								<label for="contact-name" class="contact-label">{t('popup.contactNameLabel')}</label>
+								<span class="contact-count">{contactName.length}/{contactNameMax}</span>
+							</div>
+							<input
+								id="contact-name"
+								type="text"
+								maxlength={contactNameMax}
+								bind:value={contactName}
+								placeholder={t('popup.contactNameLabel')}
+								class="contact-input"
+							/>
+						</div>
+
+						<div class="contact-field">
+							<div class="contact-field-head">
+								<label for="contact-message" class="contact-label">{t('popup.contactMessageLabel')}</label>
+								<span class="contact-count">{contactMessage.length}/{contactMessageMax}</span>
+							</div>
+							<textarea
+								id="contact-message"
+								maxlength={contactMessageMax}
+								rows="5"
+								bind:value={contactMessage}
+								placeholder={t('popup.contactMessageLabel')}
+								class="contact-textarea"
+							></textarea>
+						</div>
+
+						<button type="submit" class="contact-send">
+							<svg xmlns="http://www.w3.org/2000/svg" class="contact-send-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+							</svg>
+							{t('popup.contactSend')}
+						</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -543,18 +623,14 @@
 
 	.slide-track {
 		display: flex;
-		width: 200%;
+		width: 300%;
 		height: 100%;
 		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 		transform: translateX(0);
 	}
 
-	.slide-track.slid {
-		transform: translateX(-50%);
-	}
-
 	.slide-panel {
-		width: 50%;
+		width: 33.333%;
 		flex-shrink: 0;
 		overflow-y: auto;
 		display: flex;
@@ -697,6 +773,198 @@
 	}
 	:global(html.dark) .onboarding-cta:hover {
 		background: #34d399;
+	}
+
+	/* ── Contact Us panel ── */
+	.contact-panel {
+		padding: 16px;
+	}
+
+	.contact-header {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 20px;
+	}
+
+	.contact-back {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 6px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.5);
+		color: #059669;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.contact-back:hover {
+		background: rgba(0, 0, 0, 0.06);
+	}
+
+	:global(html.dark) .contact-back {
+		background: rgba(255, 255, 255, 0.12);
+		color: #34d399;
+	}
+	:global(html.dark) .contact-back:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.contact-back-icon {
+		width: 16px;
+		height: 16px;
+	}
+
+	.contact-title {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 700;
+	}
+
+	:global(html:not(.dark)) .contact-title {
+		color: #064e3b;
+	}
+	:global(html.dark) .contact-title {
+		color: #e2e8f0;
+	}
+
+	.contact-card {
+		width: 100%;
+		max-width: 300px;
+		margin: 0 auto;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.contact-logo {
+		width: 48px;
+		height: 48px;
+		border-radius: 12px;
+		margin: 0 auto;
+	}
+
+	.contact-subtitle {
+		font-size: 12px;
+		margin: 0;
+	}
+
+	:global(html:not(.dark)) .contact-subtitle {
+		color: #6b7280;
+	}
+	:global(html.dark) .contact-subtitle {
+		color: #9ca3af;
+	}
+
+	.contact-form {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-top: 4px;
+		text-align: left;
+	}
+
+	.contact-field {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.contact-field-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+	}
+
+	.contact-label {
+		font-size: 11px;
+		font-weight: 600;
+		color: #4b5563;
+	}
+
+	:global(html.dark) .contact-label {
+		color: #d1d5db;
+	}
+
+	.contact-count {
+		font-size: 10px;
+		color: #9ca3af;
+		white-space: nowrap;
+	}
+
+	.contact-input,
+	.contact-textarea {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 10px 12px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.7);
+		color: #1f2937;
+		font-size: 13px;
+		font-weight: 500;
+		outline: none;
+	}
+
+	.contact-input::placeholder,
+	.contact-textarea::placeholder {
+		color: #9ca3af;
+	}
+
+	.contact-textarea {
+		min-height: 96px;
+		line-height: 1.4;
+		resize: none;
+	}
+
+	:global(html.dark) .contact-input,
+	:global(html.dark) .contact-textarea {
+		background: rgba(255, 255, 255, 0.1);
+		color: #e5e7eb;
+	}
+	:global(html.dark) .contact-input::placeholder,
+	:global(html.dark) .contact-textarea::placeholder {
+		color: #6b7280;
+	}
+
+	.contact-send {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		width: 100%;
+		padding: 12px;
+		border: none;
+		border-radius: 8px;
+		background: #059669;
+		color: #ffffff;
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.contact-send:hover {
+		background: #047857;
+	}
+
+	:global(html.dark) .contact-send {
+		background: #10b981;
+		color: #064e3b;
+	}
+	:global(html.dark) .contact-send:hover {
+		background: #34d399;
+	}
+
+	.contact-send-icon {
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
 	}
 
 	/* ── Converter panel ── */
