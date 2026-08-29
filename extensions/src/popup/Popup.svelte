@@ -188,7 +188,7 @@
 	// --- Contact Us page ---
 	// The extension has no server, so messages are POSTed to the app's /api/contact
 	// endpoint, which sends them via Nodemailer (SMTP credentials live in app/.env).
-	const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://exchange-tz.vercel.app';
+	const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://simbafx.vercel.app';
 	const contactNameMax = 60;
 	const contactMessageMax = 1000;
 	let contactName = $state('');
@@ -372,7 +372,7 @@
 				<div class="footer-actions">
 					<a
 						class="footer-btn footer-btn-secondary"
-						href="https://exchange-tz.vercel.app/"
+						href="https://simbafx.vercel.app/"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
