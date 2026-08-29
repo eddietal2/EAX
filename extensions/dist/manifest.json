@@ -14,7 +14,9 @@
   "permissions": [],
   "host_permissions": [
     "https://api.exchangerate-api.com/*",
-    "https://api.exchangerate.host/*"
+    "https://api.exchangerate.host/*",
+    "https://exchange-tz.vercel.app/*",
+    "http://localhost/*"
   ],
   "icons": {
     "16": "icons/icon16.png",

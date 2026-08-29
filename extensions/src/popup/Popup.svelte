@@ -186,18 +186,37 @@
 	}
 
 	// --- Contact Us page ---
-	const contactEmail = 'support@simbafx.com'; // TODO: replace with real contact email
+	// The extension has no server, so messages are POSTed to the app's /api/contact
+	// endpoint, which sends them via Nodemailer (SMTP credentials live in app/.env).
+	const CONTACT_API_URL = import.meta.env.VITE_CONTACT_API_URL || 'https://exchange-tz.vercel.app';
 	const contactNameMax = 60;
 	const contactMessageMax = 1000;
 	let contactName = $state('');
 	let contactMessage = $state('');
+	let contactStatus = $state<'idle' | 'sending' | 'success' | 'error'>('idle');
 
-	function handleSendEmail() {
-		const subject = contactName.trim()
-			? `Message from ${contactName.trim()}`
-			: 'SimbaFX Contact';
-		const url = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(contactMessage.trim())}`;
-		window.location.href = url;
+	async function handleSendEmail() {
+		const name = contactName.trim();
+		const message = contactMessage.trim();
+		if (!name || !message) return;
+		contactStatus = 'sending';
+		try {
+			const response = await fetch(`${CONTACT_API_URL}/api/contact`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ name, message })
+			});
+			const data = await response.json().catch(() => ({}));
+			if (!response.ok || !data.success) {
+				throw new Error(data.error || `HTTP ${response.status}`);
+			}
+			contactStatus = 'success';
+			contactName = '';
+			contactMessage = '';
+		} catch (error) {
+			console.error('Failed to send contact email:', error);
+			contactStatus = 'error';
+		}
 	}
 </script>
 
@@ -464,12 +483,22 @@
 							></textarea>
 						</div>
 
-						<button type="submit" class="contact-send">
-							<svg xmlns="http://www.w3.org/2000/svg" class="contact-send-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-								<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-							</svg>
-							{t('popup.contactSend')}
+						<button type="submit" class="contact-send" disabled={contactStatus === 'sending'}>
+							{#if contactStatus === 'sending'}
+								<span class="contact-send-spinner" aria-hidden="true"></span>
+								{t('popup.contactSending')}
+							{:else}
+								<svg xmlns="http://www.w3.org/2000/svg" class="contact-send-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+								</svg>
+								{t('popup.contactSend')}
+							{/if}
 						</button>
+						{#if contactStatus === 'success'}
+							<p class="contact-status contact-status-success">{t('popup.contactSuccess')}</p>
+						{:else if contactStatus === 'error'}
+							<p class="contact-status contact-status-error">{t('popup.contactError')}</p>
+						{/if}
 					</form>
 				</div>
 			</div>
@@ -1022,6 +1051,51 @@
 		width: 16px;
 		height: 16px;
 		flex-shrink: 0;
+	}
+
+	.contact-send:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
+	.contact-send-spinner {
+		width: 14px;
+		height: 14px;
+		border: 2px solid rgba(255, 255, 255, 0.4);
+		border-top-color: #ffffff;
+		border-radius: 50%;
+		animation: contact-spin 0.8s linear infinite;
+		flex-shrink: 0;
+	}
+
+	:global(html.dark) .contact-send-spinner {
+		border-color: rgba(6, 78, 59, 0.3);
+		border-top-color: #064e3b;
+	}
+
+	@keyframes contact-spin {
+		to { transform: rotate(360deg); }
+	}
+
+	.contact-status {
+		font-size: 12px;
+		font-weight: 500;
+		text-align: center;
+		margin: 0;
+	}
+
+	.contact-status-success {
+		color: #059669;
+	}
+	:global(html.dark) .contact-status-success {
+		color: #34d399;
+	}
+
+	.contact-status-error {
+		color: #dc2626;
+	}
+	:global(html.dark) .contact-status-error {
+		color: #fca5a5;
 	}
 
 	/* ── Converter panel ── */
