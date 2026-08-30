@@ -254,6 +254,29 @@
 		clearError();
 		retry?.();
 	}
+
+	// Self-contained 300×50 ad frame loaded via srcdoc. Keeping it inline means the
+	// iframe can never depend on (or fall back to) a hosted URL — a hosted src
+	// previously rendered the whole app inside the ad slot. AdSense IDs are
+	// placeholders; replace before going live. Note: AdSense policy disallows ads in
+	// extension pages, so the unit lives in this iframe's own document.
+	const adFrameSrcdoc = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="robots" content="noindex, nofollow" />
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:300px;height:50px;overflow:hidden;background:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"><\/script>
+</head>
+<body>
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:50px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
+</body>
+</html>`;
 </script>
 
 <div class="popup-container" class:dark-bg={isDark}>
@@ -446,13 +469,15 @@
 					<span class="text-[9px] font-bold tracking-wider rounded px-1.5 py-0.5 text-gray-500 dark:text-gray-400 bg-black/10 dark:bg-white/15">AD</span>
 				</button>
 	
-				<!-- Ad slot: impression-based banner ad hosted in a remote iframe (Manifest V3 compliant).
-					    TODO: replace srcdoc with src="https://yourdomain.com/ext-ad-frame" (300x50). -->
+				<!-- Ad slot: self-contained ad frame rendered via srcdoc (300×50).
+					 Inline so the iframe never loads the app (a hosted src could fall back to
+					 the whole SimbaFX app, including its mobile tab bar). Contains a placeholder
+					 AdSense unit — replace ca-pub-XXXXXXXXXXXXXXXX and data-ad-slot to go live. -->
 				<div class="ad-slot">
 					<div class="ad-slot-frame">
 						<iframe
 							class="ad-iframe"
-							srcdoc="<div style='display:flex;align-items:center;justify-content:center;height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;color:#9ca3af;'>Ad space 300 × 50</div>"
+							srcdoc={adFrameSrcdoc}
 							title={t('popup.sponsored')}
 							width="300"
 							height="50"

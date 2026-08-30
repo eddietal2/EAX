@@ -381,20 +381,23 @@
 			<span class="text-[9px] font-bold tracking-wider rounded px-1.5 py-0.5 text-gray-500 dark:text-gray-400 bg-black/10 dark:bg-white/15">AD</span>
 		</a>
 
-		<!-- Ad slot: impression-based banner ad hosted in a remote iframe (same as extension popup).
-			 TODO: replace srcdoc with src="https://yourdomain.com/ext-ad-frame" (300x50). -->
+		<!-- Ad slot: Google AdSense 300×50 display ad. AdSense code is rendered inline
+			 (Google policy forbids wrapping AdSense units in iframes).
+			 TODO: replace ca-pub-XXXXXXXXXXXXXXXX with your AdSense publisher ID and
+			 data-ad-slot="0000000000" with your ad unit's slot ID, then add the site
+			 (https://simbafx.vercel.app) in your AdSense account. -->
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 		<div class="mt-2.5 md:mt-2.5">
 			<div class="flex items-center justify-center p-1 rounded-lg bg-white/50 dark:bg-white/10">
-				<iframe
-					class="w-full max-w-[300px] h-[50px] border-0 block"
-					srcdoc="<div style='display:flex;align-items:center;justify-content:center;height:100%;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:11px;color:#9ca3af;'>Ad space 300 × 50</div>"
-					title={t('popup.sponsored')}
-					width="300"
-					height="50"
-					frameborder="0"
-					scrolling="no"
-					loading="lazy"
-				></iframe>
+				<ins
+					class="adsbygoogle"
+					style="display:inline-block;width:300px;height:50px"
+					data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+					data-ad-slot="0000000000"
+				></ins>
+				<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
 			</div>
 			<span class="block text-center text-[9px] font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mt-1">{t('popup.sponsored')}</span>
 		</div>
