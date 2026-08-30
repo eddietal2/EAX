@@ -74,6 +74,11 @@
     "nalaCta": "立即汇款，使用 Nala",
     "sponsored": "赞助"
   },
+  "nala": {
+    "back": "返回主页",
+    "subtitle": "快速、实惠地转账至东非及其他地区",
+    "visit": "访问 Nala"
+  },
   "onboarding": {
     "title": "欢迎使用 SimbaFX",
     "subtitle": "让我们自定义您的货币转换器",

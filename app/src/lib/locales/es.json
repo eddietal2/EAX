@@ -75,6 +75,11 @@
     "nalaCta": "Envía dinero ahora, con Nala",
     "sponsored": "Patrocinado"
   },
+  "nala": {
+    "back": "Volver al Inicio",
+    "subtitle": "Transferencias rápidas y asequibles a África Oriental y más allá",
+    "visit": "Visitar Nala"
+  },
   "onboarding": {
     "title": "¡Bienvenido a SimbaFX!",
     "subtitle": "Personalicemos tu convertidor de divisas",
