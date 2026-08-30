@@ -299,7 +299,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 	<div class="slide-viewport">
 		<div class="slide-track" style="transform: translateX(-{activeSlide * 16.6667}%);">
 			<!-- ===== Onboarding Panel ===== -->
-			<div class="slide-panel onboarding-panel">
+			<div class="slide-panel onboarding-panel {activeSlide === 0 ? 'is-active' : ''}">
 				<div class="onboarding-card">
 					<img src={icon48} alt="SimbaFX" class="onboarding-logo" />
 					<h2 class="onboarding-title">{onboardingT('onboarding.title')}</h2>
@@ -363,7 +363,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 			</div>
 
 			<!-- ===== Converter Panel ===== -->
-			<div class="slide-panel converter-panel">
+			<div class="slide-panel converter-panel {activeSlide === 1 ? 'is-active' : ''}">
 				<div class="header">
 					<div class="header-bar">
 						<img src={icon48} alt="SimbaFX" class="logo" />
@@ -499,7 +499,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 			</div>
 
 			<!-- ===== Contact Us Panel ===== -->
-			<div class="slide-panel contact-panel">
+			<div class="slide-panel contact-panel {activeSlide === 2 ? 'is-active' : ''}">
 				<div class="contact-header">
 					<button
 						class="contact-back"
@@ -562,7 +562,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 							<textarea
 								id="contact-message"
 								maxlength={contactMessageMax}
-								rows="5"
+								rows="3"
 								required
 								bind:value={contactMessage}
 								placeholder={t('popup.contactMessageLabel')}
@@ -596,7 +596,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 			</div>
 
 			<!-- ===== Nala Panel ===== -->
-			<div class="slide-panel nala-panel">
+			<div class="slide-panel nala-panel {activeSlide === 3 ? 'is-active' : ''}">
 				<div class="nala-header">
 					<button
 						class="nala-back"
@@ -680,7 +680,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 			</div>
 
 			<!-- ===== Error Panel ===== -->
-			<div class="slide-panel error-panel">
+			<div class="slide-panel error-panel {activeSlide === 4 ? 'is-active' : ''}">
 				<div class="error-card">
 					<span class="error-code">{pageError?.status ?? '500'}</span>
 					<h2 class="error-title">{t('popup.errorTitle')}</h2>
@@ -697,7 +697,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 			</div>
 
 			<!-- ===== Privacy Policy Panel ===== -->
-			<div class="slide-panel privacy-panel">
+			<div class="slide-panel privacy-panel {activeSlide === 5 ? 'is-active' : ''}">
 				<div class="privacy-header">
 					<button
 						class="privacy-back"
@@ -981,6 +981,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		overflow-y: auto;
 		display: flex;
 		flex-direction: column;
+		/* Only the active panel is visible — the track still slides it into view
+		   without revealing the other panels in between. */
+		visibility: hidden;
+	}
+
+	.slide-panel.is-active {
+		visibility: visible;
 	}
 
 	/* ── Onboarding panel ── */
@@ -1123,14 +1130,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 	/* ── Contact Us panel ── */
 	.contact-panel {
-		padding: 16px;
+		padding: 10px;
 	}
 
 	.contact-header {
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		margin-bottom: 20px;
+		margin-bottom: 6px;
 	}
 
 	.contact-back {
@@ -1165,7 +1172,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 	.contact-title {
 		margin: 0;
-		font-size: 16px;
+		font-size: 14px;
 		font-weight: 700;
 	}
 
@@ -1183,18 +1190,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		text-align: center;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 8px;
 	}
 
 	.contact-logo {
-		width: 48px;
-		height: 48px;
-		border-radius: 12px;
+		width: 32px;
+		height: 32px;
+		border-radius: 8px;
 		margin: 0 auto;
 	}
 
 	.contact-subtitle {
-		font-size: 12px;
+		font-size: 11px;
 		margin: 0;
 	}
 
@@ -1209,8 +1216,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
-		margin-top: 4px;
+		gap: 8px;
+		margin-top: 2px;
 		text-align: left;
 	}
 
@@ -1247,12 +1254,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 	.contact-textarea {
 		width: 100%;
 		box-sizing: border-box;
-		padding: 10px 12px;
+		padding: 6px 10px;
 		border: none;
 		border-radius: 8px;
 		background: rgba(255, 255, 255, 0.7);
 		color: #1f2937;
-		font-size: 13px;
+		font-size: 12px;
 		font-weight: 500;
 		outline: none;
 	}
@@ -1263,7 +1270,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 	}
 
 	.contact-textarea {
-		min-height: 96px;
+		min-height: 54px;
 		line-height: 1.4;
 		resize: vertical;
 	}
@@ -1284,12 +1291,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		justify-content: center;
 		gap: 8px;
 		width: 100%;
-		padding: 12px;
+		padding: 8px;
 		border: none;
 		border-radius: 8px;
 		background: #059669;
 		color: #ffffff;
-		font-size: 14px;
+		font-size: 12px;
 		font-weight: 600;
 		cursor: pointer;
 		transition: background 0.2s;
@@ -2100,13 +2107,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		margin-top: 12px;
-		padding: 10px 12px;
+		margin-top: 6px;
+		padding: 6px 10px;
 		border: none;
 		border-radius: 8px;
 		background: rgba(0, 0, 0, 0.06);
 		color: #4b5563;
-		font-size: 13px;
+		font-size: 11px;
 		font-weight: 600;
 		cursor: pointer;
 		transition: background 0.2s;
