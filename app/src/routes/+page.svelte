@@ -384,7 +384,7 @@
 		onInputFocus={focusInput}
 		{t}
 	>
-		<svelte:fragment slot="actions">
+		{#snippet actions()}
 			<!-- Save to History Button -->
 			<div class="grid grid-cols-2 gap-1.5 md:gap-1.5 mt-2 md:mt-2">
 				<button
@@ -407,7 +407,7 @@
 			<div class="hidden md:block mt-12">
 				{@render adsBlock()}
 			</div>
-		</svelte:fragment>
+		{/snippet}
 	</ConverterCard>
 
 	<!-- Mobile Full-Screen Calculator -->

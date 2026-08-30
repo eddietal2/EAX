@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, type Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { rates, getStaticRates, isLoading, fetchError } from '$lib/stores/exchangeRates';
 	import FlagIcon from './FlagIcon.svelte';
@@ -22,6 +22,10 @@
 		onFromCurrencyChange?: (currency: string) => void;
 		onToCurrencyChange?: (currency: string) => void;
 		t: (key: string) => string;
+		// Snippet props (Svelte 5 replacement for the legacy named slots)
+		children?: Snippet;
+		input?: Snippet;
+		actions?: Snippet;
 	}
 
 	let {
@@ -40,7 +44,10 @@
 		onInputChange,
 		onFromCurrencyChange,
 		onToCurrencyChange,
-		t
+		t,
+		children,
+		input,
+		actions
 	}: Props = $props();
 
 	const currencies = [
@@ -270,7 +277,9 @@
 					</span>
 				</div>
 				<div class="relative">
-					<slot name="input">
+					{#if input}
+						{@render input()}
+					{:else}
 						<!-- Mobile: entered value + subtle tap affordance -->
 						<button
 							type="button"
@@ -296,7 +305,7 @@
 							style="font-size: 16px;"
 							class="hidden md:block w-full text-2xl md:text-xl font-semibold text-gray-900 dark:text-white bg-transparent border-0 focus:ring-0 focus:outline-none text-right placeholder-gray-300 dark:placeholder-gray-600 cursor-pointer md:cursor-default {inputHasValue ? 'pr-12' : ''} {!inputHasValue ? 'animate-pulse md:animate-none' : ''}"
 						/>
-					</slot>
+					{/if}
 					{#if inputHasValue}
 						<button
 							onclick={onClear}
@@ -339,7 +348,9 @@
 		</div>
 
 		<div class="relative">
-			<slot name="actions" />
+			{#if actions}
+				{@render actions()}
+			{/if}
 		</div>
 	</div>
 {/if}
