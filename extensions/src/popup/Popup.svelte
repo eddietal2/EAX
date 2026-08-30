@@ -38,25 +38,9 @@
 		document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
 	});
 
-	// Dark mode: read saved pref or fall back to OS preference
-	const osPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-	const saved = localStorage.getItem('eax-theme');
-	let isDark = $state(saved !== null ? saved === 'dark' : osPrefersDark.matches);
-
-	// Keep <html> class and localStorage in sync
-	$effect(() => {
-		document.documentElement.classList.toggle('dark', isDark);
-		localStorage.setItem('eax-theme', isDark ? 'dark' : 'light');
-	});
-
-	// Follow OS changes only if the user hasn't manually overridden
-	onMount(() => {
-		const listener = (e: MediaQueryListEvent) => {
-			if (localStorage.getItem('eax-theme') === null) isDark = e.matches;
-		};
-		osPrefersDark.addEventListener('change', listener);
-		return () => osPrefersDark.removeEventListener('change', listener);
-	});
+	// Dark mode is locked on for the extension (light/dark toggle removed).
+	// The class is also set on <html> in popup.html to prevent any light flash.
+	document.documentElement.classList.add('dark');
 
 	// --- Onboarding ---
 	// Dev reset: right-click the extension icon → "Inspect Popup", then run:
@@ -281,7 +265,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 </html>`;
 </script>
 
-<div class="popup-container" class:dark-bg={isDark}>
+<div class="popup-container">
 	<!-- Gemini-inspired animated "Spark Gradient" background -->
 	<div class="spark-gradient" aria-hidden="true">
 		<div class="blob blob-1"></div>
@@ -381,25 +365,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 									{/each}
 								</select>
 							</div>
-							<button
-								class="theme-toggle"
-								onclick={() => isDark = !isDark}
-								aria-label={t(isDark ? 'popup.switchToLight' : 'popup.switchToDark')}
-								title={t(isDark ? 'popup.switchToLight' : 'popup.switchToDark')}
-							>
-								{#if isDark}
-									<!-- Sun icon -->
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-										<circle cx="12" cy="12" r="5"/>
-										<path stroke-linecap="round" stroke-linejoin="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-									</svg>
-								{:else}
-									<!-- Moon icon -->
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-										<path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-									</svg>
-								{/if}
-							</button>
 						</div>
 					</div>
 					<!-- <p class="subtitle">{t('popup.subtitle')}</p> -->
@@ -1839,31 +1804,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		height: 36px;
 		border-radius: 8px;
 		flex-shrink: 0;
-	}
-
-	.theme-toggle {
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: 6px;
-		border-radius: 8px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: background 0.2s, color 0.2s;
-	}
-
-	:global(html.dark) .theme-toggle {
-		color: #fbbf24;
-	}
-	:global(html.dark) .theme-toggle:hover {
-		background: rgba(255,255,255,0.1);
-	}
-	:global(html:not(.dark)) .theme-toggle {
-		color: #059669;
-	}
-	:global(html:not(.dark)) .theme-toggle:hover {
-		background: rgba(0,0,0,0.06);
 	}
 
 	.converter-wrapper {
