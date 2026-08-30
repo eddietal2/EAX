@@ -387,7 +387,8 @@
 			 data-ad-slot="0000000000" with your ad unit's slot ID, then add the site
 			 (https://simbafx.vercel.app) in your AdSense account. -->
 		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-		<div class="mt-2.5 md:mt-2.5">
+		<!-- Ad slot hidden for now (re-enable once AdSense IDs are configured) -->
+		<div class="hidden">
 			<div class="flex items-center justify-center p-1 rounded-lg bg-white/50 dark:bg-white/10">
 				<ins
 					class="adsbygoogle"

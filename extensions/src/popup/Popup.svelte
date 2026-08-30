@@ -63,11 +63,13 @@
 	//   localStorage.removeItem('simbafx-onboarded');
 	// Close and reopen the popup to see the onboarding panel again.
 	const onboardedKey = 'simbafx-onboarded';
-	// Active "page" in the slide-track: 0 = onboarding, 1 = converter, 2 = contact us, 3 = nala, 4 = error
+	// Active "page" in the slide-track: 0 = onboarding, 1 = converter, 2 = contact us, 3 = nala, 4 = error, 5 = privacy
 	let activeSlide = $state(0);
 	// Current error shown on the error slide (status code + message) and its retry action.
 	let pageError = $state<{ status: number; message: string } | null>(null);
 	let errorRetry = $state<(() => void) | null>(null);
+	// Which slide the Privacy panel should return to when its Back button is pressed.
+	let privacyReturnTo = $state(1);
 	let onboardingError = $state('');
 
 	// Selections for the onboarding panel
@@ -295,7 +297,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		<span class="sparkle sparkle-4"></span>
 	</div>
 	<div class="slide-viewport">
-		<div class="slide-track" style="transform: translateX(-{activeSlide * 20}%);">
+		<div class="slide-track" style="transform: translateX(-{activeSlide * 16.6667}%);">
 			<!-- ===== Onboarding Panel ===== -->
 			<div class="slide-panel onboarding-panel">
 				<div class="onboarding-card">
@@ -403,7 +405,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					<!-- <p class="subtitle">{t('popup.subtitle')}</p> -->
 				</div>
 
-				<div class="converter-wrapper mb-10">
+				<div class="converter-wrapper mb-3">
 					{#if fetchError}
 						<div class="fetch-error">{fetchError}</div>
 					{:else}
@@ -446,9 +448,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					</button>
 					<button
 						class="footer-btn footer-btn-secondary"
-						onclick={() => window.close()}
+						type="button"
+						onclick={() => { privacyReturnTo = 1; activeSlide = 5; }}
 					>
-						{t('popup.close')}
+						{t('popup.privacyPolicy')}
 					</button>
 				</div>
 
@@ -457,7 +460,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					type="button"
 					onclick={() => activeSlide = 3}
 					aria-label={t('popup.nalaCta')}
-					class="mt-2 flex items-center justify-center gap-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 px-3 py-2 opacity-80 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors w-full cursor-pointer"
+					class="mt-2 flex items-center justify-center gap-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/60 px-3 py-1.5 opacity-80 hover:opacity-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors w-full cursor-pointer"
 				>
 					<svg class="nala-logo" viewBox="0 0 73 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 						<path d="M6.96825 12.6333C7.01146 12.5615 7.08347 12.5039 7.19869 12.4752C7.40033 12.4321 7.48674 12.2596 7.52995 12.0871C7.58756 11.8141 7.74599 11.5985 7.91882 11.4116C7.91882 11.3973 7.93322 11.3973 7.94762 11.3973C7.08347 9.42815 7.11228 9.85936 6.79542 7.71774C6.6658 6.84098 6.53618 5.9211 6.1185 5.15933C5.05271 3.17585 4.05894 3.26208 3.79969 3.37707C3.61245 3.4633 3.48283 3.96636 3.52604 4.23945C4.20296 9.9312 5.90247 11.0523 6.96825 12.6333Z" fill="#00A2DC"/>
@@ -473,7 +476,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					 Inline so the iframe never loads the app (a hosted src could fall back to
 					 the whole SimbaFX app, including its mobile tab bar). Contains a placeholder
 					 AdSense unit — replace ca-pub-XXXXXXXXXXXXXXXX and data-ad-slot to go live. -->
-				<div class="ad-slot">
+				<div class="ad-slot hidden">
 					<div class="ad-slot-frame">
 						<iframe
 							class="ad-iframe"
@@ -488,6 +491,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					</div>
 					<span class="ad-slot-label">{t('popup.sponsored')}</span>
 				</div>
+
+				<!-- Close (full width, positioned under the ad slot) -->
+				<button class="home-close-btn" type="button" onclick={() => window.close()}>
+					{t('popup.close')}
+				</button>
 			</div>
 
 			<!-- ===== Contact Us Panel ===== -->
@@ -579,6 +587,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 							<p class="contact-status contact-status-error">{t('popup.contactError')}</p>
 						{/if}
 					</form>
+
+					<!-- Privacy Policy → in-popup slide (index 5) -->
+					<button class="contact-privacy" type="button" onclick={() => { privacyReturnTo = 2; activeSlide = 5; }}>
+						{t('popup.privacyPolicy')}
+					</button>
 				</div>
 			</div>
 
@@ -682,6 +695,73 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 					</button>
 				</div>
 			</div>
+
+			<!-- ===== Privacy Policy Panel ===== -->
+			<div class="slide-panel privacy-panel">
+				<div class="privacy-header">
+					<button
+						class="privacy-back"
+						onclick={() => activeSlide = privacyReturnTo}
+						aria-label={t('popup.back')}
+						title={t('popup.back')}
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="privacy-back-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+						</svg>
+						<span class="privacy-back-label">{t('popup.back')}</span>
+					</button>
+				</div>
+				<div class="privacy-card">
+					<h2 class="privacy-title">{t('popup.privacyPolicy')}</h2>
+					<p class="privacy-updated">Last updated: August 30, 2026</p>
+
+					<div class="privacy-section">
+						<h3>1. Introduction</h3>
+						<p>SimbaFX is a free currency converter browser extension. This policy explains what information is collected, how it is used, and the choices you have. By installing and using the extension, you agree to this policy.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>2. Conversions happen on your device</h3>
+						<p>Currency conversion runs locally in the extension. The amounts you enter are processed on your device and are not sent to our servers.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>3. Data stored on your device</h3>
+						<p>The extension stores a small amount of data in your browser&rsquo;s local storage to remember your preferences and history:</p>
+						<ul>
+							<li>Your selected currencies, amount, and dark/light theme.</li>
+							<li>Your onboarding completion status.</li>
+							<li>Cached exchange rates so the extension works offline.</li>
+						</ul>
+						<p>This data stays in your browser. You can clear it at any time through the extension or browser settings.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>4. Contact form</h3>
+						<p>If you use the Contact Us panel, your name, email, and message are sent to SimbaFX so we can respond. This information is not used for any other purpose.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>5. Advertising</h3>
+						<p>The extension may display ads served by Google AdSense and other partners through a hosted ad frame. These partners may use cookies to serve ads based on your visits to this and other websites. You can opt out of personalized advertising in Google Ads Settings.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>6. Sharing and selling</h3>
+						<p>We do not sell or rent your personal information. We only share data with service providers as needed to operate the extension or where required by law.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>7. Your rights</h3>
+						<p>Depending on your location, you may have the right to access, correct, or delete your personal information, and to opt out of personalized advertising. Contact us to exercise these rights.</p>
+					</div>
+
+					<div class="privacy-section">
+						<h3>8. Changes & contact</h3>
+						<p>We may update this policy from time to time. For questions, contact us through the Contact Us panel or the SimbaFX website.</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -708,7 +788,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 	.popup-container {
 		width: 100%;
-		min-height: 100vh;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
 		padding: 0;
@@ -889,14 +969,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 	.slide-track {
 		display: flex;
-		width: 500%;
+		width: 600%;
 		height: 100%;
 		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 		transform: translateX(0);
 	}
 
 	.slide-panel {
-		width: 20%;
+		width: calc(100% / 6);
 		flex-shrink: 0;
 		overflow-y: auto;
 		display: flex;
@@ -1682,12 +1762,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 
 	/* ── Converter panel ── */
 	.converter-panel {
-		padding: 16px;
+		padding: 12px;
 	}
 
 	.header {
 		text-align: center;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 	}
 
 	/* Header text color */
@@ -1803,9 +1883,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 	.footer-actions {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 8px;
-		margin-top: 16px;
-		padding-top: 12px;
+		gap: 6px;
+		margin-top: 8px;
+		padding-top: 8px;
 		border-top: 1px solid rgba(0, 0, 0, 0.1);
 	}
 
@@ -1818,9 +1898,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		padding: 10px 12px;
+		padding: 7px 8px;
 		border-radius: 8px;
-		font-size: 13px;
+		font-size: 11px;
 		font-weight: 600;
 		white-space: nowrap;
 		text-decoration: none;
@@ -1891,5 +1971,185 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
 		width: auto;
 		display: block;
 		flex-shrink: 0;
+	}
+
+	/* ── Privacy Policy panel ── */
+	.privacy-panel {
+		padding: 16px;
+	}
+
+	.privacy-header {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+	}
+
+	.privacy-back {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		padding: 6px 10px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.5);
+		color: #059669;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.privacy-back:hover {
+		background: rgba(0, 0, 0, 0.06);
+	}
+
+	:global(html.dark) .privacy-back {
+		background: rgba(255, 255, 255, 0.12);
+		color: #34d399;
+	}
+	:global(html.dark) .privacy-back:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.privacy-back-icon {
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+	}
+
+	.privacy-back-label {
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1;
+	}
+
+	.privacy-card {
+		width: 100%;
+		max-width: 320px;
+		margin: 0 auto;
+		text-align: left;
+	}
+
+	.privacy-title {
+		margin: 0 0 2px;
+		font-size: 16px;
+		font-weight: 700;
+	}
+
+	:global(html:not(.dark)) .privacy-title {
+		color: #064e3b;
+	}
+	:global(html.dark) .privacy-title {
+		color: #e2e8f0;
+	}
+
+	.privacy-updated {
+		margin: 0 0 12px;
+		font-size: 10px;
+		color: #9ca3af;
+	}
+
+	.privacy-section {
+		margin-bottom: 12px;
+		padding: 10px 12px;
+		border-radius: 8px;
+		background: rgba(255, 255, 255, 0.5);
+	}
+
+	:global(html.dark) .privacy-section {
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	.privacy-section h3 {
+		margin: 0 0 4px;
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	:global(html:not(.dark)) .privacy-section h3 {
+		color: #064e3b;
+	}
+	:global(html.dark) .privacy-section h3 {
+		color: #e2e8f0;
+	}
+
+	.privacy-section p {
+		margin: 0;
+		font-size: 10.5px;
+		line-height: 1.5;
+		color: #4b5563;
+	}
+
+	:global(html.dark) .privacy-section p {
+		color: #9ca3af;
+	}
+
+	.privacy-section ul {
+		margin: 4px 0 0;
+		padding-left: 16px;
+		font-size: 10.5px;
+		line-height: 1.5;
+		color: #4b5563;
+	}
+
+	:global(html.dark) .privacy-section ul {
+		color: #9ca3af;
+	}
+
+	.contact-privacy {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		margin-top: 12px;
+		padding: 10px 12px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.06);
+		color: #4b5563;
+		font-size: 13px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.contact-privacy:hover {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	:global(html.dark) .contact-privacy {
+		background: rgba(255, 255, 255, 0.08);
+		color: #e5e7eb;
+	}
+	:global(html.dark) .contact-privacy:hover {
+		background: rgba(255, 255, 255, 0.14);
+	}
+
+	.home-close-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		margin-top: 8px;
+		padding: 7px 10px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.06);
+		color: #4b5563;
+		font-size: 12px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.home-close-btn:hover {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	:global(html.dark) .home-close-btn {
+		background: rgba(255, 255, 255, 0.08);
+		color: #e5e7eb;
+	}
+	:global(html.dark) .home-close-btn:hover {
+		background: rgba(255, 255, 255, 0.14);
 	}
 </style>
