@@ -149,29 +149,29 @@
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 
 	const rates = [
-		{ code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh', flag: '🇹🇿', value: 1, description: 'The official currency of Tanzania since 1966, replacing the East African shilling. Named after the country, the shilling is issued by the Bank of Tanzania and features iconic landmarks like Mount Kilimanjaro and wildlife on its banknotes.' },
-		{ code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', value: 2650, description: 'The world\'s primary reserve currency, first minted in 1792. The "$" symbol is believed to derive from the Spanish peso. US dollars account for roughly 60% of global foreign exchange reserves and are legal tender in over 10 countries beyond the US.' },
-		{ code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', value: 2890, description: 'Introduced in 1999, the euro is used by over 340 million people across 20 EU member states. Its banknotes feature architectural styles from different European periods rather than real buildings, symbolizing unity. It is the second-most traded currency globally.' },
-		{ code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', value: 3350, description: 'The world\'s oldest currency still in use, dating back over 1,200 years to Anglo-Saxon England. The "£" symbol derives from the Latin word "libra" meaning a pound of weight. The pound sterling was once the global reserve currency before the US dollar.' },
-		{ code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh', flag: '🇰🇪', value: 17.5, description: 'Introduced in 1966 to replace the East African shilling. Kenyan banknotes feature the country\'s first president Jomo Kenyatta and showcase Africa\'s Big Five animals. The Central Bank of Kenya issues all currency denominations.' },
-		{ code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh', flag: '🇺🇬', value: 0.697, description: 'First introduced in 1966, replacing the East African shilling. The current series features landmarks like the Crested Crane (Uganda\'s national bird) and monuments. A new shilling was reintroduced in 1987 at a rate of 100 old shillings to 1 new.' },
-		{ code: 'RWF', name: 'Rwandan Franc', symbol: 'FRw', flag: '🇷🇼', value: 2.21, description: 'The official currency of Rwanda since 1964, replacing the Belgian Congo franc. Modern banknotes celebrate Rwanda\'s development and reconstruction, featuring images of coffee harvesting, gorillas, and the Kigali Convention Centre.' },
-		{ code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', flag: '🇦🇪', value: 721, description: 'Introduced in 1973, replacing the Qatar and Dubai riyal. The dirham has been pegged to the US dollar since 1997 at a fixed rate. Its name derives from the Greek drachma. Banknotes feature iconic UAE landmarks like the Burj Al Arab.' },
-		{ code: 'CNY', name: 'Chinese Yuan', symbol: '¥', flag: '🇨🇳', value: 368, description: 'Also known as Renminbi ("people\'s currency"), introduced in 1949. All denominations feature Mao Zedong on the front. China has a 3,000-year history of currency innovation — they invented paper money during the Tang Dynasty around 700 AD.' },
-		{ code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳', value: 31.9, description: 'One of the oldest currencies in the world, originating from the 6th century BCE "rupyakam" silver coins. The modern ₹ symbol was adopted in 2010. Mahatma Gandhi appears on all current banknotes. India was among the first civilizations to use metal coins.' },
-		{ code: 'ETB', name: 'Ethiopian Birr', symbol: 'Br', flag: '🇪🇹', value: 46.5, description: 'The official currency of Ethiopia, with "birr" meaning silver in Amharic and other Ethiopian Semitic languages. Ethiopia is one of the few African nations never colonized, giving its currency a uniquely unbroken domestic heritage spanning centuries.' },
-		{ code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '🇿🇦', value: 147, description: 'Named after the Witwatersrand ridge where most of South Africa\'s gold deposits were found. Introduced in 1961, the rand is also legal tender in Namibia, Lesotho, and Eswatini. Nelson Mandela has appeared on all banknotes since 2012.' },
-		{ code: 'ZMW', name: 'Zambian Kwacha', symbol: 'ZK', flag: '🇿🇲', value: 98, description: 'The name "kwacha" means "dawn" in the Bemba and Nyanja languages, symbolizing the dawn of freedom at Zambia\'s independence in 1964. The currency was rebased in 2013, with 1,000 old kwacha becoming 1 new kwacha.' },
-		{ code: 'SAR', name: 'Saudi Riyal', symbol: 'ر.س', flag: '🇸🇦', value: 707, description: 'The official currency of Saudi Arabia, pegged to the US dollar since 1986. The word "riyal" derives from the Spanish "real." Banknotes feature revered Islamic sites including the Grand Mosque in Mecca and the Prophet\'s Mosque in Medina.' },
-		{ code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', flag: '🇨🇭', value: 3010, description: 'One of the world\'s strongest and most stable currencies, considered a safe-haven asset. Switzerland\'s banknotes are printed vertically — unique among major currencies. The franc is the only currency still called "franc" in Europe after France adopted the euro.' },
-		{ code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', flag: '🇨🇦', value: 1975, description: 'Nicknamed the "loonie" after the common loon bird on its $1 coin. Canada was a pioneer in polymer banknotes, switching entirely in 2011. The Canadian dollar is the 6th most traded currency globally and is heavily influenced by commodity prices.' },
-		{ code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '🇦🇺', value: 1750, description: 'Australia was the first country to use polymer (plastic) banknotes in 1988, a technology now adopted by over 50 nations. Nicknamed the "Aussie dollar," it replaced the Australian pound in 1966 and features notable Australians and native wildlife.' },
-		{ code: 'MWK', name: 'Malawian Kwacha', symbol: 'MK', flag: '🇲🇼', value: 2.04, description: 'Like Zambia, "kwacha" means "dawn" in local languages. Introduced in 1971 replacing the Malawian pound. Banknotes feature the country\'s first president Hastings Kamuzu Banda and iconic scenes from Lake Malawi, the third-largest lake in Africa.' },
-		{ code: 'MZN', name: 'Mozambican Metical', symbol: 'MT', flag: '🇲🇿', value: 42.1, description: 'The name "metical" derives from the Arabic "mithqal," a unit of weight used in gold trade along the East African coast. The new metical was introduced in 2006, replacing the old at 1,000:1. Banknotes celebrate Mozambican heroes and wildlife.' },
-		{ code: 'BIF', name: 'Burundian Franc', symbol: 'Fr', flag: '🇧🇮', value: 0.914, description: 'The official currency of Burundi since independence in 1964. Banknotes feature the country\'s coat of arms and depict scenes of Burundian life. Burundi is one of the smallest and most densely populated countries in Africa.' },
-		{ code: 'CDF', name: 'Congolese Franc', symbol: 'FC', flag: '🇨🇩', value: 0.943, description: 'The currency of the Democratic Republic of the Congo, reintroduced in 1997 replacing the new zaïre. The DRC is one of the most mineral-rich countries on Earth, with vast deposits of cobalt, diamonds, and coltan that influence its economy.' },
-		{ code: 'NGN', name: 'Nigerian Naira', symbol: '₦', flag: '🇳🇬', value: 1.71, description: 'Introduced in 1973, replacing the Nigerian pound. The name "naira" is a contraction of "Nigeria." As Africa\'s largest economy, the naira features prominent national figures and landmarks. Nigeria recently redesigned its 200, 500, and 1,000 naira notes in 2022.' },
-		{ code: 'EGP', name: 'Egyptian Pound', symbol: 'E£', flag: '🇪🇬', value: 88.3, description: 'One of the oldest currencies in the Middle East region, introduced in 1834. Egyptian banknotes uniquely feature both Arabic and English text. The pound showcases ancient Egyptian temples and mosques, connecting thousands of years of civilization on a single note.' }
+		{ code: 'TZS', nameKey: 'currencies.tzs.name', symbol: 'TSh', flag: '🇹🇿', value: 1, descriptionKey: 'currencies.tzs.description' },
+		{ code: 'USD', nameKey: 'currencies.usd.name', symbol: '$', flag: '🇺🇸', value: 2650, descriptionKey: 'currencies.usd.description' },
+		{ code: 'EUR', nameKey: 'currencies.eur.name', symbol: '€', flag: '🇪🇺', value: 2890, descriptionKey: 'currencies.eur.description' },
+		{ code: 'GBP', nameKey: 'currencies.gbp.name', symbol: '£', flag: '🇬🇧', value: 3350, descriptionKey: 'currencies.gbp.description' },
+		{ code: 'KES', nameKey: 'currencies.kes.name', symbol: 'KSh', flag: '🇰🇪', value: 17.5, descriptionKey: 'currencies.kes.description' },
+		{ code: 'UGX', nameKey: 'currencies.ugx.name', symbol: 'USh', flag: '🇺🇬', value: 0.697, descriptionKey: 'currencies.ugx.description' },
+		{ code: 'RWF', nameKey: 'currencies.rwf.name', symbol: 'FRw', flag: '🇷🇼', value: 2.21, descriptionKey: 'currencies.rwf.description' },
+		{ code: 'AED', nameKey: 'currencies.aed.name', symbol: 'د.إ', flag: '🇦🇪', value: 721, descriptionKey: 'currencies.aed.description' },
+		{ code: 'CNY', nameKey: 'currencies.cny.name', symbol: '¥', flag: '🇨🇳', value: 368, descriptionKey: 'currencies.cny.description' },
+		{ code: 'INR', nameKey: 'currencies.inr.name', symbol: '₹', flag: '🇮🇳', value: 31.9, descriptionKey: 'currencies.inr.description' },
+		{ code: 'ETB', nameKey: 'currencies.eth.name', symbol: 'Br', flag: '🇪🇹', value: 46.5, descriptionKey: 'currencies.eth.description' },
+		{ code: 'ZAR', nameKey: 'currencies.zar.name', symbol: 'R', flag: '🇿🇦', value: 147, descriptionKey: 'currencies.zar.description' },
+		{ code: 'ZMW', nameKey: 'currencies.zmw.name', symbol: 'ZK', flag: '🇿🇲', value: 98, descriptionKey: 'currencies.zmw.description' },
+		{ code: 'SAR', nameKey: 'currencies.sar.name', symbol: 'ر.س', flag: '🇸🇦', value: 707, descriptionKey: 'currencies.sar.description' },
+		{ code: 'CHF', nameKey: 'currencies.chf.name', symbol: 'Fr', flag: '🇨🇭', value: 3010, descriptionKey: 'currencies.chf.description' },
+		{ code: 'CAD', nameKey: 'currencies.cad.name', symbol: 'C$', flag: '🇨🇦', value: 1975, descriptionKey: 'currencies.cad.description' },
+		{ code: 'AUD', nameKey: 'currencies.aud.name', symbol: 'A$', flag: '🇦🇺', value: 1750, descriptionKey: 'currencies.aud.description' },
+		{ code: 'MWK', nameKey: 'currencies.mwk.name', symbol: 'MK', flag: '🇲🇼', value: 2.04, descriptionKey: 'currencies.mwk.description' },
+		{ code: 'MZN', nameKey: 'currencies.mzn.name', symbol: 'MT', flag: '🇲🇿', value: 42.1, descriptionKey: 'currencies.mzn.description' },
+		{ code: 'BIF', nameKey: 'currencies.bif.name', symbol: 'Fr', flag: '🇧🇮', value: 0.914, descriptionKey: 'currencies.bif.description' },
+		{ code: 'CDF', nameKey: 'currencies.cdf.name', symbol: 'FC', flag: '🇨🇩', value: 0.943, descriptionKey: 'currencies.cdf.description' },
+		{ code: 'NGN', nameKey: 'currencies.ngn.name', symbol: '₦', flag: '🇳🇬', value: 1.71, descriptionKey: 'currencies.ngn.description' },
+		{ code: 'EGP', nameKey: 'currencies.egp.name', symbol: 'E£', flag: '🇪🇬', value: 88.3, descriptionKey: 'currencies.egp.description' }
 	];
 
 	const usdBills = [
@@ -488,15 +488,15 @@
 	const getSortLabel = () => {
 		switch (sortMode) {
 			case 'nameAsc':
-				return 'Name (A-Z)';
+				return t('market.sortNameAsc');
 			case 'nameDesc':
-				return 'Name (Z-A)';
+				return t('market.sortNameDesc');
 			case 'valueAsc':
-				return 'Rate (Low to High)';
+				return t('market.sortValueAsc');
 			case 'valueDesc':
-				return 'Rate (High to Low)';
+				return t('market.sortValueDesc');
 			default:
-				return 'Name (A-Z)';
+				return t('market.sortNameAsc');
 		}
 	};
 
@@ -751,7 +751,7 @@
 		</div>
 	{/if}
 
-	<div class="pt-8 md:pb-4 max-w-4xl mx-auto">
+	<div class="px-4 md:px-8 pt-8 md:pb-4 max-w-4xl mx-auto">
 		<div class="flex items-center justify-between mb-6">
 			<div class="flex items-center gap-3">
 				<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
@@ -777,8 +777,8 @@
 				<button
 					onclick={swapCurrencies}
 					aria-label="Swap FROM and TO currencies"
-					class="p-2 rounded-full bg-emerald-500 text-white shadow-lg hover:bg-emerald-600 active:scale-90 transition-all duration-300 ease-out"
-					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};" 
+					class="p-2 rounded-full bg-emerald-500 text-white shadow-lg hover:bg-emerald-600 active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 focus-visible:ring-offset-2 transition-all duration-300 ease-out"
+					style="transform: rotate({swapRotation}deg) {isSwapping ? 'scale(1.15)' : 'scale(1)'};"
 					title="Swap currencies"
 				>
 					<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -794,7 +794,7 @@
 			<div class="flex flex-col gap-2 mt-2">
 				{#if $lastUpdated}
 					<p class="text-xs text-gray-400">
-						Updated {new Date($lastUpdated).toLocaleString()}
+						{t('market.updated')} {new Date($lastUpdated).toLocaleString()}
 					</p>
 				{/if}
 				{#if $fetchError}
@@ -835,8 +835,9 @@
 				>
 					<button
 						type="button"
-						class="w-full flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors p-4 md:p-8"
+						class="w-full flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 transition-colors p-4 md:p-8"
 						aria-expanded={openCode === rate.code}
+						aria-controls={openCode === rate.code ? `rate-panel-${rate.code}` : undefined}
 						onclick={() => { openCode = openCode === rate.code ? '' : rate.code; }}
 					>
 						<div class="flex items-center gap-3">
@@ -850,7 +851,7 @@
 										<span class="text-xs font-semibold px-2 py-0.5 bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 rounded">TO</span>
 									{/if}
 								</div>
-								<p class="text-sm text-gray-500 dark:text-gray-400">{rate.name} ({rate.symbol})</p>
+								<p class="text-sm text-gray-500 dark:text-gray-400">{t(rate.nameKey)} ({rate.symbol})</p>
 							</div>
 						</div>
 						<div class="flex items-center gap-2">
@@ -865,12 +866,12 @@
 						</div>
 					</button>
 					{#if openCode === rate.code}
-					<div class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 bg-slate-50 dark:bg-gray-800/50 accordion-inner-shadow transition-colors">
+					<div id="rate-panel-{rate.code}" class="px-4 py-4 text-sm text-gray-600 dark:text-gray-300 bg-slate-50 dark:bg-gray-800/50 accordion-inner-shadow transition-colors">
 							<p>1 {rate.code} → {formatRate(rate.value)} {selectedToCurrencyCode}</p>
-							<p class="mt-2 text-xs leading-relaxed text-gray-500">{rate.description}</p>
+							<p class="mt-2 text-xs leading-relaxed text-gray-500">{t(rate.descriptionKey)}</p>
 							{#if rate.code === 'USD'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">US Dollar Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="USD bills carousel"
@@ -906,7 +907,7 @@
 								</div>
 							{:else if rate.code === 'EUR'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Euro Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="EURO bills carousel"
@@ -942,7 +943,7 @@
 								</div>
 							{:else if rate.code === 'GBP'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">British Pound Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="GBP bills carousel"
@@ -978,7 +979,7 @@
 								</div>
 							{:else if rate.code === 'TZS'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Tanzanian Shilling Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="TZS bills carousel"
@@ -1014,7 +1015,7 @@
 								</div>
 							{:else if rate.code === 'UGX'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Ugandan Shilling Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="UGX bills carousel"
@@ -1050,7 +1051,7 @@
 								</div>
 							{:else if rate.code === 'RWF'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Rwandan Franc Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="RWF bills carousel"
@@ -1086,7 +1087,7 @@
 								</div>
 							{:else if rate.code === 'AED'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">UAE Dirham Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="AED bills carousel"
@@ -1122,7 +1123,7 @@
 								</div>
 							{:else if rate.code === 'CNY'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Chinese Yuan Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CNY bills carousel"
@@ -1158,7 +1159,7 @@
 								</div>
 							{:else if rate.code === 'INR'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Indian Rupee Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="INR bills carousel"
@@ -1194,7 +1195,7 @@
 								</div>
 							{:else if rate.code === 'ETB'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Ethiopian Birr Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ETB bills carousel"
@@ -1230,7 +1231,7 @@
 								</div>
 							{:else if rate.code === 'ZAR'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">South African Rand Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZAR bills carousel"
@@ -1266,7 +1267,7 @@
 								</div>
 							{:else if rate.code === 'ZMW'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Zambian Kwacha Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="ZMW bills carousel"
@@ -1302,7 +1303,7 @@
 								</div>
 							{:else if rate.code === 'SAR'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Saudi Riyal Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="SAR bills carousel"
@@ -1338,7 +1339,7 @@
 								</div>
 							{:else if rate.code === 'KES'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Kenyan Shilling Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="KES bills carousel"
@@ -1374,7 +1375,7 @@
 								</div>
 							{:else if rate.code === 'CAD'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Canadian Dollar Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CAD bills carousel"
@@ -1410,7 +1411,7 @@
 								</div>
 							{:else if rate.code === 'AUD'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Australian Dollar Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="AUD bills carousel"
@@ -1446,7 +1447,7 @@
 								</div>
 							{:else if rate.code === 'MWK'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Malawian Kwacha Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="MWK bills carousel"
@@ -1482,7 +1483,7 @@
 								</div>
 							{:else if rate.code === 'CHF'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Swiss Franc Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CHF bills carousel"
@@ -1518,7 +1519,7 @@
 								</div>
 							{:else if rate.code === 'MZN'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Mozambican Metical Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="MZN bills carousel"
@@ -1554,7 +1555,7 @@
 								</div>
 							{:else if rate.code === 'BIF'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Burundian Franc Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="BIF bills carousel"
@@ -1590,7 +1591,7 @@
 								</div>
 							{:else if rate.code === 'CDF'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Congolese Franc Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="CDF bills carousel"
@@ -1626,7 +1627,7 @@
 								</div>
 							{:else if rate.code === 'NGN'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Nigerian Naira Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="NGN bills carousel"
@@ -1662,7 +1663,7 @@
 								</div>
 							{:else if rate.code === 'EGP'}
 							<div class="mt-4 -mx-4">
-								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">Egyptian Pound Bills</p>
+								<p class="text-xs uppercase tracking-wide text-gray-400 mb-2 px-4">{t(rate.nameKey)} {t('market.bills')}</p>
 									<div class="usd-carousel"
 										role="region"
 										aria-label="EGP bills carousel"
@@ -1709,25 +1710,26 @@
 							<svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
 								<path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
 							</svg>
-							Change Default Currency in Settings
+							{t('market.changeDefaultCurrency')}
 						</a>
 					</div>
 					<div class="border-b-2 border-gray-200 dark:border-gray-700"></div>
 					<!-- Sort Dropdown -->
 					<div class="px-4 py-3 flex justify-end items-center gap-3 relative">
-						<span class="text-xs text-gray-600 dark:text-gray-400">Sorted by: <span class="font-semibold text-gray-900 dark:text-white">{getSortLabel()}</span></span>
+						<span class="text-xs text-gray-600 dark:text-gray-400">{t('market.sortedBy')} <span class="font-semibold text-gray-900 dark:text-white">{getSortLabel()}</span></span>
 						<div class="relative inline-block">
 							<button
 								type="button"
-								class="text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all flex items-center gap-2 bg-white dark:bg-gray-800"
+								class="text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 px-3 py-1.5 rounded-md border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 transition-all flex items-center gap-2 bg-white dark:bg-gray-800"
 								onclick={() => { sortDropdownOpen = !sortDropdownOpen; }}
 								aria-expanded={sortDropdownOpen}
 								aria-haspopup="listbox"
+								aria-label={t('market.sort')}
 							>
 								<svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
 									<path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM15 8a1 1 0 10-2 0v2.586l-.293-.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L15 10.586V8z" />
 								</svg>
-								Sort
+								{t('market.sort')}
 								<svg class={`w-3 h-3 transition-transform ${sortDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
 									<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
 								</svg>
@@ -1753,7 +1755,7 @@
 										aria-selected={sortMode === 'nameAsc'}
 										onclick={() => { sortMode = 'nameAsc'; sortDropdownOpen = false; }}
 									>
-										By Name (A-Z)
+										{t('market.sortNameAsc')}
 										{#if sortMode === 'nameAsc'}<span class="float-right">✓</span>{/if}
 									</button>
 									<button
@@ -1767,7 +1769,7 @@
 										aria-selected={sortMode === 'nameDesc'}
 										onclick={() => { sortMode = 'nameDesc'; sortDropdownOpen = false; }}
 									>
-										By Name (Z-A)
+										{t('market.sortNameDesc')}
 										{#if sortMode === 'nameDesc'}<span class="float-right">✓</span>{/if}
 									</button>
 									<button
@@ -1781,7 +1783,7 @@
 										aria-selected={sortMode === 'valueAsc'}
 										onclick={() => { sortMode = 'valueAsc'; sortDropdownOpen = false; }}
 									>
-										By Rate (Low to High)
+										{t('market.sortValueAsc')}
 										{#if sortMode === 'valueAsc'}<span class="float-right">✓</span>{/if}
 									</button>
 									<button
@@ -1795,7 +1797,7 @@
 										aria-selected={sortMode === 'valueDesc'}
 										onclick={() => { sortMode = 'valueDesc'; sortDropdownOpen = false; }}
 									>
-										By Rate (High to Low)
+										{t('market.sortValueDesc')}
 										{#if sortMode === 'valueDesc'}<span class="float-right">✓</span>{/if}
 									</button>
 								</div>
@@ -1820,6 +1822,7 @@
 			class="bill-modal-content"
 			role="dialog"
 			aria-modal="true"
+			aria-label={selectedBill.label}
 			tabindex="0"
 			onclick={(e) => e.stopPropagation()}
 			onkeydown={(e) => e.stopPropagation()}
@@ -1918,7 +1921,7 @@
 				<div class="bill-modal-info-text">
 					<h2 class="bill-modal-denomination">{selectedBill.label}</h2>
 					{#if selectedCurrency}
-						<p class="bill-modal-currency-name">{selectedCurrency.name}</p>
+						<p class="bill-modal-currency-name">{t(selectedCurrency.nameKey)}</p>
 					{/if}
 				</div>
 				{#if selectedCurrency && selectedCurrency.code !== 'TZS'}
@@ -1931,7 +1934,7 @@
 			</div>
 
 			<!-- Hint -->
-			<p class="bill-modal-hint">Hover over to magnify on desktop • Pinch to zoom on mobile</p>
+			<p class="bill-modal-hint">{t('market.modalHint')}</p>
 		</div>
 	</div>
 	{/if}
@@ -2061,6 +2064,12 @@
 		background: rgba(255, 255, 255, 0.18);
 		color: white;
 		transform: rotate(90deg);
+	}
+
+	.bill-modal-close:focus-visible,
+	.bill-nav-arrow:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 2px #10b981;
 	}
 
 	.bill-modal-stage {
