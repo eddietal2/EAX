@@ -219,7 +219,13 @@
 		<div class="relative bg-white/75 dark:bg-gray-900/70 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden transition-colors duration-200">
 			<!-- Currency Selectors Row -->
 			<div class="p-3 md:p-3 dark:text-gray-300">
-				<div class="flex items-center gap-2 md:gap-1.5 mb-2 md:mb-1 flex-wrap">
+				<div class="flex items-center gap-2 md:gap-1.5 mb-2 md:mb-1 flex-wrap w-full">
+					<!-- Mobile-only small SimbaFX logo, immediately before the From label -->
+					<img
+						src="/icons/icon48.png"
+						alt="SimbaFX"
+						class="md:hidden w-6 h-6 rounded-md shrink-0"
+					/>
 					<label for="from-currency" class="text-xs md:text-xs text-gray-500 dark:text-gray-400 shrink-0">{t('home.fromLabel')}</label>
 					<FlagIcon code={fromCurrency} size="md" />
 					<select

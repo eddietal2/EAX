@@ -362,12 +362,7 @@
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">
 	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-[calc(12.5rem+env(safe-area-inset-bottom))] md:pb-0">
-		<!-- Header -->
-	<div class="text-center mb-3 md:hidden">
-		<img src="/icons/icon48.png" alt="SimbaFX" class="w-16 h-16 rounded-2xl mx-auto mb-1" />
-	</div>
-
-	<!-- Offline Indicator -->
+		<!-- Offline Indicator -->
 	{#if !isOnline}
 		<div class="mb-3 px-3 py-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-700 rounded-lg text-sm text-amber-800 dark:text-amber-200 text-center font-medium">
 			Offline — using cached rates
