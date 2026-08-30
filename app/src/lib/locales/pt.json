@@ -85,5 +85,14 @@
     "getStarted": "Começar",
     "skip": "Pular por enquanto",
     "sameCurrencyError": "As moedas DE e PARA devem ser diferentes."
+  },
+  "error": {
+    "notFoundTitle": "Página Não Encontrada",
+    "notFoundMessage": "Desculpe, a página que você procura não existe ou pode ter sido movida.",
+    "serverErrorTitle": "Algo Deu Errado",
+    "serverErrorMessage": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+    "genericTitle": "Algo Deu Errado",
+    "genericMessage": "Ocorreu um erro inesperado. Tente novamente mais tarde.",
+    "backHome": "Voltar ao Início"
   }
 }

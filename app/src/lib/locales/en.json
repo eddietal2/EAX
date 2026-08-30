@@ -86,5 +86,14 @@
     "getStarted": "Get Started",
     "skip": "Skip for now",
     "sameCurrencyError": "FROM and TO currencies must be different."
+  },
+  "error": {
+    "notFoundTitle": "Page Not Found",
+    "notFoundMessage": "Sorry, the page you're looking for doesn't exist or may have been moved.",
+    "serverErrorTitle": "Something Went Wrong",
+    "serverErrorMessage": "An unexpected error occurred. Please try again later.",
+    "genericTitle": "Something Went Wrong",
+    "genericMessage": "An unexpected error occurred. Please try again later.",
+    "backHome": "Back to Home"
   }
 }

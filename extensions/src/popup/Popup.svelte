@@ -63,8 +63,11 @@
 	//   localStorage.removeItem('simbafx-onboarded');
 	// Close and reopen the popup to see the onboarding panel again.
 	const onboardedKey = 'simbafx-onboarded';
-	// Active "page" in the slide-track: 0 = onboarding, 1 = converter, 2 = contact us, 3 = nala
+	// Active "page" in the slide-track: 0 = onboarding, 1 = converter, 2 = contact us, 3 = nala, 4 = error
 	let activeSlide = $state(0);
+	// Current error shown on the error slide (status code + message) and its retry action.
+	let pageError = $state<{ status: number; message: string } | null>(null);
+	let errorRetry = $state<(() => void) | null>(null);
 	let onboardingError = $state('');
 
 	// Selections for the onboarding panel
@@ -114,7 +117,7 @@
 		return matrix;
 	}
 
-	onMount(async () => {
+	async function loadRates() {
 		// Start from cache so the popup renders instantly without burning API quota.
 		let cached: Record<string, Record<string, number>> | null = null;
 		try {
@@ -162,10 +165,15 @@
 			// Only surface the error if we have nothing to show.
 			if (!cached) {
 				fetchError = getTranslation('messages.error');
+				showError(500, getTranslation('messages.error'), () => loadRates());
 			}
 		} finally {
 			isLoading = false;
 		}
+	}
+
+	onMount(() => {
+		loadRates();
 	});
 
 	function handleSwap() {
@@ -203,12 +211,14 @@
 		const message = contactMessage.trim();
 		if (!name || !email || !message) return;
 		contactStatus = 'sending';
+		let status = 0;
 		try {
 			const response = await fetch(`${CONTACT_API_URL}/api/contact`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ name, email, message })
 			});
+			status = response.status;
 			const data = await response.json().catch(() => ({}));
 			if (!response.ok || !data.success) {
 				throw new Error(data.error || `HTTP ${response.status}`);
@@ -220,7 +230,29 @@
 		} catch (error) {
 			console.error('Failed to send contact email:', error);
 			contactStatus = 'error';
+			showError(status >= 400 ? status : 500, t('popup.contactError'), () => handleSendEmail());
 		}
+	}
+
+	// --- Error page ---
+	// The popup's "error slide" (index 4). `pageError` holds the status + message to
+	// display, and `errorRetry` is the action re-run when the user taps "Try again".
+	function showError(status: number, message: string, retry?: () => void) {
+		pageError = { status, message };
+		errorRetry = retry ?? null;
+		activeSlide = 4;
+	}
+
+	function clearError() {
+		pageError = null;
+		errorRetry = null;
+		activeSlide = 1;
+	}
+
+	function handleErrorRetry() {
+		const retry = errorRetry;
+		clearError();
+		retry?.();
 	}
 </script>
 
@@ -240,7 +272,7 @@
 		<span class="sparkle sparkle-4"></span>
 	</div>
 	<div class="slide-viewport">
-		<div class="slide-track" style="transform: translateX(-{activeSlide * 25}%);">
+		<div class="slide-track" style="transform: translateX(-{activeSlide * 20}%);">
 			<!-- ===== Onboarding Panel ===== -->
 			<div class="slide-panel onboarding-panel">
 				<div class="onboarding-card">
@@ -608,6 +640,23 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- ===== Error Panel ===== -->
+			<div class="slide-panel error-panel">
+				<div class="error-card">
+					<span class="error-code">{pageError?.status ?? '500'}</span>
+					<h2 class="error-title">{t('popup.errorTitle')}</h2>
+					<p class="error-message">{pageError?.message ?? ''}</p>
+					{#if errorRetry}
+						<button class="error-retry" type="button" onclick={handleErrorRetry}>
+							{t('popup.errorRetry')}
+						</button>
+					{/if}
+					<button class="error-back" type="button" onclick={clearError}>
+						{t('popup.back')}
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -815,14 +864,14 @@
 
 	.slide-track {
 		display: flex;
-		width: 400%;
+		width: 500%;
 		height: 100%;
 		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 		transform: translateX(0);
 	}
 
 	.slide-panel {
-		width: 25%;
+		width: 20%;
 		flex-shrink: 0;
 		overflow-y: auto;
 		display: flex;
@@ -1501,6 +1550,109 @@
 
 	:global(html.dark) .nala-note-strong {
 		color: #7dd3fc;
+	}
+
+	/* ── Error panel ── */
+	.error-panel {
+		padding: 16px;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.error-card {
+		width: 100%;
+		max-width: 300px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.error-code {
+		font-size: 56px;
+		font-weight: 800;
+		line-height: 1;
+		background: linear-gradient(90deg, #059669 0%, #34d399 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	.error-title {
+		margin: 0;
+		font-size: 16px;
+		font-weight: 700;
+	}
+
+	:global(html:not(.dark)) .error-title {
+		color: #064e3b;
+	}
+	:global(html.dark) .error-title {
+		color: #e2e8f0;
+	}
+
+	.error-message {
+		margin: 0;
+		font-size: 12px;
+		line-height: 1.5;
+	}
+
+	:global(html:not(.dark)) .error-message {
+		color: #6b7280;
+	}
+	:global(html.dark) .error-message {
+		color: #9ca3af;
+	}
+
+	.error-retry {
+		width: 100%;
+		padding: 12px;
+		border: none;
+		border-radius: 8px;
+		background: #059669;
+		color: #ffffff;
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.error-retry:hover {
+		background: #047857;
+	}
+
+	:global(html.dark) .error-retry {
+		background: #10b981;
+		color: #064e3b;
+	}
+	:global(html.dark) .error-retry:hover {
+		background: #34d399;
+	}
+
+	.error-back {
+		width: 100%;
+		padding: 10px;
+		border: none;
+		border-radius: 8px;
+		background: rgba(0, 0, 0, 0.06);
+		color: #4b5563;
+		font-size: 13px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: background 0.2s;
+	}
+
+	.error-back:hover {
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	:global(html.dark) .error-back {
+		background: rgba(255, 255, 255, 0.08);
+		color: #e5e7eb;
+	}
+	:global(html.dark) .error-back:hover {
+		background: rgba(255, 255, 255, 0.14);
 	}
 
 	/* ── Converter panel ── */

@@ -85,5 +85,14 @@
     "getStarted": "Begin",
     "skip": "Slaan vir eers oor",
     "sameCurrencyError": "VAN en NA geldeenhede moet verskil."
+  },
+  "error": {
+    "notFoundTitle": "Bladsy Nie Gevind Nie",
+    "notFoundMessage": "Jammer, die bladsy waarna jy soek bestaan nie of is dalk geskuif.",
+    "serverErrorTitle": "Iets Het Verkeerd Gegaan",
+    "serverErrorMessage": "'n Onverwagte fout het voorgekom. Probeer asseblief later weer.",
+    "genericTitle": "Iets Het Verkeerd Gegaan",
+    "genericMessage": "'n Onverwagte fout het voorgekom. Probeer asseblief later weer.",
+    "backHome": "Terug na Tuis"
   }
 }

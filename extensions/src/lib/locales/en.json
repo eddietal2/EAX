@@ -78,6 +78,8 @@
     "nalaTitle": "Send Money with Nala",
     "nalaSubtitle": "Fast, affordable transfers to East Africa and beyond",
     "nalaVisit": "Visit Nala",
+    "errorTitle": "Something went wrong",
+    "errorRetry": "Try again",
     "sponsored": "Sponsored"
   },
   "onboarding": {

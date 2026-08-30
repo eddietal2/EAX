@@ -86,5 +86,14 @@
     "getStarted": "Commencer",
     "skip": "Passer pour l'instant",
     "sameCurrencyError": "Les devises DE et VERS doivent être différentes."
+  },
+  "error": {
+    "notFoundTitle": "Page Introuvable",
+    "notFoundMessage": "Désolé, la page que vous recherchez n'existe pas ou a peut-être été déplacée.",
+    "serverErrorTitle": "Une Erreur Est Survenue",
+    "serverErrorMessage": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+    "genericTitle": "Une Erreur Est Survenue",
+    "genericMessage": "Une erreur inattendue s'est produite. Veuillez réessayer plus tard.",
+    "backHome": "Retour à l'accueil"
   }
 }

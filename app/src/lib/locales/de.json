@@ -86,5 +86,14 @@
     "getStarted": "Loslegen",
     "skip": "Vorerst überspringen",
     "sameCurrencyError": "Die Währungen VON und NACH müssen unterschiedlich sein."
+  },
+  "error": {
+    "notFoundTitle": "Seite Nicht Gefunden",
+    "notFoundMessage": "Entschuldigung, die gesuchte Seite existiert nicht oder wurde möglicherweise verschoben.",
+    "serverErrorTitle": "Etwas Ist Schiefgelaufen",
+    "serverErrorMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+    "genericTitle": "Etwas Ist Schiefgelaufen",
+    "genericMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+    "backHome": "Zurück zur Startseite"
   }
 }

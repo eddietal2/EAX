@@ -78,6 +78,8 @@
     "nalaTitle": "Envía dinero con Nala",
     "nalaSubtitle": "Transferencias rápidas y asequibles a África Oriental y más allá",
     "nalaVisit": "Visitar Nala",
+    "errorTitle": "Algo salió mal",
+    "errorRetry": "Reintentar",
     "sponsored": "Patrocinado"
   },
   "onboarding": {

@@ -86,5 +86,14 @@
     "getStarted": "Anza",
     "skip": "Ruka kwa sasa",
     "sameCurrencyError": "Sarafu za KUTOKA na KWENDA lazima zihitilafiane."
+  },
+  "error": {
+    "notFoundTitle": "Ukurasa Haujapatikana",
+    "notFoundMessage": "Samahani, ukurasa unaoutafuta haupo au unaweza kuwa umehamishwa.",
+    "serverErrorTitle": "Hitilafu Imetokea",
+    "serverErrorMessage": "Hitilafu isiyotarajiwa imetokea. Tafadhali jaribu tena baadaye.",
+    "genericTitle": "Hitilafu Imetokea",
+    "genericMessage": "Hitilafu isiyotarajiwa imetokea. Tafadhali jaribu tena baadaye.",
+    "backHome": "Rudi Nyumbani"
   }
 }

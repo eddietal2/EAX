@@ -85,5 +85,14 @@
     "getStarted": "开始使用",
     "skip": "暂时跳过",
     "sameCurrencyError": "FROM 和 TO 货币必须不同。"
+  },
+  "error": {
+    "notFoundTitle": "页面未找到",
+    "notFoundMessage": "抱歉，您查找的页面不存在或可能已被移动。",
+    "serverErrorTitle": "出错了",
+    "serverErrorMessage": "发生意外错误。请稍后重试。",
+    "genericTitle": "出错了",
+    "genericMessage": "发生意外错误。请稍后重试。",
+    "backHome": "返回主页"
   }
 }
