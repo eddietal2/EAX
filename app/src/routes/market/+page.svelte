@@ -700,7 +700,7 @@
 	<meta name="description" content="View all current market exchange rates with SimbaFX. Compare rates for multiple currencies including TZS, USD, EUR, GBP, and KES. Real-time rate updates." />
 </svelte:head>
 
-<div bind:this={pageRef} class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+<div bind:this={pageRef} class="h-full pt-8 bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<!-- Sticky Header (Desktop) -->
 	{#if showStickyHeader}
 		<div class="sticky-rate-bar hidden md:block fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
@@ -751,21 +751,6 @@
 		</div>
 	{/if}
 
-	<div class="px-4 md:px-8 pt-8 md:pb-4 max-w-4xl mx-auto">
-		<div class="flex items-center justify-between mb-6">
-			<div class="flex items-center gap-3">
-				<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
-				<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('market.title')}</h1>
-			</div>
-		{#if $isLoading}
-			<div class="flex items-center gap-2">
-				<div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-				<span class="text-sm text-gray-600 dark:text-gray-400 font-medium">{t('market.updating')}</span>
-			</div>
-		{/if}
-		</div>
-	</div>
-	
 	<div class="max-w-4xl mx-auto p-4 md:p-8 bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden {$isLoading ? 'opacity-75 pointer-events-none' : ''} transition-colors duration-200">
 		<div class="p-4 border-b border-gray-100 dark:border-gray-800 -mx-4 md:-mx-8 px-4 md:px-8" bind:this={headerRef}>
 			<div class="flex flex-wrap items-center justify-start gap-3">

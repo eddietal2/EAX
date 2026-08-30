@@ -107,12 +107,6 @@
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
-		<div class="flex items-center gap-3 mb-6">
-			<img src="/icons/icon48.png" alt="SimbaFX" class="md:hidden w-8 h-8 rounded-lg" />
-			<h1 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">{t('history.title')}</h1>
-		</div>
-		<p class="text-gray-600 dark:text-gray-400 mb-6">{t('history.subtitle')}</p>
-		
 		{#if !mounted}
 			<!-- Skeleton Loading State -->
 			<div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
