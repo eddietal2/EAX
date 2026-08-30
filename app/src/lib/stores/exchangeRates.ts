@@ -181,3 +181,8 @@ export function resetRateLimit() {
 		console.log('Rate limit reset. You can now fetch fresh rates.');
 	}
 }
+
+// Dismiss the current fetch/rate-limit alert shown in the UI (e.g. the Market page).
+export function clearFetchError() {
+	fetchError.set(null);
+}
