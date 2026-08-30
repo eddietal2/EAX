@@ -164,6 +164,15 @@
 						<p class="text-xs font-medium text-center text-red-600 dark:text-red-400 m-0">{t('contact.error')}</p>
 					{/if}
 				</form>
+
+				<div class="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 text-center">
+					<a
+						href="/privacy"
+						class="text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+					>
+						{t('nav.privacy')}
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>

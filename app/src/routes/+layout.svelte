@@ -4,8 +4,11 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import OnboardingDialog from '$lib/components/OnboardingDialog.svelte';
 	import Toast from '$lib/components/Toast.svelte';
+	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 
 	let { children } = $props();
+
+	let t = $derived((key: string) => getTranslation(key, $currentLanguage));
 </script>
 
 <svelte:head>
@@ -50,6 +53,10 @@
 	<main class="flex-1 overflow-hidden pb-20 md:pb-0">
 		{@render children()}
 	</main>
+	<!-- Desktop footer (mobile users reach these links via the Contact page) -->
+	<footer class="hidden md:flex items-center justify-center gap-3 px-4 py-3 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 text-xs text-gray-500 dark:text-gray-400">
+		<a href="/privacy" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">{t('nav.privacy')}</a>
+	</footer>
 	<Toast />
 	<OnboardingDialog />
 </div>
