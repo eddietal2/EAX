@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
@@ -18,10 +19,11 @@
 	let platform = $state<'android' | 'ios' | 'other'>(detectPlatform());
 </script>
 
-<svelte:head>
-	<title>Send Money with Nala - SimbaFX Currency Exchange</title>
-	<meta name="description" content="Send money fast and affordably with Nala. Use referral code EDDIE-737426 before your first transfer to get $15 back when you send $50." />
-</svelte:head>
+<Seo
+	title="Send Money with Nala — $15 Back on Your First $50 Transfer | SimbaFX"
+	description="Send money fast and affordably with Nala. Use referral code EDDIE-737426 before your first transfer to get $15 back when you send $50."
+	path="/nala"
+/>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">

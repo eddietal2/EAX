@@ -10,6 +10,7 @@
 	import Skeleton from '$lib/components/Skeleton.svelte';
 	import ConverterCard from '$lib/components/ConverterCard.svelte';
 	import PwaInstall from '$lib/components/PwaInstall.svelte';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let amount = $state('');
 	let fromCurrency = $state('USD');
@@ -31,6 +32,42 @@
 
 	let lang = $derived($currentLanguage);
 	let t = $derived((key: string) => getTranslation(key, lang));
+
+	// Structured data for the home page (rich results + app metadata).
+	const homeJsonLd = {
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'WebApplication',
+				'name': 'SimbaFX Currency Converter',
+				'url': 'https://simbafx.vercel.app/',
+				'applicationCategory': 'FinanceApplication',
+				'operatingSystem': 'Any',
+				'description': 'Free, offline-ready currency converter for East African currencies including TZS, USD, EUR, GBP and KES.',
+				'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'USD' }
+			},
+			{
+				'@type': 'FAQPage',
+				'mainEntity': [
+					{
+						'@type': 'Question',
+						'name': 'How much is 1 USD in TZS?',
+						'acceptedAnswer': { '@type': 'Answer', 'text': 'Use the SimbaFX converter on the home page to see the current USD to Tanzanian Shilling (TZS) rate in real time.' }
+					},
+					{
+						'@type': 'Question',
+						'name': 'Which currencies does SimbaFX support?',
+						'acceptedAnswer': { '@type': 'Answer', 'text': 'SimbaFX supports 23 currencies including Tanzanian Shilling (TZS), US Dollar (USD), Euro (EUR), British Pound (GBP), Kenyan Shilling (KES) and more.' }
+					},
+					{
+						'@type': 'Question',
+						'name': 'Is SimbaFX free to use?',
+						'acceptedAnswer': { '@type': 'Answer', 'text': 'Yes, SimbaFX is completely free to use with no sign-up required, and it works offline as a Progressive Web App.' }
+					}
+				]
+			}
+		]
+	};
 
 	// Keep the converter in sync with the saved default currencies so the
 	// onboarding dialog (and settings page) selections map straight through
@@ -320,10 +357,12 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Home - SimbaFX Currency Exchange</title>
-	<meta name="description" content="SimbaFX home page. Quick currency conversion calculator for East African currencies. Check real-time exchange rates and convert between TZS, USD, EUR, and more." />
-</svelte:head>
+<Seo
+	title="SimbaFX Currency Converter — Live Exchange Rates for East Africa"
+	description="Convert TZS, USD, EUR, GBP, KES and 23+ currencies instantly with SimbaFX. Real-time East African exchange rates, free offline-ready PWA, no sign-up needed."
+	path="/"
+	jsonLd={homeJsonLd}
+/>
 
 {#snippet adsBlock()}
 		<!-- Nala referral ad → links to the in-app Nala offer page -->
@@ -362,6 +401,7 @@
 {/snippet}
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 flex flex-col">
+	<h1 class="sr-only">SimbaFX Currency Converter</h1>
 	<div class="flex-1 overflow-hidden p-4 md:p-3 w-full max-w-full mx-auto md:flex md:items-center md:justify-center pb-[calc(12.5rem+env(safe-area-inset-bottom))] md:pb-0">
 		<!-- Offline Indicator -->
 	{#if !isOnline}

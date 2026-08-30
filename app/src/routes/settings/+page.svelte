@@ -6,6 +6,7 @@
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import Skeleton from '$lib/components/Skeleton.svelte';
 	import PwaInstall from '$lib/components/PwaInstall.svelte';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let selectedFromCurrency = $state($defaultFromCurrency);
 	let selectedToCurrency = $state($defaultToCurrency);
@@ -50,12 +51,15 @@
 	let t = $derived((key: string) => getTranslation(key, lang));
 </script>
 
-<svelte:head>
-	<title>Settings - SimbaFX Currency Exchange</title>
-	<meta name="description" content="Customize your SimbaFX experience. Change your preferred languages, default currencies, and configure your conversion preferences." />
-</svelte:head>
+<Seo
+	title="Settings — SimbaFX Currency Exchange"
+	description="Customize your SimbaFX experience: language, theme, and default currencies."
+	path="/settings"
+	robots="noindex, follow"
+/>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+	<h1 class="sr-only">SimbaFX Settings</h1>
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 	{#if !mounted}
 		<!-- Skeleton Loading State -->

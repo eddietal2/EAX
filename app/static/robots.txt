@@ -1,3 +1,6 @@
 # allow crawling everything by default
 User-agent: *
 Disallow:
+
+# XML sitemap
+Sitemap: https://simbafx.vercel.app/sitemap.xml

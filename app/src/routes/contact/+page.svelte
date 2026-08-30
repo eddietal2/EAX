@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
+	import Seo from '$lib/components/Seo.svelte';
 
 	// Mirrors the Contact Us form from the browser extension (extensions/src/popup/Popup.svelte).
 	// The App hosts the /api/contact endpoint, so the form POSTs to the same origin.
@@ -42,12 +43,14 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Contact Us - SimbaFX Currency Exchange</title>
-	<meta name="description" content="Get in touch with the SimbaFX team. Send us a message and we'll get back to you soon." />
-</svelte:head>
+<Seo
+	title="Contact Us — SimbaFX Currency Exchange"
+	description="Get in touch with the SimbaFX team. Send us a message and we'll get back to you soon."
+	path="/contact"
+/>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+	<h1 class="sr-only">SimbaFX Contact Us</h1>
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		<div class="relative max-w-md mx-auto">
 			<!-- Gemini-style animated green "Spark Gradient" behind the contact card -->

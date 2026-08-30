@@ -4,6 +4,7 @@
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import { defaultFromCurrency, defaultToCurrency } from '$lib/stores/settings';
 	import Skeleton from '$lib/components/Skeleton.svelte';
+	import Seo from '$lib/components/Seo.svelte';
 	import USD_Bill_01 from '$lib/assets/bill-notes/USD/01_Bill.jpg';
 	import USD_Bill_02 from '$lib/assets/bill-notes/USD/02_Bill.jpeg';
 	import USD_Bill_05 from '$lib/assets/bill-notes/USD/05_Bill.jpg';
@@ -695,12 +696,14 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Market Rates - SimbaFX Currency Exchange</title>
-	<meta name="description" content="View all current market exchange rates with SimbaFX. Compare rates for multiple currencies including TZS, USD, EUR, GBP, and KES. Real-time rate updates." />
-</svelte:head>
+<Seo
+	title="Market Rates — Live Currency Exchange Rates | SimbaFX"
+	description="View live market exchange rates for 23 currencies including TZS, USD, EUR, GBP, KES, UGX and more. Compare rates and stay updated with SimbaFX."
+	path="/market"
+/>
 
 <div bind:this={pageRef} class="h-full pt-8 bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+	<h1 class="sr-only">SimbaFX Market Rates</h1>
 	<!-- Sticky Header (Desktop) -->
 	{#if showStickyHeader}
 		<div class="sticky-rate-bar hidden md:block fixed left-0 right-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">

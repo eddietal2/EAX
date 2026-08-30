@@ -4,6 +4,7 @@
 	import { currentLanguage, getTranslation } from '$lib/stores/i18n';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import Skeleton from '$lib/components/Skeleton.svelte';
+	import Seo from '$lib/components/Seo.svelte';
 
 	let editingId = $state<string | null>(null);
 	let editingName = $state('');
@@ -100,12 +101,15 @@
 	}
 </script>
 
-<svelte:head>
-	<title>History - SimbaFX Currency Exchange</title>
-	<meta name="description" content="View your currency conversion history with SimbaFX. Track all your recent exchanges and conversion rates to stay informed about market trends." />
-</svelte:head>
+<Seo
+	title="Conversion History — SimbaFX Currency Exchange"
+	description="View your saved currency conversion history with SimbaFX and keep track of your recent exchanges and rates."
+	path="/history"
+	robots="noindex, follow"
+/>
 
 <div class="h-full bg-white dark:bg-gray-950 transition-colors duration-200 overflow-auto">
+	<h1 class="sr-only">SimbaFX Conversion History</h1>
 	<div class="p-4 md:p-8 max-w-4xl mx-auto">
 		{#if !mounted}
 			<!-- Skeleton Loading State -->
