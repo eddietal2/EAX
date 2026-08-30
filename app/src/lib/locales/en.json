@@ -130,5 +130,17 @@
     "genericTitle": "Something Went Wrong",
     "genericMessage": "An unexpected error occurred. Please try again later.",
     "backHome": "Back to Home"
+  },
+  "pwa": {
+    "downloadNow": "Download Now",
+    "iosTitle": "Install SimbaFX",
+    "iosIntro": "This installs SimbaFX onto your phone as a real app — it gets its own icon on your Home Screen, opens full-screen, and works even offline, just like an app from the App Store.",
+    "iosPwaNote": "SimbaFX is a Progressive Web App (PWA) — a website that installs and runs like a native app, with no App Store download required.",
+    "iosStep1": "Tap the Share button in Safari",
+    "iosStep2": "Scroll down and tap \"Add to Home Screen\"",
+    "iosStep3": "Tap \"Add\" to install it",
+    "iosSafariNote": "On iPhone and iPad, adding a web app to your Home Screen can only be done in the Safari browser.",
+    "gotIt": "Got it",
+    "close": "Close"
   }
 }

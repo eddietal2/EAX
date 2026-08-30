@@ -129,5 +129,17 @@
     "genericTitle": "出错了",
     "genericMessage": "发生意外错误。请稍后重试。",
     "backHome": "返回主页"
+  },
+  "pwa": {
+    "downloadNow": "立即下载",
+    "iosTitle": "安装 SimbaFX",
+    "iosIntro": "这会将 SimbaFX 以真实应用的形式安装到您的手机上——它会在主屏幕上显示自己的图标、以全屏方式打开，并且即使离线也能使用，就像 App Store 中的应用一样。",
+    "iosPwaNote": "SimbaFX 是一个渐进式 Web 应用（PWA）——一个可以像原生应用一样安装和运行的网站，无需从 App Store 下载。",
+    "iosStep1": "在 Safari 中点按分享按钮",
+    "iosStep2": "向下滚动并点按「添加到主屏幕」",
+    "iosStep3": "点按「添加」进行安装",
+    "iosSafariNote": "在 iPhone 和 iPad 上，只有通过 Safari 浏览器才能将 Web 应用添加到主屏幕。",
+    "gotIt": "知道了",
+    "close": "关闭"
   }
 }

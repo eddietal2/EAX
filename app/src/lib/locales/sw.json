@@ -130,5 +130,17 @@
     "genericTitle": "Hitilafu Imetokea",
     "genericMessage": "Hitilafu isiyotarajiwa imetokea. Tafadhali jaribu tena baadaye.",
     "backHome": "Rudi Nyumbani"
+  },
+  "pwa": {
+    "downloadNow": "Pakua Sasa",
+    "iosTitle": "Sakinisha SimbaFX",
+    "iosIntro": "Hii inasakinisha SimbaFX kwenye simu yako kama programu halisi — inapata aikoni yake kwenye Skrini ya Nyumbani, hufunguka skrini nzima, na hufanya kazi hata ukiwa nje ya mtandao, kama programu kutoka App Store.",
+    "iosPwaNote": "SimbaFX ni Progressive Web App (PWA) — tovuti inayosakinishwa na kuendeshwa kama programu asili, bila kuhitaji kupakua kutoka App Store.",
+    "iosStep1": "Gonga kitufe cha Kushiriki katika Safari",
+    "iosStep2": "Tembeza chini na ugonge \"Ongeza kwenye Skrini ya Nyumbani\"",
+    "iosStep3": "Gonga \"Ongeza\" ili kuisakinisha",
+    "iosSafariNote": "Kwenye iPhone na iPad, kuongeza programu ya wavuti kwenye Skrini ya Nyumbani kunaweza kufanyika tu kwenye kivinjari cha Safari.",
+    "gotIt": "Nimeelewa",
+    "close": "Funga"
   }
 }

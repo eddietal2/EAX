@@ -9,6 +9,7 @@
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import Skeleton from '$lib/components/Skeleton.svelte';
 	import ConverterCard from '$lib/components/ConverterCard.svelte';
+	import PwaInstall from '$lib/components/PwaInstall.svelte';
 
 	let amount = $state('');
 	let fromCurrency = $state('USD');
@@ -409,6 +410,9 @@
 			</div>
 		{/snippet}
 	</ConverterCard>
+
+	<!-- Mobile-only PWA install prompt (Android/iOS) -->
+	<PwaInstall />
 
 	<!-- Mobile Full-Screen Calculator -->
 	{#if showMobileKeyboard}

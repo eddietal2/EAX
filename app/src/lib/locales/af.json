@@ -129,5 +129,17 @@
     "genericTitle": "Iets Het Verkeerd Gegaan",
     "genericMessage": "'n Onverwagte fout het voorgekom. Probeer asseblief later weer.",
     "backHome": "Terug na Tuis"
+  },
+  "pwa": {
+    "downloadNow": "Laai nou af",
+    "iosTitle": "Installeer SimbaFX",
+    "iosIntro": "Dit installeer SimbaFX op jou foon as 'n regte app — dit kry sy eie ikoon op jou Tuisskerm, maak volskerm oop, en werk selfs vanlyn, net soos 'n app uit die App Store.",
+    "iosPwaNote": "SimbaFX is 'n Progressive Web App (PWA) — 'n webwerf wat soos 'n inheemse app installeer en loop, sonder om dit van die App Store af te laai.",
+    "iosStep1": "Tik op die Deel-knoppie in Safari",
+    "iosStep2": "Rol af en tik op \"Voeg by tuisskerm\"",
+    "iosStep3": "Tik op \"Voeg by\" om dit te installeer",
+    "iosSafariNote": "Op iPhone en iPad kan 'n web-app slegs in die Safari-blaaier by die Tuisskerm gevoeg word.",
+    "gotIt": "Verstaan",
+    "close": "Maak toe"
   }
 }

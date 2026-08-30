@@ -130,5 +130,17 @@
     "genericTitle": "Algo Salió Mal",
     "genericMessage": "Ocurrió un error inesperado. Inténtalo de nuevo más tarde.",
     "backHome": "Volver al Inicio"
+  },
+  "pwa": {
+    "downloadNow": "Descargar ahora",
+    "iosTitle": "Instalar SimbaFX",
+    "iosIntro": "Esto instala SimbaFX en tu teléfono como una aplicación real: obtiene su propio icono en la pantalla de inicio, se abre a pantalla completa y funciona incluso sin conexión, como una app de la App Store.",
+    "iosPwaNote": "SimbaFX es una Progressive Web App (PWA): un sitio web que se instala y funciona como una aplicación nativa, sin necesidad de descargarla de la App Store.",
+    "iosStep1": "Toca el botón Compartir en Safari",
+    "iosStep2": "Desplázate hacia abajo y toca \"Agregar a la pantalla de inicio\"",
+    "iosStep3": "Toca \"Agregar\" para instalarla",
+    "iosSafariNote": "En iPhone y iPad, agregar una aplicación web a la pantalla de inicio solo se puede hacer en el navegador Safari.",
+    "gotIt": "Entendido",
+    "close": "Cerrar"
   }
 }

@@ -130,5 +130,17 @@
     "genericTitle": "Etwas Ist Schiefgelaufen",
     "genericMessage": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
     "backHome": "Zurück zur Startseite"
+  },
+  "pwa": {
+    "downloadNow": "Jetzt herunterladen",
+    "iosTitle": "SimbaFX installieren",
+    "iosIntro": "Dadurch wird SimbaFX als echte App auf Ihrem Telefon installiert — mit eigenem Symbol auf dem Home-Bildschirm, Vollbild-Ansicht und Offline-Funktion, genau wie eine App aus dem App Store.",
+    "iosPwaNote": "SimbaFX ist eine Progressive Web App (PWA) — eine Website, die wie eine native App installiert und ausgeführt wird, ohne Download aus dem App Store.",
+    "iosStep1": "Tippen Sie in Safari auf die Teilen-Schaltfläche",
+    "iosStep2": "Nach unten scrollen und auf „Zum Home-Bildschirm hinzufügen“ tippen",
+    "iosStep3": "Tippen Sie auf „Hinzufügen“, um zu installieren",
+    "iosSafariNote": "Auf iPhone und iPad kann eine Web-App nur im Safari-Browser zum Home-Bildschirm hinzugefügt werden.",
+    "gotIt": "Verstanden",
+    "close": "Schließen"
   }
 }

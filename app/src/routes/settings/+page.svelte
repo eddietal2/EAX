@@ -5,6 +5,7 @@
 	import { themeStore, type Theme } from '$lib/stores/theme';
 	import FlagIcon from '$lib/components/FlagIcon.svelte';
 	import Skeleton from '$lib/components/Skeleton.svelte';
+	import PwaInstall from '$lib/components/PwaInstall.svelte';
 
 	let selectedFromCurrency = $state($defaultFromCurrency);
 	let selectedToCurrency = $state($defaultToCurrency);
@@ -157,7 +158,10 @@
 				</div>
 			</div>
 		</div>
-		
+
+		<!-- Mobile-only PWA install prompt (persistent on Settings) -->
+		<PwaInstall persistent />
+
 	</div>
 	{/if}
 	</div>
