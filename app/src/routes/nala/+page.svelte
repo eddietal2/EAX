@@ -99,7 +99,7 @@
 				</div>
 
 				<a
-					href="https://www.nala.money/"
+					href="https://www.nala.com/"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="nala-cta"
