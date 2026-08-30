@@ -4,6 +4,7 @@
     "market": "Marché",
     "history": "Historique",
     "settings": "Paramètres",
+    "contact": "Contactez-nous",
     "appLogo": "BAE",
     "appSubtitle": "Bourse d'Afrique de l'Est"
   },
@@ -58,6 +59,17 @@
     "deleted": "Conversion supprimée",
     "loading": "Chargement des taux de change...",
     "error": "Erreur lors du chargement des taux de change"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Nous serions ravis de vous entendre",
+    "nameLabel": "Votre nom",
+    "emailLabel": "Votre e-mail",
+    "messageLabel": "Message",
+    "send": "Envoyer le message",
+    "sending": "Envoi…",
+    "success": "Message envoyé ! Nous vous répondrons bientôt.",
+    "error": "Impossible d'envoyer votre message. Veuillez réessayer."
   },
   "popup": {
     "nalaCta": "Envoyez de l'argent maintenant, avec Nala",

@@ -4,6 +4,7 @@
     "market": "Mark",
     "history": "Geskiedenis",
     "settings": "Instellings",
+    "contact": "Kontak ons",
     "appLogo": "OAU",
     "appSubtitle": "Oosafrika-uitruil"
   },
@@ -57,6 +58,17 @@
     "deleted": "Omskakkling gewis",
     "loading": "Wisselkoerse word gelaai...",
     "error": "Fout by laai van wisselkoerse"
+  },
+  "contact": {
+    "title": "Kontak ons",
+    "subtitle": "Ons hoor graag van jou",
+    "nameLabel": "Jou naam",
+    "emailLabel": "Jou e-pos",
+    "messageLabel": "Boodskap",
+    "send": "Stuur boodskap",
+    "sending": "Stuur…",
+    "success": "Boodskap gestuur! Ons sal binnekort terugkom na jou.",
+    "error": "Kon nie jou boodskap stuur nie. Probeer asseblief weer."
   },
   "popup": {
     "nalaCta": "Stuur nou geld, met Nala",

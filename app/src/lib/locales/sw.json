@@ -4,6 +4,7 @@
     "market": "Soko",
     "history": "Historia",
     "settings": "Mipangilio",
+    "contact": "Wasiliana nasi",
     "appLogo": "UAM",
     "appSubtitle": "Ubadilishaji wa Afrika Mashariki"
   },
@@ -58,6 +59,17 @@
     "deleted": "Ubadilishaji umefutwa",
     "loading": "Inapakua kiwango cha ubadilishaji...",
     "error": "Hitilafu katika kupakua kiwango cha ubadilishaji"
+  },
+  "contact": {
+    "title": "Wasiliana nasi",
+    "subtitle": "Tungependa kusikia kutoka kwako",
+    "nameLabel": "Jina Lako",
+    "emailLabel": "Barua Pepe Yako",
+    "messageLabel": "Ujumbe",
+    "send": "Tuma Ujumbe",
+    "sending": "Inatuma…",
+    "success": "Ujumbe umetumwa! Tutakujibu hivi karibuni.",
+    "error": "Imeshindikana kutuma ujumbe wako. Tafadhali jaribu tena."
   },
   "popup": {
     "nalaCta": "Tuma Pesa Sasa, na Nala",

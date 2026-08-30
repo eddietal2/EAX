@@ -4,6 +4,7 @@
     "market": "Mercado",
     "history": "Histórico",
     "settings": "Configurações",
+    "contact": "Fale conosco",
     "appLogo": "BAO",
     "appSubtitle": "Bolsa da África Oriental"
   },
@@ -57,6 +58,17 @@
     "deleted": "Conversão deletada",
     "loading": "Carregando taxas de câmbio...",
     "error": "Erro ao carregar taxas de câmbio"
+  },
+  "contact": {
+    "title": "Fale conosco",
+    "subtitle": "Adoraríamos ouvir de você",
+    "nameLabel": "Seu nome",
+    "emailLabel": "Seu e-mail",
+    "messageLabel": "Mensagem",
+    "send": "Enviar mensagem",
+    "sending": "Enviando…",
+    "success": "Mensagem enviada! Entraremos em contato em breve.",
+    "error": "Não foi possível enviar sua mensagem. Tente novamente."
   },
   "popup": {
     "nalaCta": "Envie dinheiro agora, com a Nala",

@@ -4,6 +4,7 @@
     "market": "市场",
     "history": "历史",
     "settings": "设置",
+    "contact": "联系我们",
     "appLogo": "东非",
     "appSubtitle": "东非交易所"
   },
@@ -57,6 +58,17 @@
     "deleted": "兑换已删除",
     "loading": "加载汇率中...",
     "error": "加载汇率出错"
+  },
+  "contact": {
+    "title": "联系我们",
+    "subtitle": "我们很乐意听取您的意见",
+    "nameLabel": "您的姓名",
+    "emailLabel": "您的邮箱",
+    "messageLabel": "消息",
+    "send": "发送消息",
+    "sending": "发送中…",
+    "success": "消息已发送！我们会尽快回复您。",
+    "error": "无法发送您的消息。请重试。"
   },
   "popup": {
     "nalaCta": "立即汇款，使用 Nala",

@@ -4,6 +4,7 @@
     "market": "Markt",
     "history": "Verlauf",
     "settings": "Einstellungen",
+    "contact": "Kontakt",
     "appLogo": "OAB",
     "appSubtitle": "Ostafrikanische Börse"
   },
@@ -58,6 +59,17 @@
     "deleted": "Umrechnung gelöscht",
     "loading": "Wechselkurse werden geladen...",
     "error": "Fehler beim Laden der Wechselkurse"
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir freuen uns, von Ihnen zu hören",
+    "nameLabel": "Ihr Name",
+    "emailLabel": "Ihre E-Mail",
+    "messageLabel": "Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Senden…",
+    "success": "Nachricht gesendet! Wir melden uns bald.",
+    "error": "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
   },
   "popup": {
     "nalaCta": "Geld jetzt senden, mit Nala",

@@ -4,6 +4,7 @@
     "market": "Market",
     "history": "History",
     "settings": "Settings",
+    "contact": "Contact Us",
     "appLogo": "SimbaFX",
     "appSubtitle": "East African Exchange"
   },
@@ -58,6 +59,17 @@
     "deleted": "Conversion deleted",
     "loading": "Loading exchange rates...",
     "error": "Error loading exchange rates"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We'd love to hear from you",
+    "nameLabel": "Your Name",
+    "emailLabel": "Your Email",
+    "messageLabel": "Message",
+    "send": "Send Message",
+    "sending": "Sending…",
+    "success": "Message sent! We'll get back to you soon.",
+    "error": "Couldn't send your message. Please try again."
   },
   "popup": {
     "nalaCta": "Send Money Now, with Nala",

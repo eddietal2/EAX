@@ -3,7 +3,10 @@
     "home": "Inicio",
     "market": "Mercado",
     "history": "Historial",
-    "settings": "Configuración",    "appLogo": "BAE",    "appSubtitle": "Bolsa Centroafricana"
+    "settings": "Configuración",
+    "contact": "Contáctanos",
+    "appLogo": "BAE",
+    "appSubtitle": "Bolsa Centroafricana"
   },
   "home": {
     "title": "Convertidor de Divisas",
@@ -56,6 +59,17 @@
     "deleted": "Conversión eliminada",
     "loading": "Cargando tipos de cambio...",
     "error": "Error al cargar los tipos de cambio"
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "Nos encantaría saber de ti",
+    "nameLabel": "Tu nombre",
+    "emailLabel": "Tu correo",
+    "messageLabel": "Mensaje",
+    "send": "Enviar mensaje",
+    "sending": "Enviando…",
+    "success": "¡Mensaje enviado! Te responderemos pronto.",
+    "error": "No se pudo enviar tu mensaje. Inténtalo de nuevo."
   },
   "popup": {
     "nalaCta": "Envía dinero ahora, con Nala",
